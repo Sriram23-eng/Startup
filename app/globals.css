@@ -1,0 +1,144 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/*  Design tokens — premium white + dark-navy engineering theme        */
+/* ------------------------------------------------------------------ */
+@theme {
+  --color-navy-950: #050b1a;
+  --color-navy-900: #07112a;
+  --color-navy-800: #0b1f3a;
+  --color-navy-700: #11305c;
+  --color-navy-600: #1c4282;
+  --color-navy-500: #2b59a8;
+
+  --color-brand-50: #eef4ff;
+  --color-brand-100: #d9e6ff;
+  --color-brand-200: #bcd3ff;
+  --color-brand-300: #8db5ff;
+  --color-brand-400: #5a8dff;
+  --color-brand-500: #2f63f5;
+  --color-brand-600: #1d47db;
+  --color-brand-700: #1838b0;
+
+  --color-cyan-accent: #25d3ee;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+
+  --shadow-glow: 0 0 0 1px rgba(47, 99, 245, 0.15),
+    0 18px 50px -18px rgba(13, 35, 90, 0.45);
+  --shadow-card: 0 1px 2px rgba(7, 17, 42, 0.04),
+    0 12px 32px -16px rgba(7, 17, 42, 0.18);
+}
+
+:root {
+  --bg: #f6f8fc;
+  --fg: #0b1f3a;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Selection */
+::selection {
+  background: var(--color-brand-500);
+  color: white;
+}
+
+/* Thin premium scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #c5d1e6;
+  border-radius: 999px;
+  border: 2px solid var(--bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a9b9d6;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Reusable utility layers                                            */
+/* ------------------------------------------------------------------ */
+@layer utilities {
+  .container-x {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  .text-gradient {
+    background: linear-gradient(
+      100deg,
+      var(--color-navy-800),
+      var(--color-brand-600) 55%,
+      var(--color-cyan-accent)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .grid-dots {
+    background-image: radial-gradient(
+      rgba(47, 99, 245, 0.18) 1px,
+      transparent 1px
+    );
+    background-size: 22px 22px;
+  }
+
+  .mesh {
+    background:
+      radial-gradient(60% 50% at 15% 10%, rgba(47, 99, 245, 0.35), transparent 60%),
+      radial-gradient(50% 45% at 90% 0%, rgba(37, 211, 238, 0.25), transparent 55%),
+      radial-gradient(60% 60% at 80% 100%, rgba(28, 66, 130, 0.45), transparent 60%);
+  }
+
+  .glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: saturate(180%) blur(14px);
+  }
+}
+
+/* Entrance animation */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-rise {
+  animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-floaty {
+  animation: floaty 6s ease-in-out infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
