@@ -26,15 +26,29 @@ async function readJson<T>(file: string, seed: T): Promise<T> {
     const raw = await fs.readFile(file, "utf8");
     return JSON.parse(raw) as T;
   } catch {
-    await fs.mkdir(DIR, { recursive: true });
-    await fs.writeFile(file, JSON.stringify(seed, null, 2), "utf8");
+    // Seed file missing (first run). Try to create it — but if the filesystem
+    // is read-only (e.g. Vercel serverless), just fall back to the in-memory
+    // seed so public reads still work instead of throwing a 500.
+    try {
+      await fs.mkdir(DIR, { recursive: true });
+      await fs.writeFile(file, JSON.stringify(seed, null, 2), "utf8");
+    } catch {
+      /* read-only FS — serve seed from memory */
+    }
     return seed;
   }
 }
 
-async function writeJson(file: string, data: unknown) {
-  await fs.mkdir(DIR, { recursive: true });
-  await fs.writeFile(file, JSON.stringify(data, null, 2), "utf8");
+async function writeJson(file: string, data: unknown): Promise<boolean> {
+  try {
+    await fs.mkdir(DIR, { recursive: true });
+    await fs.writeFile(file, JSON.stringify(data, null, 2), "utf8");
+    return true;
+  } catch {
+    // Read-only FS (e.g. Vercel) — admin edits can't persist here.
+    // Use a writable host (Railway/VPS) or swap to Postgres for production.
+    return false;
+  }
 }
 
 /* ---------------- Projects ---------------- */
