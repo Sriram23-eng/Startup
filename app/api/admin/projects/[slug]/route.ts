@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getProjects, saveProjects, coerceProject } from "@/lib/store";
+import { updateProject, deleteProject } from "@/lib/store";
 
 export const dynamic = "force-dynamic";
 
@@ -9,13 +9,10 @@ export async function PUT(
 ) {
   const { slug } = await params;
   const body = await req.json();
-  const list = await getProjects();
-  const i = list.findIndex((p) => p.slug === slug);
-  if (i < 0)
+  const item = await updateProject(slug, body);
+  if (!item)
     return NextResponse.json({ ok: false, error: "Not found" }, { status: 404 });
-  list[i] = { ...list[i], ...coerceProject(body), slug };
-  await saveProjects(list);
-  return NextResponse.json({ ok: true, item: list[i] });
+  return NextResponse.json({ ok: true, item });
 }
 
 export async function DELETE(
@@ -23,8 +20,6 @@ export async function DELETE(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params;
-  const list = await getProjects();
-  const next = list.filter((p) => p.slug !== slug);
-  await saveProjects(next);
+  await deleteProject(slug);
   return NextResponse.json({ ok: true });
 }

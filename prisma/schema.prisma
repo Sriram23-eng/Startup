@@ -1,0 +1,52 @@
+// Prisma schema for MS Project & Tech Solution.
+// Used in production (Postgres). Locally, if DATABASE_URL is unset, the app
+// falls back to the JSON file store automatically — see lib/store.ts.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  slug       String   @id
+  title      String
+  category   String
+  size       String
+  price      Int
+  rating     Float    @default(4.8)
+  reviews    Int      @default(0)
+  image      String
+  youtube    String?
+  summary    String
+  features   String[]
+  components String[]
+  readyMade  Boolean  @default(true)
+  tags       String[]
+  createdAt  DateTime @default(now())
+}
+
+model Course {
+  slug       String   @id
+  title      String
+  mode       String
+  level      String
+  category   String
+  instructor String
+  rating     Float    @default(4.8)
+  learners   Int      @default(0)
+  lessons    Int      @default(0)
+  hours      Int      @default(0)
+  price      Int
+  oldPrice   Int?
+  image      String
+  blurb      String
+  highlights String[]
+  startDate  String?
+  schedule   String?
+  seatsLeft  Int?
+  createdAt  DateTime @default(now())
+}

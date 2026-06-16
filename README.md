@@ -42,6 +42,28 @@ vercel          # preview
 vercel --prod   # production
 ```
 
+## 🗄️ Database (Postgres) — for production / Vercel
+
+The admin panel (`/admin`, default password `admin123`) manages projects & courses.
+The store auto-selects its backend:
+
+- **`DATABASE_URL` unset** → JSON files in `/data` (local dev, zero setup).
+- **`DATABASE_URL` set** → Postgres via Prisma (persists on Vercel).
+
+To enable Postgres:
+
+```bash
+# 1. Create a free Postgres DB (neon.tech / supabase / Vercel Postgres) and copy its URL
+cp .env.example .env.local        # then paste DATABASE_URL + ADMIN_PASSWORD/ADMIN_TOKEN
+npm run db:push                   # create the tables
+npm run db:seed                   # load the starter catalogue
+npm run dev
+```
+
+On **Vercel**: add `DATABASE_URL`, `ADMIN_PASSWORD`, `ADMIN_TOKEN` in Project →
+Settings → Environment Variables, then run `npm run db:push && npm run db:seed`
+once (locally, pointing at the same URL) to create + seed the tables.
+
 ## 🔌 Wiring to a real backend (next steps)
 
 These are intentionally stubbed so you can plug in your stack of choice:

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getCourses, saveCourses, coerceCourse } from "@/lib/store";
+import { updateCourse, deleteCourse } from "@/lib/store";
 
 export const dynamic = "force-dynamic";
 
@@ -9,13 +9,10 @@ export async function PUT(
 ) {
   const { slug } = await params;
   const body = await req.json();
-  const list = await getCourses();
-  const i = list.findIndex((c) => c.slug === slug);
-  if (i < 0)
+  const item = await updateCourse(slug, body);
+  if (!item)
     return NextResponse.json({ ok: false, error: "Not found" }, { status: 404 });
-  list[i] = { ...list[i], ...coerceCourse(body), slug };
-  await saveCourses(list);
-  return NextResponse.json({ ok: true, item: list[i] });
+  return NextResponse.json({ ok: true, item });
 }
 
 export async function DELETE(
@@ -23,8 +20,6 @@ export async function DELETE(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params;
-  const list = await getCourses();
-  const next = list.filter((c) => c.slug !== slug);
-  await saveCourses(next);
+  await deleteCourse(slug);
   return NextResponse.json({ ok: true });
 }

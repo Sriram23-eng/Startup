@@ -1,9 +1,9 @@
 /* ------------------------------------------------------------------ */
-/*  Writable JSON data store (server-only).                            */
-/*  Seeds from lib/data.ts on first run, then persists edits to disk.  */
-/*  NOTE: works on any server with a writable FS (local, Railway,      */
-/*  a VPS, Docker). On Vercel's read-only serverless FS use Postgres   */
-/*  instead — swap the read/write fns below for Prisma queries.        */
+/*  Data store with two backends, chosen at runtime:                   */
+/*    • DATABASE_URL set   → Postgres via Prisma (persists on Vercel)  */
+/*    • DATABASE_URL unset → JSON files in /data (local, zero-setup)   */
+/*  The public API is identical either way, so the rest of the app     */
+/*  never needs to know which backend is active.                       */
 /* ------------------------------------------------------------------ */
 import { promises as fs } from "fs";
 import path from "path";
@@ -14,21 +14,17 @@ import {
   Course,
 } from "./data";
 
+const USE_DB = !!process.env.DATABASE_URL;
+
+/* ---------------- JSON backend helpers ---------------- */
 const DIR = path.join(process.cwd(), "data");
 const P_FILE = path.join(DIR, "projects.json");
 const C_FILE = path.join(DIR, "courses.json");
 
-const FALLBACK_IMG =
-  "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=70";
-
 async function readJson<T>(file: string, seed: T): Promise<T> {
   try {
-    const raw = await fs.readFile(file, "utf8");
-    return JSON.parse(raw) as T;
+    return JSON.parse(await fs.readFile(file, "utf8")) as T;
   } catch {
-    // Seed file missing (first run). Try to create it — but if the filesystem
-    // is read-only (e.g. Vercel serverless), just fall back to the in-memory
-    // seed so public reads still work instead of throwing a 500.
     try {
       await fs.mkdir(DIR, { recursive: true });
       await fs.writeFile(file, JSON.stringify(seed, null, 2), "utf8");
@@ -45,35 +41,150 @@ async function writeJson(file: string, data: unknown): Promise<boolean> {
     await fs.writeFile(file, JSON.stringify(data, null, 2), "utf8");
     return true;
   } catch {
-    // Read-only FS (e.g. Vercel) — admin edits can't persist here.
-    // Use a writable host (Railway/VPS) or swap to Postgres for production.
     return false;
   }
 }
 
-/* ---------------- Projects ---------------- */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+function strip<T>(row: any): T {
+  if (!row) return row;
+  const { createdAt, ...rest } = row;
+  return rest as T;
+}
+
+/* ====================== PROJECTS ====================== */
 export async function getProjects(): Promise<Project[]> {
+  if (USE_DB) {
+    const { prisma } = await import("./prisma");
+    const rows = await prisma.project.findMany({ orderBy: { createdAt: "desc" } });
+    return rows.map((r) => strip<Project>(r));
+  }
   return readJson<Project[]>(P_FILE, seedProjects);
 }
-export async function saveProjects(list: Project[]) {
-  await writeJson(P_FILE, list);
-}
-export async function getProjectBySlug(slug: string) {
+
+export async function getProjectBySlug(slug: string): Promise<Project | undefined> {
+  if (USE_DB) {
+    const { prisma } = await import("./prisma");
+    const row = await prisma.project.findUnique({ where: { slug } });
+    return row ? strip<Project>(row) : undefined;
+  }
   return (await getProjects()).find((p) => p.slug === slug);
 }
 
-/* ---------------- Courses ---------------- */
+export async function createProject(body: any): Promise<Project> {
+  const existing = (await getProjects()).map((p) => p.slug);
+  const slug = uniqueSlug(slugify(body.title || "project"), existing);
+  const item: Project = { ...projectDefaults(), ...coerceProject(body), slug };
+  if (USE_DB) {
+    const { prisma } = await import("./prisma");
+    await prisma.project.create({ data: item });
+  } else {
+    const list = await getProjects();
+    list.unshift(item);
+    await writeJson(P_FILE, list);
+  }
+  return item;
+}
+
+export async function updateProject(
+  slug: string,
+  body: any
+): Promise<Project | null> {
+  const patch = coerceProject(body);
+  if (USE_DB) {
+    const { prisma } = await import("./prisma");
+    try {
+      const row = await prisma.project.update({ where: { slug }, data: patch });
+      return strip<Project>(row);
+    } catch {
+      return null;
+    }
+  }
+  const list = await getProjects();
+  const i = list.findIndex((p) => p.slug === slug);
+  if (i < 0) return null;
+  list[i] = { ...list[i], ...patch, slug };
+  await writeJson(P_FILE, list);
+  return list[i];
+}
+
+export async function deleteProject(slug: string): Promise<void> {
+  if (USE_DB) {
+    const { prisma } = await import("./prisma");
+    await prisma.project.delete({ where: { slug } }).catch(() => {});
+    return;
+  }
+  const list = await getProjects();
+  await writeJson(P_FILE, list.filter((p) => p.slug !== slug));
+}
+
+/* ====================== COURSES ====================== */
 export async function getCourses(): Promise<Course[]> {
+  if (USE_DB) {
+    const { prisma } = await import("./prisma");
+    const rows = await prisma.course.findMany({ orderBy: { createdAt: "desc" } });
+    return rows.map((r) => strip<Course>(r));
+  }
   return readJson<Course[]>(C_FILE, seedCourses);
 }
-export async function saveCourses(list: Course[]) {
-  await writeJson(C_FILE, list);
-}
-export async function getCourseBySlug(slug: string) {
+
+export async function getCourseBySlug(slug: string): Promise<Course | undefined> {
+  if (USE_DB) {
+    const { prisma } = await import("./prisma");
+    const row = await prisma.course.findUnique({ where: { slug } });
+    return row ? strip<Course>(row) : undefined;
+  }
   return (await getCourses()).find((c) => c.slug === slug);
 }
 
-/* ---------------- Helpers ---------------- */
+export async function createCourse(body: any): Promise<Course> {
+  const existing = (await getCourses()).map((c) => c.slug);
+  const slug = uniqueSlug(slugify(body.title || "course"), existing);
+  const item: Course = { ...courseDefaults(), ...coerceCourse(body), slug };
+  if (USE_DB) {
+    const { prisma } = await import("./prisma");
+    await prisma.course.create({ data: item });
+  } else {
+    const list = await getCourses();
+    list.unshift(item);
+    await writeJson(C_FILE, list);
+  }
+  return item;
+}
+
+export async function updateCourse(
+  slug: string,
+  body: any
+): Promise<Course | null> {
+  const patch = coerceCourse(body);
+  if (USE_DB) {
+    const { prisma } = await import("./prisma");
+    try {
+      const row = await prisma.course.update({ where: { slug }, data: patch });
+      return strip<Course>(row);
+    } catch {
+      return null;
+    }
+  }
+  const list = await getCourses();
+  const i = list.findIndex((c) => c.slug === slug);
+  if (i < 0) return null;
+  list[i] = { ...list[i], ...patch, slug };
+  await writeJson(C_FILE, list);
+  return list[i];
+}
+
+export async function deleteCourse(slug: string): Promise<void> {
+  if (USE_DB) {
+    const { prisma } = await import("./prisma");
+    await prisma.course.delete({ where: { slug } }).catch(() => {});
+    return;
+  }
+  const list = await getCourses();
+  await writeJson(C_FILE, list.filter((c) => c.slug !== slug));
+}
+
+/* ====================== Helpers ====================== */
 export function slugify(s: string) {
   return (
     s
@@ -99,7 +210,9 @@ function toArray(v: unknown): string[] {
   return [];
 }
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+const FALLBACK_IMG =
+  "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=70";
+
 export function coerceProject(b: any): Partial<Project> {
   const o: any = {};
   if (b.title !== undefined) o.title = String(b.title);
@@ -109,7 +222,7 @@ export function coerceProject(b: any): Partial<Project> {
   if (b.rating !== undefined) o.rating = Number(b.rating) || 0;
   if (b.reviews !== undefined) o.reviews = Number(b.reviews) || 0;
   if (b.image !== undefined) o.image = String(b.image) || FALLBACK_IMG;
-  if (b.youtube !== undefined) o.youtube = b.youtube ? String(b.youtube) : undefined;
+  if (b.youtube !== undefined) o.youtube = b.youtube ? String(b.youtube) : null;
   if (b.summary !== undefined) o.summary = String(b.summary);
   if (b.features !== undefined) o.features = toArray(b.features);
   if (b.components !== undefined) o.components = toArray(b.components);
@@ -148,17 +261,15 @@ export function coerceCourse(b: any): Partial<Course> {
   if (b.lessons !== undefined) o.lessons = Number(b.lessons) || 0;
   if (b.hours !== undefined) o.hours = Number(b.hours) || 0;
   if (b.price !== undefined) o.price = Number(b.price) || 0;
-  if (b.oldPrice !== undefined)
-    o.oldPrice = b.oldPrice ? Number(b.oldPrice) : undefined;
+  if (b.oldPrice !== undefined) o.oldPrice = b.oldPrice ? Number(b.oldPrice) : null;
   if (b.image !== undefined) o.image = String(b.image) || FALLBACK_IMG;
   if (b.blurb !== undefined) o.blurb = String(b.blurb);
   if (b.highlights !== undefined) o.highlights = toArray(b.highlights);
-  if (b.startDate !== undefined)
-    o.startDate = b.startDate ? String(b.startDate) : undefined;
-  if (b.schedule !== undefined)
-    o.schedule = b.schedule ? String(b.schedule) : undefined;
+  if (b.startDate !== undefined) o.startDate = b.startDate ? String(b.startDate) : null;
+  if (b.schedule !== undefined) o.schedule = b.schedule ? String(b.schedule) : null;
   if (b.seatsLeft !== undefined)
-    o.seatsLeft = b.seatsLeft === "" || b.seatsLeft == null ? undefined : Number(b.seatsLeft);
+    o.seatsLeft =
+      b.seatsLeft === "" || b.seatsLeft == null ? null : Number(b.seatsLeft);
   return o;
 }
 

@@ -1,12 +1,5 @@
 import { NextResponse } from "next/server";
-import {
-  getProjects,
-  saveProjects,
-  slugify,
-  uniqueSlug,
-  coerceProject,
-  projectDefaults,
-} from "@/lib/store";
+import { getProjects, createProject } from "@/lib/store";
 
 export const dynamic = "force-dynamic";
 
@@ -16,13 +9,6 @@ export async function GET() {
 
 export async function POST(req: Request) {
   const body = await req.json();
-  const list = await getProjects();
-  const slug = uniqueSlug(
-    slugify(body.title || "project"),
-    list.map((p) => p.slug)
-  );
-  const item = { ...projectDefaults(), ...coerceProject(body), slug };
-  list.unshift(item);
-  await saveProjects(list);
+  const item = await createProject(body);
   return NextResponse.json({ ok: true, item });
 }
