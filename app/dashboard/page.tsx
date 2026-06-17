@@ -95,22 +95,15 @@ function CollegeDashboard({ user, enrollments }: { user: SafeUser; enrollments: 
         </div>
       </section>
 
-      {/* Program cards — the 3 things colleges get */}
+      {/* Program cards — what colleges get */}
       <section className="py-12">
-        <div className="container-x grid gap-6 md:grid-cols-3">
+        <div className="container-x grid gap-6 md:grid-cols-2">
           <ProgramCard
             href="/workshops"
             icon="🛠"
             title="Workshops & FDPs"
             desc="Bootcamps, faculty development programs and on-campus training."
             cta="Book a workshop"
-          />
-          <ProgramCard
-            href="/courses"
-            icon="🎥"
-            title="Online classes"
-            desc="Live cohorts and self-paced courses for your students."
-            cta="View classes"
           />
           <ProgramCard
             href="/internships"
