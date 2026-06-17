@@ -15,6 +15,7 @@ type User = {
 export default function AdminUsers() {
   const [users, setUsers] = useState<User[] | null>(null);
   const [q, setQ] = useState("");
+  const [busy, setBusy] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/admin/users")
@@ -22,6 +23,22 @@ export default function AdminUsers() {
       .then((d) => setUsers(d.users ?? []))
       .catch(() => setUsers([]));
   }, []);
+
+  async function remove(u: User) {
+    if (
+      !confirm(
+        `Delete "${u.name}" (${u.email})?\n\nThis permanently removes the user and all their reservations from the database. This cannot be undone.`
+      )
+    )
+      return;
+    setBusy(u.id);
+    try {
+      await fetch(`/api/admin/users/${u.id}`, { method: "DELETE" });
+      setUsers((list) => (list ?? []).filter((x) => x.id !== u.id));
+    } finally {
+      setBusy(null);
+    }
+  }
 
   const filtered = (users ?? []).filter(
     (u) =>
@@ -66,6 +83,7 @@ export default function AdminUsers() {
                 <th className="px-5 py-3">College</th>
                 <th className="px-5 py-3">Password</th>
                 <th className="px-5 py-3">Joined</th>
+                <th className="px-5 py-3 text-right">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-navy-700/8">
@@ -88,6 +106,17 @@ export default function AdminUsers() {
                   <td className="px-5 py-3 text-navy-700/40">•••••••• (encrypted)</td>
                   <td className="px-5 py-3 text-navy-700/55">
                     {u.createdAt ? new Date(u.createdAt).toLocaleDateString("en-IN") : "—"}
+                  </td>
+                  <td className="px-5 py-3">
+                    <div className="flex justify-end">
+                      <button
+                        disabled={busy === u.id}
+                        onClick={() => remove(u)}
+                        className="rounded-lg bg-red-50 px-3 py-1.5 text-xs font-bold text-red-600 transition hover:bg-red-100 disabled:opacity-50"
+                      >
+                        {busy === u.id ? "Deleting…" : "Delete"}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

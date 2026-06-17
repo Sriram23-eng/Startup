@@ -139,6 +139,20 @@ export async function listUsers(): Promise<Omit<User, "passwordHash">[]> {
     });
 }
 
+/** Permanently delete a user and all their reservations. */
+export async function deleteUser(id: string): Promise<void> {
+  if (USE_DB) {
+    const { prisma } = await import("./prisma");
+    await prisma.enrollment.deleteMany({ where: { userId: id } }).catch(() => {});
+    await prisma.user.delete({ where: { id } }).catch(() => {});
+    return;
+  }
+  const users = await readJson<User[]>(U_FILE, []);
+  await writeJson(U_FILE, users.filter((u) => u.id !== id));
+  const ens = await readJson<Enrollment[]>(E_FILE, []);
+  await writeJson(E_FILE, ens.filter((e) => e.userId !== id));
+}
+
 /* ====================== ENROLLMENTS ====================== */
 export async function getEnrollment(
   userId: string,
