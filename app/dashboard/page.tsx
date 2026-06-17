@@ -55,7 +55,8 @@ function StudentDashboard({ user, enrollments }: { user: SafeUser; enrollments: 
 
       <section className="py-12">
         <div className="container-x">
-          <div className="flex items-center justify-between">
+          <AccountDetails user={user} />
+          <div className="mt-12 flex items-center justify-between">
             <h2 className="text-xl font-extrabold text-navy-800">My courses</h2>
             <Button href="/courses" variant="outline">Browse courses →</Button>
           </div>
@@ -115,6 +116,13 @@ function CollegeDashboard({ user, enrollments }: { user: SafeUser; enrollments: 
         </div>
       </section>
 
+      {/* Account details */}
+      <section className="pb-4">
+        <div className="container-x">
+          <AccountDetails user={user} />
+        </div>
+      </section>
+
       {/* Bookings */}
       <section className="pb-16">
         <div className="container-x">
@@ -170,6 +178,33 @@ function EnrollmentList({ enrollments, emptyCta }: { enrollments: Enrollment[]; 
           </div>
         );
       })}
+    </div>
+  );
+}
+
+function AccountDetails({ user }: { user: SafeUser }) {
+  const rows: [string, string][] = [
+    ["Name", user.name],
+    ["Email (username)", user.email],
+    ["Account type", user.accountType === "college" ? "College" : "Student"],
+  ];
+  if (user.accountType === "college" && user.college) rows.push(["Institution", user.college]);
+  if (user.createdAt)
+    rows.push(["Member since", new Date(user.createdAt).toLocaleDateString("en-IN")]);
+
+  return (
+    <div className="rounded-2xl border border-navy-700/8 bg-white p-6 shadow-card">
+      <h2 className="text-lg font-extrabold text-navy-800">Account details</h2>
+      <dl className="mt-4 grid gap-3 sm:grid-cols-2">
+        {rows.map(([k, v]) => (
+          <div key={k} className="rounded-xl bg-brand-50/40 px-4 py-3">
+            <dt className="text-xs font-semibold uppercase tracking-wide text-navy-700/45">
+              {k}
+            </dt>
+            <dd className="mt-0.5 break-words font-semibold text-navy-800">{v}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   );
 }
