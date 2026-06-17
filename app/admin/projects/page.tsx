@@ -26,9 +26,9 @@ const fields: Field[] = [
   {
     name: "priceOptions",
     label: "Price options",
-    type: "textarea",
+    type: "priceOptions",
     full: true,
-    hint: "one per line: Label | Price (e.g. Hardware kit | 3499). Add ' | popular' to mark one as Most popular. Leave blank to use the single price above.",
+    hint: "add buy options with their price; tick 'Most popular' to highlight one",
   },
   {
     name: "priceMultiSelect",

@@ -3,11 +3,12 @@
 import { ReactNode, useEffect, useMemo, useState } from "react";
 import { Label, Input, Textarea, Select } from "@/components/Field";
 import { Button } from "@/components/ui";
+import PriceOptionsEditor from "@/components/admin/PriceOptionsEditor";
 
 export type Field = {
   name: string;
   label: string;
-  type: "text" | "number" | "textarea" | "select" | "checkbox" | "list";
+  type: "text" | "number" | "textarea" | "select" | "checkbox" | "list" | "priceOptions";
   options?: { value: string; label: string }[];
   hint?: string;
   required?: boolean;
@@ -214,7 +215,14 @@ export default function CrudManager({
               {fields.map((fld) => (
                 <div
                   key={fld.name}
-                  className={fld.full || fld.type === "textarea" || fld.type === "list" ? "sm:col-span-2" : ""}
+                  className={
+                    fld.full ||
+                    fld.type === "textarea" ||
+                    fld.type === "list" ||
+                    fld.type === "priceOptions"
+                      ? "sm:col-span-2"
+                      : ""
+                  }
                 >
                   {fld.type === "checkbox" ? (
                     <label className="flex items-center gap-2 pt-7 text-sm font-semibold text-navy-800">
@@ -231,7 +239,12 @@ export default function CrudManager({
                   ) : (
                     <>
                       <Label hint={fld.hint}>{fld.label}</Label>
-                      {fld.type === "textarea" || fld.type === "list" ? (
+                      {fld.type === "priceOptions" ? (
+                        <PriceOptionsEditor
+                          value={form[fld.name] ?? ""}
+                          onChange={(v) => setForm({ ...form, [fld.name]: v })}
+                        />
+                      ) : fld.type === "textarea" || fld.type === "list" ? (
                         <Textarea
                           rows={fld.type === "list" ? 4 : 3}
                           required={fld.required}
