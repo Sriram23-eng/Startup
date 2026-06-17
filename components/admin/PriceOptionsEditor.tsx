@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useState } from "react";
 
 type Row = { label: string; price: string; popular: boolean };
 
@@ -37,13 +37,18 @@ export default function PriceOptionsEditor({
   value: string;
   onChange: (v: string) => void;
 }) {
-  const rows = useMemo(() => parse(value), [value]);
+  // Keep rows in local state so empty/new rows persist (the serialized
+  // string can't represent a row that has no label yet).
+  const [rows, setRows] = useState<Row[]>(() => parse(value));
 
-  const update = (next: Row[]) => onChange(serialize(next));
+  function apply(next: Row[]) {
+    setRows(next);
+    onChange(serialize(next));
+  }
   const setRow = (i: number, patch: Partial<Row>) =>
-    update(rows.map((r, idx) => (idx === i ? { ...r, ...patch } : r)));
-  const addRow = () => update([...rows, { label: "", price: "", popular: false }]);
-  const removeRow = (i: number) => update(rows.filter((_, idx) => idx !== i));
+    apply(rows.map((r, idx) => (idx === i ? { ...r, ...patch } : r)));
+  const addRow = () => apply([...rows, { label: "", price: "", popular: false }]);
+  const removeRow = (i: number) => apply(rows.filter((_, idx) => idx !== i));
 
   return (
     <div className="space-y-2 rounded-xl border border-navy-700/10 bg-brand-50/30 p-3">
