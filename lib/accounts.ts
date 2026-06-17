@@ -118,6 +118,27 @@ export async function createUser(data: {
   return user;
 }
 
+/** All users, newest first, WITHOUT password hashes (admin list). */
+export async function listUsers(): Promise<Omit<User, "passwordHash">[]> {
+  if (USE_DB) {
+    const { prisma } = await import("./prisma");
+    const rows = await prisma.user.findMany({ orderBy: { createdAt: "desc" } });
+    return rows.map((r) => {
+      const { passwordHash: _pw, ...rest } = stripDate<User>(r);
+      void _pw;
+      return rest;
+    });
+  }
+  const list = await readJson<User[]>(U_FILE, []);
+  return list
+    .slice()
+    .reverse()
+    .map(({ passwordHash: _pw, ...rest }) => {
+      void _pw;
+      return rest;
+    });
+}
+
 /* ====================== ENROLLMENTS ====================== */
 export async function getEnrollment(
   userId: string,
