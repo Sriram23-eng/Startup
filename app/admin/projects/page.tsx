@@ -28,7 +28,7 @@ const fields: Field[] = [
     label: "Price options",
     type: "textarea",
     full: true,
-    hint: "one per line: Label | Price (e.g. Hardware kit | 3499). Add 1, 2 or 3. Leave blank to use the single price above.",
+    hint: "one per line: Label | Price (e.g. Hardware kit | 3499). Add ' | popular' to mark one as Most popular. Leave blank to use the single price above.",
   },
   {
     name: "priceMultiSelect",

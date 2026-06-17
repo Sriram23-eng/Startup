@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "./ui";
 import { formatMoney } from "@/lib/site";
 
-type Opt = { label: string; price: number };
+type Opt = { label: string; price: number; popular?: boolean };
 
 export default function BuyActions({
   title,
@@ -71,12 +71,19 @@ export default function BuyActions({
                   key={i}
                   type="button"
                   onClick={() => (multiSelect ? toggleMulti(i) : setSel(i))}
-                  className={`flex items-start gap-3 rounded-xl border px-4 py-3 text-left transition ${
-                    on
+                  className={`relative flex items-start gap-3 rounded-xl border px-4 py-3 text-left transition ${
+                    o.popular
+                      ? "border-brand-500"
+                      : on
                       ? "border-brand-500 bg-brand-50 ring-2 ring-brand-100"
                       : "border-navy-700/12 hover:bg-brand-50/50"
-                  }`}
+                  } ${o.popular && on ? "bg-brand-50 ring-2 ring-brand-100" : ""}`}
                 >
+                  {o.popular && (
+                    <span className="absolute -top-2.5 right-3 rounded-full bg-brand-600 px-2 py-0.5 text-[10px] font-bold text-white shadow">
+                      ★ Most popular
+                    </span>
+                  )}
                   <span
                     className={`mt-0.5 grid h-5 w-5 shrink-0 place-items-center border text-[11px] ${
                       multiSelect ? "rounded-md" : "rounded-full"

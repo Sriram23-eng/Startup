@@ -256,18 +256,21 @@ export function coerceProject(b: any): Partial<Project> {
   return o;
 }
 
-/** Parse price options from lines "Label | price" → [{label, price}]. */
-export function parsePriceOptions(s?: string): { label: string; price: number }[] {
+/** Parse price options from lines "Label | price [| popular]". */
+export function parsePriceOptions(
+  s?: string
+): { label: string; price: number; popular: boolean }[] {
   if (!s) return [];
   return s
     .split("\n")
     .map((l) => l.trim())
     .filter(Boolean)
     .map((line) => {
-      const [label, price] = line.split("|");
+      const parts = line.split("|").map((x) => x.trim());
       return {
-        label: (label || "").trim(),
-        price: Number((price || "").replace(/[^0-9.]/g, "")) || 0,
+        label: parts[0] || "",
+        price: Number((parts[1] || "").replace(/[^0-9.]/g, "")) || 0,
+        popular: /^(popular|best|recommended|\*)$/i.test(parts[2] || ""),
       };
     })
     .filter((o) => o.label);
