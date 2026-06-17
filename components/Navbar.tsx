@@ -2,12 +2,15 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { site } from "@/lib/site";
+import { navForAccountType } from "@/lib/site";
 import { Button } from "./ui";
+
+type Me = { name: string; accountType: string } | null;
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [user, setUser] = useState<Me>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -15,6 +18,15 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((r) => r.json())
+      .then((d) => setUser(d.user ?? null))
+      .catch(() => setUser(null));
+  }, []);
+
+  const nav = navForAccountType(user?.accountType);
 
   return (
     <header
@@ -44,7 +56,7 @@ export default function Navbar() {
         </Link>
 
         <div className="hidden items-center gap-0.5 lg:flex">
-          {site.nav.map((item) =>
+          {nav.map((item) =>
             item.children ? (
               <div key={item.label} className="group relative">
                 <Link
@@ -90,12 +102,20 @@ export default function Navbar() {
         </div>
 
         <div className="hidden items-center gap-2 lg:flex">
-          <Button href="/login" variant="ghost" size="sm">
-            Login
-          </Button>
-          <Button href="/courses" size="sm">
-            Join a class
-          </Button>
+          {user ? (
+            <Button href="/dashboard" size="sm">
+              My account
+            </Button>
+          ) : (
+            <>
+              <Button href="/login" variant="ghost" size="sm">
+                Login
+              </Button>
+              <Button href="/courses" size="sm">
+                Join a class
+              </Button>
+            </>
+          )}
         </div>
 
         <button
@@ -126,7 +146,7 @@ export default function Navbar() {
       {open && (
         <div className="border-t border-navy-700/8 bg-white lg:hidden">
           <div className="container-x flex flex-col gap-1 py-4">
-            {site.nav.map((item) => (
+            {nav.map((item) => (
               <div key={item.label}>
                 <Link
                   href={item.href}
@@ -152,12 +172,20 @@ export default function Navbar() {
               </div>
             ))}
             <div className="mt-2 flex gap-2">
-              <Button href="/login" variant="outline" size="sm" className="flex-1">
-                Login
-              </Button>
-              <Button href="/courses" size="sm" className="flex-1">
-                Join a class
-              </Button>
+              {user ? (
+                <Button href="/dashboard" size="sm" className="flex-1">
+                  My account
+                </Button>
+              ) : (
+                <>
+                  <Button href="/login" variant="outline" size="sm" className="flex-1">
+                    Login
+                  </Button>
+                  <Button href="/courses" size="sm" className="flex-1">
+                    Join a class
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>

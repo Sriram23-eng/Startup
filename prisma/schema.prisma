@@ -61,6 +61,8 @@ model User {
   email        String   @unique
   passwordHash String
   role         String   @default("student") // student | admin
+  accountType  String   @default("student") // student | college
+  college      String? // institution name (college accounts)
   createdAt    DateTime @default(now())
 }
 

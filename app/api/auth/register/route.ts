@@ -9,7 +9,7 @@ import {
 
 export async function POST(req: Request) {
   try {
-    const { name, email, password } = await req.json();
+    const { name, email, password, accountType, college } = await req.json();
 
     if (!name || !email || !password) {
       return NextResponse.json(
@@ -20,6 +20,13 @@ export async function POST(req: Request) {
     if (String(password).length < 6) {
       return NextResponse.json(
         { ok: false, error: "Password must be at least 6 characters." },
+        { status: 400 }
+      );
+    }
+    const type = accountType === "college" ? "college" : "student";
+    if (type === "college" && !String(college || "").trim()) {
+      return NextResponse.json(
+        { ok: false, error: "Please enter your college / institution name." },
         { status: 400 }
       );
     }
@@ -36,6 +43,8 @@ export async function POST(req: Request) {
       name: String(name).trim(),
       email: normalizeEmail(email),
       passwordHash: hashPassword(String(password)),
+      accountType: type,
+      college: type === "college" ? String(college).trim() : null,
     });
 
     const res = NextResponse.json({

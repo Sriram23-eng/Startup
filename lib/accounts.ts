@@ -21,6 +21,8 @@ export type User = {
   email: string;
   passwordHash: string;
   role: string;
+  accountType: string; // student | college
+  college?: string | null; // institution name (college accounts)
   createdAt?: string;
 };
 
@@ -87,12 +89,16 @@ export async function createUser(data: {
   name: string;
   email: string;
   passwordHash: string;
+  accountType?: string;
+  college?: string | null;
 }): Promise<User> {
   const email = normalizeEmail(data.email);
+  const accountType = data.accountType === "college" ? "college" : "student";
+  const college = accountType === "college" ? data.college || null : null;
   if (USE_DB) {
     const { prisma } = await import("./prisma");
     const row = await prisma.user.create({
-      data: { name: data.name, email, passwordHash: data.passwordHash },
+      data: { name: data.name, email, passwordHash: data.passwordHash, accountType, college },
     });
     return stripDate<User>(row);
   }
@@ -103,6 +109,8 @@ export async function createUser(data: {
     email,
     passwordHash: data.passwordHash,
     role: "student",
+    accountType,
+    college,
     createdAt: new Date().toISOString(),
   };
   list.push(user);

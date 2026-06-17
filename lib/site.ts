@@ -60,6 +60,23 @@ export const site: SiteConfig = {
   ],
 };
 
+/**
+ * Menu shown for each account type:
+ *  - college  → Workshops, Courses (online classes), Internships
+ *  - student  → everything except Workshops
+ *  - none (logged out) → full menu
+ */
+export function navForAccountType(accountType?: string | null): NavItem[] {
+  if (accountType === "college") {
+    const keep = ["Workshops", "Courses", "Internships"];
+    return site.nav.filter((i) => keep.includes(i.label));
+  }
+  if (accountType === "student") {
+    return site.nav.filter((i) => i.label !== "Workshops");
+  }
+  return site.nav;
+}
+
 export type Money = number;
 
 export const formatINR = (n: Money) =>

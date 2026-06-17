@@ -11,9 +11,10 @@ export default function AuthForm() {
   const next = params.get("next") || "/dashboard";
 
   const [mode, setMode] = useState<"login" | "register">("login");
+  const [accountType, setAccountType] = useState<"student" | "college">("student");
   const [status, setStatus] = useState<"idle" | "sending">("idle");
   const [error, setError] = useState("");
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [form, setForm] = useState({ name: "", email: "", password: "", college: "" });
 
   function set(key: keyof typeof form, value: string) {
     setForm((f) => ({ ...f, [key]: value }));
@@ -28,7 +29,13 @@ export default function AuthForm() {
       const body =
         mode === "login"
           ? { email: form.email, password: form.password }
-          : form;
+          : {
+              name: form.name,
+              email: form.email,
+              password: form.password,
+              accountType,
+              college: accountType === "college" ? form.college : undefined,
+            };
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -114,12 +121,44 @@ export default function AuthForm() {
           <form onSubmit={submit} className="mt-6 space-y-4">
             {mode === "register" && (
               <div>
-                <Label>Full name</Label>
+                <Label>I am a…</Label>
+                <div className="grid grid-cols-2 gap-2">
+                  {(["student", "college"] as const).map((t) => (
+                    <button
+                      key={t}
+                      type="button"
+                      onClick={() => setAccountType(t)}
+                      className={`rounded-xl border px-4 py-2.5 text-sm font-semibold capitalize transition ${
+                        accountType === t
+                          ? "border-brand-500 bg-brand-50 text-brand-700"
+                          : "border-navy-700/12 text-navy-700/60 hover:bg-brand-50/50"
+                      }`}
+                    >
+                      {t === "student" ? "🎓 Student" : "🏫 College"}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+            {mode === "register" && (
+              <div>
+                <Label>{accountType === "college" ? "Contact person name" : "Full name"}</Label>
                 <Input
                   required
                   placeholder="Jane Doe"
                   value={form.name}
                   onChange={(e) => set("name", e.target.value)}
+                />
+              </div>
+            )}
+            {mode === "register" && accountType === "college" && (
+              <div>
+                <Label>College / Institution name</Label>
+                <Input
+                  required
+                  placeholder="e.g. ABC Institute of Technology"
+                  value={form.college}
+                  onChange={(e) => set("college", e.target.value)}
                 />
               </div>
             )}
