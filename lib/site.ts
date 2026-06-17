@@ -44,6 +44,7 @@ export const site: SiteConfig = {
         { label: "Corporate Training", href: "/workshops", desc: "Upskill your team" },
       ],
     },
+    { label: "Shop", href: "/shop" },
     { label: "Courses", href: "/courses" },
     { label: "Internships", href: "/internships" },
     {
@@ -85,3 +86,9 @@ export const formatINR = (n: Money) =>
     currency: "INR",
     maximumFractionDigits: 0,
   }).format(n);
+
+/** Format a price with its currency symbol (shop products). */
+export function formatMoney(amount: number, currency = "INR"): string {
+  const sym = currency === "USD" ? "$" : currency === "EUR" ? "€" : "₹";
+  return sym + Number(amount || 0).toLocaleString("en-IN", { maximumFractionDigits: 2 });
+}

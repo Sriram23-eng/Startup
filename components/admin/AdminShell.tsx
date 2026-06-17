@@ -8,6 +8,7 @@ const links = [
   { href: "/admin", label: "Dashboard", icon: "▦" },
   { href: "/admin/projects", label: "Projects", icon: "🧰" },
   { href: "/admin/courses", label: "Courses", icon: "🎓" },
+  { href: "/admin/shop", label: "Shop", icon: "🛒" },
   { href: "/admin/modules", label: "Modules", icon: "📚" },
   { href: "/admin/topics", label: "Topics", icon: "📝" },
   { href: "/admin/enrollments", label: "Reservations", icon: "🎫" },

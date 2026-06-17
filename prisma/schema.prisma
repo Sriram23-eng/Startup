@@ -79,6 +79,39 @@ model Enrollment {
   @@index([userId])
 }
 
+// ----- Digital product shop (templates / kits sold via external checkout) -----
+model Product {
+  slug            String   @id
+  title           String
+  tagline         String   @default("")
+  category        String   @default("")
+  badge           String   @default("") // Bestseller · New · Hot Deal · Limited
+  price           Float    @default(0)
+  originalPrice   Float? // for discount display
+  currency        String   @default("INR")
+  status          String   @default("DRAFT") // PUBLISHED | DRAFT
+  featured        Boolean  @default(false)
+  order           Int      @default(0)
+  publishDate     String?
+  sku             String   @default("")
+  version         String   @default("")
+  license         String   @default("")
+  coverImage      String   @default("")
+  gallery         String[] @default([])
+  highlights      String[] @default([])
+  about           String   @default("")
+  included        String[] @default([])
+  specs           String   @default("[]") // JSON: [{label,value}]
+  requirements    String[] @default([])
+  checkoutUrl     String   @default("")
+  demoUrl         String   @default("")
+  metaTitle       String   @default("")
+  metaDescription String   @default("")
+  ogImage         String   @default("")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
 // ----- W3Schools-style structured course content -----
 
 // A module groups topics, within a section band (Beginner/Intermediate/Advanced/Projects).
