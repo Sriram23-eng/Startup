@@ -330,6 +330,7 @@ export type Course = {
   startDate?: string; // live cohorts
   schedule?: string;
   seatsLeft?: number;
+  topics?: string[]; // syllabus topics — also drive the AI lessons & tutor
 };
 
 export const courses: Course[] = [

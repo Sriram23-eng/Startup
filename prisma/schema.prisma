@@ -7,8 +7,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 model Project {
@@ -48,5 +49,75 @@ model Course {
   startDate  String?
   schedule   String?
   seatsLeft  Int?
+  topics     String[] @default([]) // syllabus topics — also feeds the per-course AI tutor
   createdAt  DateTime @default(now())
+}
+
+// ----- Student accounts & access control -----
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         String   @default("student") // student | admin
+  createdAt    DateTime @default(now())
+}
+
+// A reservation. status starts "pending"; admin sets it to "approved"
+// (after payment) to unlock the course's recorded lessons + AI tutor.
+model Enrollment {
+  id          String   @id @default(cuid())
+  userId      String
+  courseSlug  String
+  courseTitle String
+  status      String   @default("pending") // pending | approved | rejected
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+}
+
+// ----- W3Schools-style structured course content -----
+
+// A module groups topics, within a section band (Beginner/Intermediate/Advanced/Projects).
+model CourseModule {
+  id         String   @id @default(cuid())
+  courseSlug String // ties to a Course (e.g. "iot-esp32-live")
+  title      String
+  band       String   @default("Beginner") // Beginner | Intermediate | Advanced | Projects
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  topics Topic[]
+
+  @@index([courseSlug])
+}
+
+// A topic page — the W3Schools-style lesson with all its sections.
+// kind: "topic" (theory lesson) | "practical" (hands-on) | "project".
+model Topic {
+  id       String       @id @default(cuid())
+  moduleId String
+  module   CourseModule @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  title    String
+  kind     String       @default("topic")
+  order    Int          @default(0)
+
+  // The W3Schools-style content sections (authored via the admin editor):
+  theory          String @default("") // 1. Theory
+  diagramUrl      String @default("") // 2. Diagram (image URL)
+  components      String @default("") // 3. Components required
+  exampleCode     String @default("") // 4. Example code
+  codeExplanation String @default("") // 4b. Line-by-line explanation
+  outputImageUrl  String @default("") // 5. Output image (URL)
+  videoUrl        String @default("") // 6. AI video (embed URL, made externally)
+  quiz            String @default("") // 7. Quiz (MCQs / coding qs)
+  exercise        String @default("") // 8. Exercise
+  simulationUrl   String @default("") // 9. Simulation (Wokwi / Proteus link)
+  miniProject     String @default("") // 10. Mini project
+  downloads       String @default("") // 11. Downloads (links, one per line)
+
+  createdAt DateTime @default(now())
+
+  @@index([moduleId])
 }

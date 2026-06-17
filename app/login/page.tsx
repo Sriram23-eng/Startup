@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import AuthForm from "@/components/AuthForm";
 
 export const metadata: Metadata = {
@@ -16,7 +17,9 @@ export default function LoginPage() {
       </div>
       <div className="container-x relative grid min-h-[80vh] place-items-center py-14">
         <div className="w-full max-w-4xl">
-          <AuthForm />
+          <Suspense>
+            <AuthForm />
+          </Suspense>
         </div>
       </div>
     </section>

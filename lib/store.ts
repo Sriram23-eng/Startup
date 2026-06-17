@@ -270,6 +270,7 @@ export function coerceCourse(b: any): Partial<Course> {
   if (b.seatsLeft !== undefined)
     o.seatsLeft =
       b.seatsLeft === "" || b.seatsLeft == null ? null : Number(b.seatsLeft);
+  if (b.topics !== undefined) o.topics = toArray(b.topics);
   return o;
 }
 
@@ -289,5 +290,6 @@ export function courseDefaults(): Course {
     image: FALLBACK_IMG,
     blurb: "",
     highlights: [],
+    topics: [],
   };
 }

@@ -1,142 +1,116 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Badge, Button } from "@/components/ui";
+import { getCurrentUser } from "@/lib/auth";
+import { getEnrollmentsByUser } from "@/lib/accounts";
+import LogoutButton from "@/components/LogoutButton";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Dashboard Preview",
-  description:
-    "Student, trainer and admin dashboard preview for orders, requests, workshops, CRM and certificates.",
+  title: "My Dashboard",
+  description: "Your reserved courses, access status and recorded classes.",
 };
 
-const metrics = [
-  ["Total Orders", "1,284"],
-  ["Project Requests", "86"],
-  ["Workshop Requests", "34"],
-  ["Revenue", "Rs 18.4L"],
-  ["Leads", "412"],
-  ["Customers", "2,908"],
-];
+const statusStyles: Record<string, { label: string; cls: string }> = {
+  pending: {
+    label: "Awaiting approval",
+    cls: "bg-amber-50 text-amber-700 border border-amber-200",
+  },
+  approved: {
+    label: "Access granted",
+    cls: "bg-emerald-50 text-emerald-700 border border-emerald-200",
+  },
+  rejected: {
+    label: "Not approved",
+    cls: "bg-red-50 text-red-600 border border-red-200",
+  },
+};
 
-const modules = [
-  "Project management",
-  "Inventory and pricing",
-  "Workshop scheduling",
-  "Trainer assignment",
-  "CRM and quotations",
-  "Support tickets",
-  "Certificates",
-  "Student downloads",
-];
+export default async function DashboardPage() {
+  const user = await getCurrentUser();
+  if (!user) redirect("/login?next=/dashboard");
 
-export default function DashboardPage() {
+  const enrollments = await getEnrollmentsByUser(user.id);
+
   return (
     <>
       <section className="relative overflow-hidden border-b border-navy-700/8">
         <div className="mesh pointer-events-none absolute inset-0 opacity-70" />
-        <div className="container-x relative py-14">
-          <Badge tone="navy">Portal Preview</Badge>
-          <h1 className="mt-4 text-3xl font-black tracking-tight text-navy-800 sm:text-4xl">
-            Admin, student and trainer portals
-          </h1>
-          <p className="mt-3 max-w-2xl text-navy-700/70">
-            A product-ready dashboard concept for orders, project requests,
-            workshop operations, CRM follow-ups and certificate workflows.
-          </p>
+        <div className="container-x relative flex flex-wrap items-center justify-between gap-4 py-12">
+          <div>
+            <Badge tone="navy">My account</Badge>
+            <h1 className="mt-3 text-3xl font-black tracking-tight text-navy-800 sm:text-4xl">
+              Welcome, {user.name.split(" ")[0]} 👋
+            </h1>
+            <p className="mt-2 text-navy-700/70">
+              Your reserved courses and access status.
+            </p>
+          </div>
+          <LogoutButton />
         </div>
       </section>
 
       <section className="py-12">
-        <div className="container-x grid gap-6 lg:grid-cols-[240px_1fr]">
-          <aside className="rounded-2xl border border-navy-700/8 bg-navy-900 p-4 text-white shadow-glow lg:sticky lg:top-20 lg:self-start">
-            {["Overview", "Projects", "Workshops", "CRM", "Support", "Certificates"].map(
-              (item, index) => (
-                <Link
-                  key={item}
-                  href="#"
-                  className={`block rounded-xl px-4 py-3 text-sm font-semibold ${
-                    index === 0
-                      ? "bg-white text-navy-900"
-                      : "text-brand-100/70 hover:bg-white/10"
-                  }`}
-                >
-                  {item}
-                </Link>
-              )
-            )}
-          </aside>
-
-          <div className="space-y-6">
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-              {metrics.map(([label, value]) => (
-                <div
-                  key={label}
-                  className="rounded-2xl border border-navy-700/8 bg-white p-6 shadow-card"
-                >
-                  <div className="text-xs font-bold uppercase tracking-wider text-navy-700/40">
-                    {label}
-                  </div>
-                  <div className="mt-2 text-3xl font-black text-navy-800">
-                    {value}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
-              <div className="rounded-2xl border border-navy-700/8 bg-white p-6 shadow-card">
-                <h2 className="font-bold text-navy-800">Sales pipeline</h2>
-                <div className="mt-5 grid gap-3 md:grid-cols-5">
-                  {["Lead", "Review", "Quote", "Approval", "Delivery"].map(
-                    (stage, index) => (
-                      <div
-                        key={stage}
-                        className="rounded-xl bg-brand-50/70 p-4 text-center"
-                      >
-                        <div className="text-xl font-black text-navy-800">
-                          {[128, 64, 37, 22, 14][index]}
-                        </div>
-                        <div className="mt-1 text-xs font-semibold text-navy-700/55">
-                          {stage}
-                        </div>
-                      </div>
-                    )
-                  )}
-                </div>
-              </div>
-
-              <div className="rounded-2xl border border-navy-700/8 bg-white p-6 shadow-card">
-                <h2 className="font-bold text-navy-800">Platform modules</h2>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {modules.map((module) => (
-                    <span
-                      key={module}
-                      className="rounded-full bg-brand-50 px-3 py-1.5 text-xs font-semibold text-navy-700/70"
-                    >
-                      {module}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="rounded-2xl bg-navy-900 p-6 text-white">
-              <div className="grid gap-5 md:grid-cols-[1fr_auto] md:items-center">
-                <div>
-                  <h2 className="text-xl font-extrabold">
-                    Backend integration map is ready
-                  </h2>
-                  <p className="mt-1 text-sm text-brand-100/65">
-                    Wire this to users, projects, orders, payments, leads,
-                    quotations, trainers, certificates, blogs and support
-                    tickets.
-                  </p>
-                </div>
-                <Button href="/custom-project" variant="white">
-                  Request build
-                </Button>
-              </div>
-            </div>
+        <div className="container-x">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-extrabold text-navy-800">My courses</h2>
+            <Button href="/courses" variant="outline">
+              Browse courses →
+            </Button>
           </div>
+
+          {enrollments.length === 0 ? (
+            <div className="mt-8 rounded-2xl border border-dashed border-navy-700/15 bg-brand-50/30 p-10 text-center">
+              <div className="text-3xl">🎓</div>
+              <h3 className="mt-3 font-bold text-navy-800">
+                You haven&apos;t reserved any course yet
+              </h3>
+              <p className="mt-1 text-sm text-navy-700/60">
+                Pick a class and reserve your seat — we&apos;ll confirm your
+                access shortly after.
+              </p>
+              <Button href="/courses" className="mt-5">
+                Explore courses →
+              </Button>
+            </div>
+          ) : (
+            <div className="mt-8 grid gap-4">
+              {enrollments.map((e) => {
+                const s = statusStyles[e.status] ?? statusStyles.pending;
+                return (
+                  <div
+                    key={e.id}
+                    className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-navy-700/8 bg-white p-5 shadow-card"
+                  >
+                    <div>
+                      <div className="font-bold text-navy-800">{e.courseTitle}</div>
+                      <div
+                        className={`mt-2 inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold ${s.cls}`}
+                      >
+                        {s.label}
+                      </div>
+                    </div>
+                    {e.status === "approved" ? (
+                      <Link
+                        href={`/learn/${e.courseSlug}`}
+                        className="rounded-xl bg-brand-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-brand-700"
+                      >
+                        Open course →
+                      </Link>
+                    ) : (
+                      <span className="text-xs text-navy-700/45">
+                        {e.status === "pending"
+                          ? "We'll email you once access is approved"
+                          : "Contact support for details"}
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </section>
     </>

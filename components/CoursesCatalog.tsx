@@ -1,11 +1,11 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { Course, categoryName } from "@/lib/data";
 import { formatINR } from "@/lib/site";
 import { Button } from "./ui";
-import { Label, Input, Select } from "./Field";
+import { Label, Select } from "./Field";
 
 type Tab = "all" | "Live" | "Self-paced";
 
@@ -186,25 +186,32 @@ function EnrollForm({
   selected: string;
   onSelect: (s: string) => void;
 }) {
+  const [me, setMe] = useState<{ name: string } | null | undefined>(undefined);
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">(
     "idle"
   );
-  const [form, setForm] = useState({ name: "", email: "", phone: "" });
   const course = courses.find((c) => c.slug === selected);
 
-  async function submit(e: React.FormEvent) {
-    e.preventDefault();
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((r) => r.json())
+      .then((d) => setMe(d.user ?? null))
+      .catch(() => setMe(null));
+  }, []);
+
+  async function reserve() {
+    if (!course) return;
     setStatus("sending");
     try {
-      const res = await fetch("/api/leads", {
+      const res = await fetch("/api/enroll", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          type: "course-enroll",
-          course: course?.title,
-          ...form,
-        }),
+        body: JSON.stringify({ courseSlug: course.slug }),
       });
+      if (res.status === 401) {
+        window.location.href = "/login?next=/courses";
+        return;
+      }
       if (!(await res.json()).ok) throw new Error();
       setStatus("done");
     } catch {
@@ -260,17 +267,23 @@ function EnrollForm({
                   ✓
                 </div>
                 <h3 className="mt-4 text-xl font-extrabold text-navy-800">
-                  You’re in! 🎉
+                  Seat reserved! 🎉
                 </h3>
                 <p className="mt-2 text-sm text-navy-700/60">
-                  We’ve received your enrollment for{" "}
-                  <strong>{course?.title}</strong>. Our team will email payment &
-                  joining details shortly.
+                  Your reservation for <strong>{course?.title}</strong> is in.
+                  We&apos;ll confirm your access shortly — track it on your{" "}
+                  <a
+                    href="/dashboard"
+                    className="font-semibold text-brand-600 hover:underline"
+                  >
+                    dashboard
+                  </a>
+                  .
                 </p>
               </div>
             </div>
           ) : (
-            <form onSubmit={submit}>
+            <div>
               <h3 className="text-lg font-bold text-navy-800">
                 Reserve your spot
               </h3>
@@ -289,49 +302,42 @@ function EnrollForm({
                     ))}
                   </Select>
                 </div>
-                <div>
-                  <Label>Full name</Label>
-                  <Input
-                    required
-                    value={form.name}
-                    onChange={(e) =>
-                      setForm({ ...form, name: e.target.value })
-                    }
-                  />
-                </div>
-                <div>
-                  <Label>Email</Label>
-                  <Input
-                    type="email"
-                    required
-                    value={form.email}
-                    onChange={(e) =>
-                      setForm({ ...form, email: e.target.value })
-                    }
-                  />
-                </div>
-                <div>
-                  <Label>Phone / WhatsApp</Label>
-                  <Input
-                    value={form.phone}
-                    onChange={(e) =>
-                      setForm({ ...form, phone: e.target.value })
-                    }
-                  />
-                </div>
               </div>
+
               {status === "error" && (
                 <p className="mt-3 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600">
                   Something went wrong. Please try again.
                 </p>
               )}
-              <Button type="submit" size="lg" className="mt-5 w-full">
-                {status === "sending" ? "Reserving…" : "Confirm enrollment →"}
-              </Button>
-              <p className="mt-3 text-center text-xs text-navy-700/45">
-                No payment now · we’ll send secure payment & joining link
-              </p>
-            </form>
+
+              {me === undefined ? (
+                <Button size="lg" className="mt-5 w-full">
+                  Loading…
+                </Button>
+              ) : me === null ? (
+                <>
+                  <Button
+                    href="/login?next=/courses"
+                    size="lg"
+                    className="mt-5 w-full"
+                  >
+                    Sign in to reserve →
+                  </Button>
+                  <p className="mt-3 text-center text-xs text-navy-700/45">
+                    Create a free account to reserve your seat
+                  </p>
+                </>
+              ) : (
+                <>
+                  <Button size="lg" className="mt-5 w-full" onClick={reserve}>
+                    {status === "sending" ? "Reserving…" : "Reserve seat →"}
+                  </Button>
+                  <p className="mt-3 text-center text-xs text-navy-700/45">
+                    No payment now · we&apos;ll confirm access after payment
+                  </p>
+                </>
+              )}
+            </div>
           )}
         </div>
       </div>
