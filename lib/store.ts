@@ -228,7 +228,43 @@ export function coerceProject(b: any): Partial<Project> {
   if (b.components !== undefined) o.components = toArray(b.components);
   if (b.readyMade !== undefined) o.readyMade = Boolean(b.readyMade);
   if (b.tags !== undefined) o.tags = toArray(b.tags);
+  // Rich product fields
+  if (b.badge !== undefined) o.badge = String(b.badge || "");
+  if (b.originalPrice !== undefined)
+    o.originalPrice =
+      b.originalPrice === "" || b.originalPrice == null ? null : Number(b.originalPrice);
+  if (b.currency !== undefined) o.currency = String(b.currency || "INR");
+  if (b.status !== undefined) o.status = String(b.status || "PUBLISHED");
+  if (b.featured !== undefined) o.featured = Boolean(b.featured);
+  if (b.order !== undefined) o.order = Number(b.order) || 0;
+  if (b.about !== undefined) o.about = String(b.about || "");
+  if (b.included !== undefined) o.included = toArray(b.included);
+  if (b.specs !== undefined) o.specs = String(b.specs || "[]");
+  if (b.requirements !== undefined) o.requirements = toArray(b.requirements);
+  if (b.gallery !== undefined) o.gallery = toArray(b.gallery);
+  if (b.license !== undefined) o.license = String(b.license || "");
+  if (b.version !== undefined) o.version = String(b.version || "");
+  if (b.sku !== undefined) o.sku = String(b.sku || "");
+  if (b.checkoutUrl !== undefined) o.checkoutUrl = String(b.checkoutUrl || "");
+  if (b.demoUrl !== undefined) o.demoUrl = String(b.demoUrl || "");
+  if (b.metaTitle !== undefined) o.metaTitle = String(b.metaTitle || "");
+  if (b.metaDescription !== undefined) o.metaDescription = String(b.metaDescription || "");
+  if (b.ogImage !== undefined) o.ogImage = String(b.ogImage || "");
+  if (b.publishDate !== undefined) o.publishDate = b.publishDate ? String(b.publishDate) : null;
   return o;
+}
+
+/** Parse a project's specs JSON string into [{label,value}] (safe). */
+export function parseSpecs(specs?: string): { label: string; value: string }[] {
+  try {
+    const arr = JSON.parse(specs || "[]");
+    if (!Array.isArray(arr)) return [];
+    return arr
+      .filter((x: any) => x && typeof x.label === "string")
+      .map((x: any) => ({ label: String(x.label), value: String(x.value ?? "") }));
+  } catch {
+    return [];
+  }
 }
 
 export function projectDefaults(): Project {

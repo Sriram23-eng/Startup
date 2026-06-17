@@ -47,6 +47,27 @@ export type Project = {
   components: string[];
   readyMade: boolean;
   tags: string[];
+  // Rich product fields
+  badge?: string;
+  originalPrice?: number | null;
+  currency?: string;
+  status?: string;
+  featured?: boolean;
+  order?: number;
+  about?: string;
+  included?: string[];
+  specs?: string;
+  requirements?: string[];
+  gallery?: string[];
+  license?: string;
+  version?: string;
+  sku?: string;
+  checkoutUrl?: string;
+  demoUrl?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  ogImage?: string;
+  publishDate?: string | null;
 };
 
 const img = (id: string) =>

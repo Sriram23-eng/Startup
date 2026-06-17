@@ -44,7 +44,6 @@ export const site: SiteConfig = {
         { label: "Corporate Training", href: "/workshops", desc: "Upskill your team" },
       ],
     },
-    { label: "Shop", href: "/shop" },
     { label: "Courses", href: "/courses" },
     { label: "Internships", href: "/internships" },
     {

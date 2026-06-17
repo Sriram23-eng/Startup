@@ -1,9 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Project, categoryName } from "@/lib/data";
-import { formatINR } from "@/lib/site";
+import { formatMoney } from "@/lib/site";
 
 export default function ProjectCard({ project }: { project: Project }) {
+  const currency = project.currency || "INR";
+  const off =
+    project.originalPrice && project.originalPrice > project.price
+      ? Math.round((1 - project.price / project.originalPrice) * 100)
+      : 0;
   return (
     <Link
       href={`/projects/${project.slug}`}
@@ -18,10 +23,20 @@ export default function ProjectCard({ project }: { project: Project }) {
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-navy-950/50 to-transparent" />
-        <div className="absolute left-3 top-3 flex gap-2">
+        <div className="absolute left-3 top-3 flex flex-wrap gap-2">
+          {project.badge && (
+            <span className="rounded-full bg-navy-800/90 px-2.5 py-1 text-[11px] font-bold text-cyan-accent shadow">
+              {project.badge}
+            </span>
+          )}
           {project.readyMade && (
             <span className="rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-bold text-navy-800 shadow">
               Ready-made kit
+            </span>
+          )}
+          {off > 0 && (
+            <span className="rounded-full bg-emerald-500 px-2.5 py-1 text-[11px] font-bold text-white shadow">
+              -{off}%
             </span>
           )}
         </div>
@@ -55,8 +70,15 @@ export default function ProjectCard({ project }: { project: Project }) {
             <div className="text-[11px] font-medium uppercase tracking-wide text-navy-700/40">
               Starting at
             </div>
-            <div className="text-lg font-extrabold text-navy-800">
-              {formatINR(project.price)}
+            <div className="flex items-baseline gap-2">
+              <div className="text-lg font-extrabold text-navy-800">
+                {formatMoney(project.price, currency)}
+              </div>
+              {off > 0 && (
+                <span className="text-xs text-navy-700/40 line-through">
+                  {formatMoney(project.originalPrice!, currency)}
+                </span>
+              )}
             </div>
           </div>
           <span className="rounded-lg bg-brand-50 px-3 py-2 text-sm font-bold text-brand-700 transition group-hover:bg-brand-600 group-hover:text-white">
