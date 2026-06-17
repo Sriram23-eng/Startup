@@ -52,6 +52,7 @@ export type Project = {
   originalPrice?: number | null;
   currency?: string;
   priceOptions?: string;
+  priceMultiSelect?: boolean;
   status?: string;
   featured?: boolean;
   order?: number;

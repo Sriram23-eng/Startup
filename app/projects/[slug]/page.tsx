@@ -95,6 +95,7 @@ export default async function ProjectDetail({
               originalPrice={project.originalPrice}
               currency={currency}
               options={priceOptions}
+              multiSelect={project.priceMultiSelect}
             />
             {project.demoUrl && (
               <a

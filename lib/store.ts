@@ -235,6 +235,7 @@ export function coerceProject(b: any): Partial<Project> {
       b.originalPrice === "" || b.originalPrice == null ? null : Number(b.originalPrice);
   if (b.currency !== undefined) o.currency = String(b.currency || "INR");
   if (b.priceOptions !== undefined) o.priceOptions = String(b.priceOptions || "");
+  if (b.priceMultiSelect !== undefined) o.priceMultiSelect = Boolean(b.priceMultiSelect);
   if (b.status !== undefined) o.status = String(b.status || "PUBLISHED");
   if (b.featured !== undefined) o.featured = Boolean(b.featured);
   if (b.order !== undefined) o.order = Number(b.order) || 0;

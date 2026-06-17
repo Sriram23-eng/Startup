@@ -31,6 +31,11 @@ const fields: Field[] = [
     hint: "one per line: Label | Price (e.g. Hardware kit | 3499). Add 1, 2 or 3. Leave blank to use the single price above.",
   },
   {
+    name: "priceMultiSelect",
+    label: "Allow multiple options (add-ons — prices add up)",
+    type: "checkbox",
+  },
+  {
     name: "currency",
     label: "Currency",
     type: "select",
@@ -82,7 +87,7 @@ const fields: Field[] = [
 
 const defaults = {
   title: "", category: categories[0].slug, badge: "", size: "Medium", price: "",
-  originalPrice: "", priceOptions: "", currency: "INR", status: "PUBLISHED", featured: false, readyMade: true,
+  originalPrice: "", priceOptions: "", priceMultiSelect: false, currency: "INR", status: "PUBLISHED", featured: false, readyMade: true,
   order: 0, rating: 4.8, reviews: 0, image: "", gallery: "", summary: "", features: "",
   about: "", included: "", components: "", specs: "[]", requirements: "", license: "",
   version: "", sku: "", demoUrl: "", checkoutUrl: "", tags: "", metaTitle: "",
