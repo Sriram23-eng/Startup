@@ -21,8 +21,15 @@ const fields: Field[] = [
       { value: "Large", label: "Large" },
     ],
   },
-  { name: "price", label: "Price (₹)", type: "number" },
+  { name: "price", label: "Price (₹)", type: "number", hint: "single price (used if no options below)" },
   { name: "originalPrice", label: "Original price (for discount)", type: "number", hint: "blank if none" },
+  {
+    name: "priceOptions",
+    label: "Price options",
+    type: "textarea",
+    full: true,
+    hint: "one per line: Label | Price (e.g. Hardware kit | 3499). Add 1, 2 or 3. Leave blank to use the single price above.",
+  },
   {
     name: "currency",
     label: "Currency",
@@ -75,7 +82,7 @@ const fields: Field[] = [
 
 const defaults = {
   title: "", category: categories[0].slug, badge: "", size: "Medium", price: "",
-  originalPrice: "", currency: "INR", status: "PUBLISHED", featured: false, readyMade: true,
+  originalPrice: "", priceOptions: "", currency: "INR", status: "PUBLISHED", featured: false, readyMade: true,
   order: 0, rating: 4.8, reviews: 0, image: "", gallery: "", summary: "", features: "",
   about: "", included: "", components: "", specs: "[]", requirements: "", license: "",
   version: "", sku: "", demoUrl: "", checkoutUrl: "", tags: "", metaTitle: "",

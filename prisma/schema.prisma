@@ -32,6 +32,7 @@ model Project {
   badge           String   @default("") // Bestseller · New · Hot Deal · Limited
   originalPrice   Int? // for discount display
   currency        String   @default("INR")
+  priceOptions    String   @default("") // lines "Label | price" — selectable buy options
   status          String   @default("PUBLISHED") // PUBLISHED | DRAFT
   featured        Boolean  @default(false)
   order           Int      @default(0)

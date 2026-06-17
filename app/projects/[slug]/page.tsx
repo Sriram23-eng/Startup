@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { categoryName } from "@/lib/data";
-import { getProjects, getProjectBySlug, parseSpecs } from "@/lib/store";
-import { formatMoney } from "@/lib/site";
+import { getProjects, getProjectBySlug, parseSpecs, parsePriceOptions } from "@/lib/store";
 import { Badge } from "@/components/ui";
 import BuyActions from "@/components/BuyActions";
 import ProjectCard from "@/components/ProjectCard";
@@ -41,14 +40,7 @@ export default async function ProjectDetail({
     .slice(0, 3);
 
   const currency = project.currency || "INR";
-  const off =
-    project.originalPrice && project.originalPrice > project.price
-      ? Math.round((1 - project.price / project.originalPrice) * 100)
-      : 0;
-  const save =
-    project.originalPrice && project.originalPrice > project.price
-      ? project.originalPrice - project.price
-      : 0;
+  const priceOptions = parsePriceOptions(project.priceOptions);
   const specs = parseSpecs(project.specs);
   const gallery = project.gallery?.length ? project.gallery : [project.image || FALLBACK];
 
@@ -97,32 +89,13 @@ export default async function ProjectDetail({
           )}
 
           <div className="mt-6 rounded-2xl border border-navy-700/8 bg-white p-6 shadow-card">
-            <div className="flex flex-wrap items-baseline gap-2.5">
-              <span className="text-3xl font-black text-navy-800">
-                {formatMoney(project.price, currency)}
-              </span>
-              {off > 0 && (
-                <>
-                  <span className="text-lg text-navy-700/40 line-through">
-                    {formatMoney(project.originalPrice!, currency)}
-                  </span>
-                  <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-sm font-bold text-emerald-600">
-                    -{off}% off
-                  </span>
-                </>
-              )}
-            </div>
-            {save > 0 && (
-              <div className="mt-1 text-sm font-semibold text-emerald-600">
-                You save {formatMoney(save, currency)}
-              </div>
-            )}
-            <div className="mt-1 text-xs text-navy-700/45">
-              Inclusive of hardware, source code & documentation
-            </div>
-            <div className="mt-5">
-              <BuyActions title={project.title} price={project.price} />
-            </div>
+            <BuyActions
+              title={project.title}
+              price={project.price}
+              originalPrice={project.originalPrice}
+              currency={currency}
+              options={priceOptions}
+            />
             {project.demoUrl && (
               <a
                 href={project.demoUrl}

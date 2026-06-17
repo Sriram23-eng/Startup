@@ -51,6 +51,7 @@ export type Project = {
   badge?: string;
   originalPrice?: number | null;
   currency?: string;
+  priceOptions?: string;
   status?: string;
   featured?: boolean;
   order?: number;

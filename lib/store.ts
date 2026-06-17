@@ -234,6 +234,7 @@ export function coerceProject(b: any): Partial<Project> {
     o.originalPrice =
       b.originalPrice === "" || b.originalPrice == null ? null : Number(b.originalPrice);
   if (b.currency !== undefined) o.currency = String(b.currency || "INR");
+  if (b.priceOptions !== undefined) o.priceOptions = String(b.priceOptions || "");
   if (b.status !== undefined) o.status = String(b.status || "PUBLISHED");
   if (b.featured !== undefined) o.featured = Boolean(b.featured);
   if (b.order !== undefined) o.order = Number(b.order) || 0;
@@ -252,6 +253,23 @@ export function coerceProject(b: any): Partial<Project> {
   if (b.ogImage !== undefined) o.ogImage = String(b.ogImage || "");
   if (b.publishDate !== undefined) o.publishDate = b.publishDate ? String(b.publishDate) : null;
   return o;
+}
+
+/** Parse price options from lines "Label | price" → [{label, price}]. */
+export function parsePriceOptions(s?: string): { label: string; price: number }[] {
+  if (!s) return [];
+  return s
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const [label, price] = line.split("|");
+      return {
+        label: (label || "").trim(),
+        price: Number((price || "").replace(/[^0-9.]/g, "")) || 0,
+      };
+    })
+    .filter((o) => o.label);
 }
 
 /** Parse a project's specs JSON string into [{label,value}] (safe). */
