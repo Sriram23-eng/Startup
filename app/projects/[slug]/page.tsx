@@ -60,23 +60,6 @@ export default async function ProjectDetail({
               className="object-cover"
             />
           </div>
-
-          {project.youtube && (
-            <div className="mt-6">
-              <h3 className="mb-3 flex items-center gap-2 font-bold text-navy-800">
-                <span className="text-brand-600">▶</span> Demo video
-              </h3>
-              <div className="relative aspect-video overflow-hidden rounded-2xl border border-navy-700/8 shadow-card">
-                <iframe
-                  className="absolute inset-0 h-full w-full"
-                  src={`https://www.youtube.com/embed/${project.youtube}`}
-                  title="Demo video"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Info / purchase */}

@@ -77,6 +77,12 @@ export default async function LearnCoursePage({
     modules: outline.filter((m) => m.band === band),
   })).filter((g) => g.modules.length > 0);
 
+  // Flat topic order for prev/next navigation.
+  const flat = outline.flatMap((m) => m.topics);
+  const idx = flat.findIndex((t) => t.id === activeId);
+  const prevTopic = idx > 0 ? flat[idx - 1] : null;
+  const nextTopic = idx >= 0 && idx < flat.length - 1 ? flat[idx + 1] : null;
+
   return (
     <div className="container-x grid gap-8 py-10 lg:grid-cols-[300px_1fr]">
       {/* Sidebar */}
@@ -141,6 +147,37 @@ export default async function LearnCoursePage({
       {/* Topic content */}
       <main className="min-w-0">
         {topic ? <TopicView topic={topic} /> : <PickPrompt />}
+
+        {topic && (prevTopic || nextTopic) && (
+          <div className="mt-10 flex items-stretch justify-between gap-3 border-t border-navy-700/8 pt-6">
+            {prevTopic ? (
+              <Link
+                href={`/learn/${slug}?t=${prevTopic.id}`}
+                className="group flex max-w-[48%] flex-col rounded-xl border border-navy-700/10 bg-white px-4 py-3 transition hover:border-brand-300 hover:shadow-card"
+              >
+                <span className="text-xs font-semibold text-navy-700/45">← Previous</span>
+                <span className="mt-0.5 truncate font-bold text-navy-800 group-hover:text-brand-700">
+                  {prevTopic.title}
+                </span>
+              </Link>
+            ) : (
+              <span />
+            )}
+            {nextTopic ? (
+              <Link
+                href={`/learn/${slug}?t=${nextTopic.id}`}
+                className="group ml-auto flex max-w-[48%] flex-col rounded-xl border border-navy-700/10 bg-white px-4 py-3 text-right transition hover:border-brand-300 hover:shadow-card"
+              >
+                <span className="text-xs font-semibold text-navy-700/45">Next →</span>
+                <span className="mt-0.5 truncate font-bold text-navy-800 group-hover:text-brand-700">
+                  {nextTopic.title}
+                </span>
+              </Link>
+            ) : (
+              <span />
+            )}
+          </div>
+        )}
       </main>
     </div>
   );

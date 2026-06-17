@@ -19,7 +19,7 @@ export const site: SiteConfig = {
   tagline: "IoT Marketplace · Training Academy · Project Lab",
   description:
     "Ready-made IoT project kits, custom engineering development, hands-on workshops and internships — all in one platform.",
-  email: "bheem@inventre.in",
+  email: "msprojects@techgamil.com",
   phone: "+91 90000 00000",
   whatsapp: "+919000000000",
   city: "Hyderabad, India",
