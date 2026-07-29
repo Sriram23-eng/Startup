@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 type ButtonProps = {
   children: ReactNode;
   href?: string;
-  variant?: "primary" | "ghost" | "white" | "outline";
+  variant?: "primary" | "ghost" | "white" | "outline" | "outline-light";
   size?: "sm" | "md" | "lg";
   className?: string;
   type?: "button" | "submit";
@@ -22,6 +22,11 @@ const variants: Record<string, string> = {
     "bg-white text-navy-800 shadow-card hover:-translate-y-0.5 hover:shadow-glow",
   outline:
     "border border-navy-700/20 text-navy-800 hover:border-brand-500 hover:text-brand-600 bg-white/60",
+  // For dark sections. Passing `bg-transparent` via className can't override
+  // `outline`'s bg-white/60 — same specificity, so source order in the
+  // generated stylesheet decides. This variant sets the background itself.
+  "outline-light":
+    "border border-white/35 bg-white/5 text-white hover:border-cyan-accent hover:bg-white/12 hover:-translate-y-0.5",
   ghost: "text-navy-700 hover:bg-brand-50",
 };
 
