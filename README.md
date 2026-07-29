@@ -44,7 +44,10 @@ vercel --prod   # production
 
 ## 🗄️ Database (Postgres) — for production / Vercel
 
-The admin panel (`/admin`, default password `admin123`) manages projects & courses.
+The admin panel (`/admin`) manages projects & courses. Its password comes from
+`ADMIN_PASSWORD` — in development that falls back to `admin123`, but production
+builds **fail** unless `ADMIN_PASSWORD`, `ADMIN_TOKEN` and `AUTH_SECRET` are all
+set (see `scripts/check-env.mjs`; run it any time with `npm run check-env`).
 The store auto-selects its backend:
 
 - **`DATABASE_URL` unset** → JSON files in `/data` (local dev, zero setup).
@@ -60,9 +63,11 @@ npm run db:seed                   # load the starter catalogue
 npm run dev
 ```
 
-On **Vercel**: add `DATABASE_URL`, `ADMIN_PASSWORD`, `ADMIN_TOKEN` in Project →
-Settings → Environment Variables, then run `npm run db:push && npm run db:seed`
-once (locally, pointing at the same URL) to create + seed the tables.
+On **Vercel**: add `DATABASE_URL`, `DATABASE_URL_UNPOOLED`, `ADMIN_PASSWORD`,
+`ADMIN_TOKEN` and `AUTH_SECRET` in Project → Settings → Environment Variables
+(values take **no quotes**), then run `npm run db:push && npm run db:seed` once
+(locally, pointing at the same URL) to create + seed the tables. A deploy that
+is missing any of the three secrets fails at the build step by design.
 
 ## 🔌 Wiring to a real backend (next steps)
 

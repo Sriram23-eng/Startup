@@ -72,8 +72,8 @@ export default function AdminLogin() {
         </Button>
 
         <p className="mt-4 text-center text-xs text-navy-700/40">
-          Default password: <span className="font-mono font-bold">admin123</span>{" "}
-          — change it via the <span className="font-mono">ADMIN_PASSWORD</span> env var.
+          Set via the <span className="font-mono">ADMIN_PASSWORD</span> environment
+          variable.
         </p>
       </form>
     </div>

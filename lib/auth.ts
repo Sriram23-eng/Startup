@@ -5,12 +5,19 @@
 import { scryptSync, randomBytes, createHmac, timingSafeEqual } from "crypto";
 import { cookies } from "next/headers";
 import { getUserById, type User } from "./accounts";
+import { requireSecret } from "./env";
 
 export const SESSION_COOKIE = "ms_user";
 
-// Used to sign the session cookie. Set AUTH_SECRET in production.
-const SECRET =
-  process.env.AUTH_SECRET || process.env.ADMIN_TOKEN || "dev-insecure-secret-change-me";
+// Used to sign the session cookie. AUTH_SECRET is required in production —
+// the build fails without it, and this throws rather than signing sessions
+// with a secret that is public in this repo. (ADMIN_TOKEN is accepted as a
+// fallback so sessions issued before AUTH_SECRET existed stay valid.)
+const SECRET = requireSecret(
+  "AUTH_SECRET",
+  process.env.AUTH_SECRET || process.env.ADMIN_TOKEN,
+  "dev-insecure-secret-change-me"
+);
 
 /* ---------------- Password hashing (scrypt) ---------------- */
 export function hashPassword(password: string): string {
