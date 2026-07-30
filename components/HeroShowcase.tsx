@@ -135,7 +135,7 @@ export default function HeroShowcase({
   if (bare) {
     return (
       <div
-        className="relative h-full min-h-[16rem] overflow-hidden rounded-2xl bg-navy-900"
+        className="relative min-h-[16rem] w-full flex-1 self-stretch overflow-hidden rounded-2xl bg-navy-900"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
       >

@@ -97,14 +97,23 @@ export default async function HomePage() {
   const fromPrice = allProjects.length
     ? Math.min(...allProjects.map((p) => p.price))
     : 0;
-  // Hero showcase: several real kit photos that crossfade. Featured kits
-  // first, then top-rated, so the rotation always has something to show.
+  // Hero showcase: featured kits first, then top-rated. The photos are
+  // curated electronics stock (verified to load) for a polished, on-brand
+  // hero — the owner can replace these with real product shots in admin.
+  const HERO_PHOTOS = [
+    "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=72",
+    "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=1400&q=72",
+    "https://images.unsplash.com/photo-1553406830-ef2513450d76?auto=format&fit=crop&w=1400&q=72",
+    "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?auto=format&fit=crop&w=1400&q=72",
+    "https://images.unsplash.com/photo-1601987077677-5346c0c57d3f?auto=format&fit=crop&w=1400&q=72",
+  ];
   const heroKits = [
     ...allProjects.filter((p) => p.featured),
     ...[...allProjects].sort((a, b) => (b.rating || 0) - (a.rating || 0)),
   ]
     .filter((p, i, arr) => arr.findIndex((x) => x.slug === p.slug) === i)
-    .slice(0, 5);
+    .slice(0, 5)
+    .map((p, i) => ({ ...p, image: HERO_PHOTOS[i % HERO_PHOTOS.length] }));
 
   return (
     <>
@@ -189,7 +198,7 @@ export default async function HomePage() {
           </div>
 
           {/* UI transitions — animated showcase */}
-          <div className="animate-rise rounded-3xl border border-white/10 bg-white/[0.03] p-2.5 backdrop-blur lg:col-span-8 [animation-delay:200ms]">
+          <div className="animate-rise flex min-h-[20rem] rounded-3xl border border-white/10 bg-white/[0.03] p-2.5 backdrop-blur lg:col-span-8 lg:min-h-[24rem] [animation-delay:200ms]">
             {heroKits.length > 0 && <HeroShowcase bare kits={heroKits} />}
           </div>
         </div>
