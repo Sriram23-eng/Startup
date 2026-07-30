@@ -24,12 +24,11 @@ import {
   IconUsers,
 } from "@/components/icons";
 import {
-  workshops,
   testimonials,
   partners,
   stats,
 } from "@/lib/data";
-import { getProjects, getCourses } from "@/lib/store";
+import { getProjects } from "@/lib/store";
 import { formatINR, site } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
@@ -86,11 +85,7 @@ const process: { title: string; desc: string; meta: string }[] = [
 ];
 
 export default async function HomePage() {
-  const [allProjects, allCourses] = await Promise.all([
-    getProjects(),
-    getCourses(),
-  ]);
-  const liveCourses = allCourses.filter((c) => c.mode === "Live").slice(0, 3);
+  const allProjects = await getProjects();
   const fromPrice = allProjects.length
     ? Math.min(...allProjects.map((p) => p.price))
     : 0;
@@ -219,7 +214,7 @@ export default async function HomePage() {
           {[
             ["Ready-made kits", "/projects"],
             ["Custom builds", "#paths"],
-            ["The academy", "#academy"],
+            ["Courses", "/courses"],
             ["Internships", "#internships"],
           ].map(([label, href]) => (
             <a
@@ -458,172 +453,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ===================== ACADEMY (dark anchor) ================== */}
-      {/* Workshops and live courses were two consecutive card grids. Merged
-          into one composite section — a list on the left, cohorts on the
-          right — so the page has a single dark anchor instead of two. */}
-      <section id="academy" className="relative scroll-mt-28 overflow-hidden bg-navy-900 py-24 text-white lg:py-32">
-        <div className="mesh pointer-events-none absolute inset-0 opacity-50" />
-        <div
-          aria-hidden
-          className="grid-lines pointer-events-none absolute inset-0 opacity-[0.18] [mask-image:linear-gradient(to_bottom,black,transparent)]"
-        />
-
-        <div className="container-x relative">
-          <div className="flex flex-wrap items-end justify-between gap-8">
-            <div className="max-w-2xl">
-              <div className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-cyan-accent">
-                The academy
-              </div>
-              <h2 className="text-3xl font-black tracking-tight text-balance sm:text-4xl">
-                Training that ends in something you built
-              </h2>
-              <p className="mt-4 leading-relaxed text-brand-100/75">
-                Bootcamps, FDPs and internships on your campus — or live online
-                cohorts you can join from anywhere.
-              </p>
-            </div>
-
-            {/* Balances the heading row and puts the academy’s proof up front. */}
-            <dl className="flex gap-6 sm:gap-10">
-              {[
-                ["9,200+", "Trained"],
-                ["60+", "Campuses"],
-                ["4.9", "Avg rating"],
-              ].map(([value, label]) => (
-                <div key={label}>
-                  <dt className="sr-only">{label}</dt>
-                  <dd className="text-2xl font-black tracking-tight text-white sm:text-3xl">
-                    {value}
-                  </dd>
-                  <div className="mt-1 text-[11px] font-bold uppercase tracking-wider text-brand-100/50">
-                    {label}
-                  </div>
-                </div>
-              ))}
-            </dl>
-          </div>
-
-          <div className="mt-12 grid gap-10 lg:grid-cols-12 lg:gap-12">
-            {/* Workshops — compact rows */}
-            <div className="lg:col-span-7">
-              <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-white/70">
-                  Workshops &amp; on-campus programs
-                </h3>
-                <Link
-                  href="/workshops"
-                  className="group inline-flex items-center gap-1.5 text-sm font-semibold text-cyan-accent"
-                >
-                  All programs
-                  <IconArrow
-                    className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-                    strokeWidth={2}
-                  />
-                </Link>
-              </div>
-
-              <div className="divide-y divide-white/10">
-                {workshops.map((w) => (
-                  <Link
-                    key={w.slug}
-                    href={`/workshops#${w.slug}`}
-                    className="group flex items-center gap-5 py-5 transition-colors hover:bg-white/[0.04]"
-                  >
-                    <div className="min-w-0 flex-1">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className="rounded-full bg-cyan-accent/15 px-2.5 py-0.5 text-[11px] font-bold text-cyan-accent">
-                          {w.mode}
-                        </span>
-                        <span className="text-[11px] font-semibold uppercase tracking-wider text-brand-100/50">
-                          {w.level} · {w.duration}
-                        </span>
-                      </div>
-                      <h4 className="mt-2 font-bold leading-snug text-white transition-colors group-hover:text-cyan-accent">
-                        {w.title}
-                      </h4>
-                      <p className="mt-1 line-clamp-1 text-sm text-brand-100/60">
-                        {w.blurb}
-                      </p>
-                    </div>
-                    <div className="shrink-0 text-right">
-                      <div className="text-[11px] uppercase tracking-wider text-brand-100/50">
-                        From
-                      </div>
-                      <div className="text-lg font-black text-white">
-                        {formatINR(w.priceFrom)}
-                      </div>
-                    </div>
-                    <IconArrow
-                      className="h-5 w-5 shrink-0 text-white/25 transition-all group-hover:translate-x-1 group-hover:text-cyan-accent"
-                      strokeWidth={2}
-                    />
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            {/* Live cohorts — cards */}
-            <div className="lg:col-span-5">
-              <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-white/70">
-                  Live online cohorts
-                </h3>
-                <Link
-                  href="/courses"
-                  className="group inline-flex items-center gap-1.5 text-sm font-semibold text-cyan-accent"
-                >
-                  All courses
-                  <IconArrow
-                    className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-                    strokeWidth={2}
-                  />
-                </Link>
-              </div>
-
-              <div className="mt-5 grid gap-4">
-                {liveCourses.map((c) => (
-                  <Link
-                    key={c.slug}
-                    href="/courses#enroll"
-                    className="ring-gradient ring-gradient-dark group rounded-2xl bg-white/[0.06] p-5 backdrop-blur lift hover:bg-white/[0.1]"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-red-500/15 px-2.5 py-1 text-[11px] font-bold text-red-300">
-                        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-400" />
-                        LIVE
-                      </span>
-                      {typeof c.seatsLeft === "number" && (
-                        <span className="text-xs font-bold text-amber-300">
-                          {c.seatsLeft} seats left
-                        </span>
-                      )}
-                    </div>
-                    <h4 className="mt-3 font-bold leading-snug text-white transition-colors group-hover:text-cyan-accent">
-                      {c.title}
-                    </h4>
-                    <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-brand-100/60">
-                      <span>Starts {c.startDate}</span>
-                      <span className="text-white/20">•</span>
-                      <span>{c.schedule}</span>
-                    </div>
-                    <div className="mt-4 flex items-baseline gap-2 border-t border-white/10 pt-3">
-                      <span className="text-lg font-black text-white">
-                        {formatINR(c.price)}
-                      </span>
-                      {c.oldPrice && (
-                        <span className="text-sm text-brand-100/45 line-through">
-                          {formatINR(c.oldPrice)}
-                        </span>
-                      )}
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ========================= INTERNSHIPS ======================= */}
       <section id="internships" className="scroll-mt-28 py-24 lg:py-28">
