@@ -109,6 +109,19 @@ body {
     color: transparent;
   }
 
+  /* Bright accent gradient for headlines on dark backgrounds. */
+  .text-gradient-light {
+    background: linear-gradient(
+      100deg,
+      var(--color-brand-300),
+      var(--color-cyan-accent) 52%,
+      #a7f3d0
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
   .grid-dots {
     background-image: radial-gradient(
       rgba(5, 150, 105, 0.18) 1px,

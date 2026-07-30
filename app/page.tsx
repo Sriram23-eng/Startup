@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { Button } from "@/components/ui";
 import ProjectCard from "@/components/ProjectCard";
 import HeroShowcase from "@/components/HeroShowcase";
+import RotatingWords from "@/components/RotatingWords";
 import {
   CategoryIcon,
   IconArrow,
@@ -106,119 +107,117 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ============================ HERO ============================ */}
-      <section className="relative overflow-hidden bg-[#f7f9fd]">
+      {/* ==================== HERO (cinematic, dark) ==================== */}
+      <section className="relative overflow-hidden bg-navy-950 text-white">
         <div aria-hidden className="pointer-events-none absolute inset-0">
-          <div className="animate-drift absolute -left-32 -top-40 h-[30rem] w-[30rem] rounded-full bg-brand-400/25 blur-[140px]" />
-          <div className="animate-drift absolute -right-20 top-0 h-[24rem] w-[24rem] rounded-full bg-cyan-accent/20 blur-[130px] [animation-delay:-6s]" />
-          <div className="absolute -bottom-32 left-1/3 h-80 w-80 rounded-full bg-brand-600/12 blur-[130px]" />
-          <div className="grid-lines absolute inset-0 [mask-image:radial-gradient(70%_55%_at_50%_20%,black,transparent)]" />
+          <div className="mesh absolute inset-0 opacity-60" />
+          <div className="animate-drift absolute -left-40 -top-44 h-[38rem] w-[38rem] rounded-full bg-brand-500/25 blur-[150px]" />
+          <div className="animate-drift absolute -right-32 top-8 h-[32rem] w-[32rem] rounded-full bg-cyan-accent/18 blur-[150px] [animation-delay:-6s]" />
+          <div className="grid-lines absolute inset-0 opacity-[0.14] [mask-image:radial-gradient(78%_60%_at_50%_22%,black,transparent)]" />
         </div>
 
-        <div className="container-x relative grid items-center gap-10 py-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10 lg:py-24">
-          {/* ---- Copy column ---- */}
-          <div className="animate-rise">
-            <div className="inline-flex items-center gap-2.5 rounded-full border border-line-strong bg-white/80 px-3.5 py-1.5 text-xs font-semibold text-ink-700 shadow-sm backdrop-blur">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-              </span>
-              Marketplace · Academy · Project Lab
-            </div>
+        <div className="container-x relative flex flex-col items-center py-24 text-center lg:py-28">
+          <div className="animate-rise inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold text-brand-100/90 backdrop-blur">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+            </span>
+            Marketplace · Academy · Project Lab
+          </div>
 
-            <h1 className="mt-6 text-[2.15rem] font-black leading-[1.02] tracking-[-0.03em] text-balance text-ink-900 min-[420px]:text-[2.6rem] sm:text-[3.4rem] lg:text-[3.7rem]">
-              Build, learn and ship{" "}
-              <span className="text-gradient">real-world IoT</span>
-            </h1>
+          <h1 className="animate-rise mt-7 max-w-4xl text-[2.6rem] font-black leading-[0.98] tracking-[-0.04em] text-balance sm:text-6xl lg:text-7xl [animation-delay:60ms]">
+            Build, learn and ship
+            <br className="hidden sm:block" />{" "}
+            <RotatingWords
+              className="text-gradient-light"
+              words={[
+                "real-world IoT",
+                "LoRa networks",
+                "edge AI",
+                "robotics",
+                "smart factories",
+              ]}
+            />
+          </h1>
 
-            <p className="mt-6 max-w-lg text-lg leading-relaxed text-pretty text-ink-600">
-              Ready-made kits, custom engineering builds, and hands-on training,
-              with the hardware, code and people to back every project.
-            </p>
+          <p className="animate-rise mt-6 max-w-xl text-lg leading-relaxed text-brand-100/70 [animation-delay:120ms]">
+            Ready-made kits, custom engineering builds, and hands-on training,
+            with the hardware, code and people to back every project.
+          </p>
 
-            {/* One primary action. The old three-equal-buttons row made every
-                option look equally likely, which is how nobody clicks any. */}
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Button href="/projects" size="lg">
-                Explore project kits
-                <IconArrow className="h-4 w-4" strokeWidth={2} />
-              </Button>
-              <Button href="/custom-project" variant="white" size="lg">
-                Request a custom build
-              </Button>
-              <Link
-                href="/workshops"
-                className="group inline-flex items-center gap-1.5 px-1 py-2 text-sm font-semibold text-ink-600 underline-offset-4 transition hover:text-brand-600 hover:underline"
-              >
-                or book a workshop
-                <IconArrow
-                  className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-                  strokeWidth={2}
-                />
-              </Link>
-            </div>
+          <div className="animate-rise mt-9 flex flex-wrap items-center justify-center gap-3 [animation-delay:180ms]">
+            <Button href="/projects" size="lg">
+              Explore project kits
+              <IconArrow className="h-4 w-4" strokeWidth={2} />
+            </Button>
+            <Button href="/custom-project" variant="outline-light" size="lg">
+              Request a custom build
+            </Button>
+          </div>
 
-            {/* Social proof */}
-            <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
-              <div className="flex -space-x-2.5">
-                {[
-                  ["from-brand-500 to-brand-700", "A"],
-                  ["from-cyan-accent to-brand-500", "S"],
-                  ["from-navy-700 to-navy-900", "R"],
-                  ["from-emerald-400 to-emerald-600", "K"],
-                ].map(([g, ch]) => (
-                  <span
-                    key={ch}
-                    className={`grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br ${g} text-xs font-bold text-white ring-2 ring-[#f7f9fd]`}
-                  >
-                    {ch}
-                  </span>
-                ))}
-              </div>
-              <div className="text-sm">
-                <div className="flex items-center gap-1 font-bold text-ink-900">
-                  <span className="flex text-amber-400">
-                    {[0, 1, 2, 3, 4].map((i) => (
-                      <IconStar key={i} className="h-4 w-4 fill-amber-400" />
-                    ))}
-                  </span>
-                  4.9/5
-                </div>
-                <div className="text-xs font-medium text-ink-400">
-                  from 9,200+ students &amp; engineering teams
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-9 grid max-w-xl grid-cols-2 gap-y-5 border-t border-line pt-7 sm:grid-cols-4 sm:divide-x sm:divide-line">
-              {stats.map((s, i) => (
-                <div key={s.label} className={i > 0 ? "sm:pl-5" : ""}>
-                  <div className="text-2xl font-black tracking-tight text-ink-900">
-                    {s.value}
-                  </div>
-                  <div className="mt-0.5 text-xs font-medium text-ink-400">
-                    {s.label}
-                  </div>
-                </div>
+          {/* Social proof */}
+          <div className="animate-rise mt-8 flex items-center gap-3 [animation-delay:240ms]">
+            <div className="flex -space-x-2.5">
+              {[
+                ["from-brand-400 to-brand-600", "A"],
+                ["from-cyan-accent to-brand-500", "S"],
+                ["from-emerald-300 to-emerald-500", "R"],
+                ["from-brand-500 to-brand-700", "K"],
+              ].map(([g, ch]) => (
+                <span
+                  key={ch}
+                  className={`grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br ${g} text-xs font-bold text-white ring-2 ring-navy-950`}
+                >
+                  {ch}
+                </span>
               ))}
+            </div>
+            <div className="text-left text-sm">
+              <div className="flex items-center gap-1 font-bold text-white">
+                <span className="flex text-amber-400">
+                  {[0, 1, 2, 3, 4].map((i) => (
+                    <IconStar key={i} className="h-4 w-4 fill-amber-400" />
+                  ))}
+                </span>
+                4.9/5
+              </div>
+              <div className="text-xs text-brand-100/55">
+                from 9,200+ students &amp; engineering teams
+              </div>
             </div>
           </div>
 
-          {/* ---- Animated multi-photo product showcase ---- */}
-          {heroKits.length > 0 && <HeroShowcase kits={heroKits} />}
+          {/* Cinematic product showcase, centre stage */}
+          <div className="animate-rise mt-14 w-full max-w-3xl [animation-delay:300ms]">
+            {heroKits.length > 0 && <HeroShowcase kits={heroKits} />}
+          </div>
+
+          {/* Stats band */}
+          <div className="mt-16 grid w-full max-w-3xl grid-cols-2 gap-y-6 border-t border-white/10 pt-8 sm:grid-cols-4 sm:divide-x sm:divide-white/10">
+            {stats.map((s, i) => (
+              <div key={s.label} className={i > 0 ? "sm:pl-5" : ""}>
+                <div className="text-2xl font-black tracking-tight text-white sm:text-3xl">
+                  {s.value}
+                </div>
+                <div className="mt-0.5 text-xs font-medium text-brand-100/55">
+                  {s.label}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Capability strip — closes the hero and answers "what do I get?" */}
-        <div className="relative border-t border-line bg-white/60 backdrop-blur">
-          <div className="container-x grid gap-x-8 gap-y-5 py-6 sm:grid-cols-3">
+        {/* Capability strip — dark, closes the hero */}
+        <div className="relative border-t border-white/10 bg-white/[0.03] backdrop-blur">
+          <div className="container-x grid gap-x-8 gap-y-4 py-6 sm:grid-cols-3">
             {capabilities.map(({ Icon, title, desc }) => (
               <div key={title} className="flex items-center gap-3.5">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand-50 text-brand-600">
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/5 text-cyan-accent ring-1 ring-white/10">
                   <Icon className="h-5 w-5" />
                 </span>
                 <div>
-                  <div className="text-sm font-bold text-ink-900">{title}</div>
-                  <div className="text-xs text-ink-400">{desc}</div>
+                  <div className="text-sm font-bold text-white">{title}</div>
+                  <div className="text-xs text-brand-100/55">{desc}</div>
                 </div>
               </div>
             ))}
