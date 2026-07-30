@@ -4,6 +4,7 @@ import { Button } from "@/components/ui";
 import ProjectCard from "@/components/ProjectCard";
 import HeroShowcase from "@/components/HeroShowcase";
 import RotatingWords from "@/components/RotatingWords";
+import { LogoMark } from "@/components/Logo";
 import {
   CategoryIcon,
   IconArrow,
@@ -107,102 +108,89 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ==================== HERO (cinematic, dark) ==================== */}
+      {/* ==================== HERO (bento grid) ==================== */}
       <section className="relative overflow-hidden bg-navy-950 text-white">
         <div aria-hidden className="pointer-events-none absolute inset-0">
-          <div className="mesh absolute inset-0 opacity-60" />
-          <div className="animate-drift absolute -left-40 -top-44 h-[38rem] w-[38rem] rounded-full bg-brand-500/25 blur-[150px]" />
-          <div className="animate-drift absolute -right-32 top-8 h-[32rem] w-[32rem] rounded-full bg-cyan-accent/18 blur-[150px] [animation-delay:-6s]" />
-          <div className="grid-lines absolute inset-0 opacity-[0.14] [mask-image:radial-gradient(78%_60%_at_50%_22%,black,transparent)]" />
+          <div className="mesh absolute inset-0 opacity-45" />
+          <div className="animate-drift absolute -left-40 -top-44 h-[36rem] w-[36rem] rounded-full bg-brand-500/22 blur-[150px]" />
+          <div className="animate-drift absolute -right-32 top-8 h-[30rem] w-[30rem] rounded-full bg-cyan-accent/14 blur-[150px] [animation-delay:-6s]" />
         </div>
 
-        <div className="container-x relative flex flex-col items-center py-16 text-center lg:py-20">
-          <div className="animate-rise inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold text-brand-100/90 backdrop-blur">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
-            </span>
-            Marketplace · Academy · Project Lab
+        <div className="container-x relative grid gap-4 py-10 lg:grid-cols-12 lg:py-14">
+          {/* TEXT — headline */}
+          <div className="animate-rise relative flex flex-col justify-center overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur lg:col-span-8 lg:p-12">
+            <div className="grid-lines pointer-events-none absolute inset-0 opacity-[0.1]" />
+            <div className="relative">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs font-semibold text-brand-100/90">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-brand-400" />
+                Marketplace · Academy · Project Lab
+              </div>
+              <h1 className="mt-5 text-[2.3rem] font-black leading-[1.05] tracking-[-0.035em] sm:text-5xl lg:text-6xl">
+                Build, learn and ship
+                <br />
+                <RotatingWords
+                  words={[
+                    "real-world IoT",
+                    "LoRa networks",
+                    "edge AI",
+                    "robotics",
+                    "smart factories",
+                  ]}
+                />
+              </h1>
+              <p className="mt-5 max-w-lg text-base leading-relaxed text-brand-100/70 sm:text-lg">
+                Ready-made kits, custom engineering builds, and hands-on
+                training, with the hardware, code and people to back every
+                project.
+              </p>
+              <div className="mt-7 flex flex-wrap gap-3">
+                <Button href="/projects" size="lg">
+                  Explore project kits
+                  <IconArrow className="h-4 w-4" strokeWidth={2} />
+                </Button>
+                <Button href="/custom-project" variant="outline-light" size="lg">
+                  Request a custom build
+                </Button>
+              </div>
+            </div>
           </div>
 
-          <h1 className="animate-rise mt-6 max-w-4xl text-[2.5rem] font-black leading-[1.06] tracking-[-0.035em] sm:text-6xl lg:text-7xl [animation-delay:60ms]">
-            Build, learn and ship
-            <br />
-            <RotatingWords
-              words={[
-                "real-world IoT",
-                "LoRa networks",
-                "edge AI",
-                "robotics",
-                "smart factories",
-              ]}
-            />
-          </h1>
-
-          <p className="animate-rise mt-5 max-w-xl text-base leading-relaxed text-brand-100/70 sm:text-lg [animation-delay:120ms]">
-            Ready-made kits, custom engineering builds, and hands-on training,
-            with the hardware, code and people to back every project.
-          </p>
-
-          <div className="animate-rise mt-8 flex flex-wrap items-center justify-center gap-3 [animation-delay:180ms]">
-            <Button href="/projects" size="lg">
-              Explore project kits
-              <IconArrow className="h-4 w-4" strokeWidth={2} />
-            </Button>
-            <Button href="/custom-project" variant="outline-light" size="lg">
-              Request a custom build
-            </Button>
+          {/* LOGO */}
+          <div className="animate-rise relative flex flex-col items-center justify-center gap-4 overflow-hidden rounded-3xl border border-brand-500/25 bg-gradient-to-br from-brand-600/20 via-navy-900 to-navy-900 p-8 text-center backdrop-blur lg:col-span-4 [animation-delay:80ms]">
+            <div className="grid-dots pointer-events-none absolute inset-0 opacity-40" />
+            <div className="relative">
+              <LogoMark className="mx-auto h-20 w-20 text-brand-400" />
+              <div className="mt-4 text-2xl font-black tracking-tight">
+                Elektron <span className="text-brand-400">Nexus</span>
+              </div>
+              <div className="mt-1.5 text-[11px] font-bold uppercase tracking-[0.24em] text-brand-100/60">
+                Core Electronics Hub
+              </div>
+            </div>
           </div>
 
-          {/* Social proof */}
-          <div className="animate-rise mt-8 flex items-center gap-3 [animation-delay:240ms]">
-            <div className="flex -space-x-2.5">
-              {[
-                ["from-brand-400 to-brand-600", "A"],
-                ["from-cyan-accent to-brand-500", "S"],
-                ["from-emerald-300 to-emerald-500", "R"],
-                ["from-brand-500 to-brand-700", "K"],
-              ].map(([g, ch]) => (
-                <span
-                  key={ch}
-                  className={`grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br ${g} text-xs font-bold text-white ring-2 ring-navy-950`}
-                >
-                  {ch}
-                </span>
+          {/* VALUE — stats */}
+          <div className="animate-rise flex flex-col justify-center rounded-3xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur lg:col-span-4 [animation-delay:160ms]">
+            <div className="text-xs font-bold uppercase tracking-[0.2em] text-cyan-accent">
+              Trusted at scale
+            </div>
+            <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6">
+              {stats.map((s) => (
+                <div key={s.label}>
+                  <div className="text-2xl font-black tracking-tight sm:text-3xl">
+                    {s.value}
+                  </div>
+                  <div className="mt-0.5 text-xs text-brand-100/55">
+                    {s.label}
+                  </div>
+                </div>
               ))}
             </div>
-            <div className="text-left text-sm">
-              <div className="flex items-center gap-1 font-bold text-white">
-                <span className="flex text-amber-400">
-                  {[0, 1, 2, 3, 4].map((i) => (
-                    <IconStar key={i} className="h-4 w-4 fill-amber-400" />
-                  ))}
-                </span>
-                4.9/5
-              </div>
-              <div className="text-xs text-brand-100/55">
-                from 9,200+ students &amp; engineering teams
-              </div>
-            </div>
           </div>
 
-          {/* Cinematic product showcase, centre stage */}
-          <div className="animate-rise mt-11 w-full max-w-3xl [animation-delay:300ms]">
-            {heroKits.length > 0 && <HeroShowcase kits={heroKits} />}
-          </div>
-
-          {/* Stats band */}
-          <div className="mt-12 grid w-full max-w-3xl grid-cols-2 gap-y-6 border-t border-white/10 pt-8 sm:grid-cols-4 sm:divide-x sm:divide-white/10">
-            {stats.map((s, i) => (
-              <div key={s.label} className={i > 0 ? "sm:pl-5" : ""}>
-                <div className="text-2xl font-black tracking-tight text-white sm:text-3xl">
-                  {s.value}
-                </div>
-                <div className="mt-0.5 text-xs font-medium text-brand-100/55">
-                  {s.label}
-                </div>
-              </div>
-            ))}
+          {/* UI transitions — animated showcase */}
+          <div className="animate-rise rounded-3xl border border-white/10 bg-white/[0.03] p-2.5 backdrop-blur lg:col-span-8 [animation-delay:200ms]">
+            {heroKits.length > 0 && <HeroShowcase bare kits={heroKits} />}
           </div>
         </div>
 
