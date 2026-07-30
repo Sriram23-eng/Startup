@@ -16,8 +16,8 @@ import {
 } from "@/components/icons";
 
 /* ------------------------------------------------------------------ */
-/*  The "about" story sections (pillars, mission & values, timeline,   */
-/*  why teams pick us). Shared by /about and the home page.            */
+/*  The "about" story sections (pillars, mission & values, why teams   */
+/*  pick us). Shared by /about and the home page.                      */
 /* ------------------------------------------------------------------ */
 type Glyph = (p: { className?: string; strokeWidth?: number }) => ReactNode;
 
@@ -78,29 +78,6 @@ const values: { Icon: Glyph; title: string; desc: string }[] = [
   },
 ];
 
-const timeline: { year: string; title: string; desc: string }[] = [
-  {
-    year: "2022",
-    title: "Started as a campus project lab",
-    desc: "Helping final-year students ship working IoT projects instead of slide decks.",
-  },
-  {
-    year: "2023",
-    title: "Launched ready-made kits",
-    desc: "Packaged our most-requested builds into fully documented, shippable kits.",
-  },
-  {
-    year: "2024",
-    title: "Training academy & internships",
-    desc: "Workshops, FDPs and mentor-led internships rolled out across colleges.",
-  },
-  {
-    year: "2026",
-    title: "One full platform",
-    desc: "Marketplace, academy, project lab and learning system under one roof.",
-  },
-];
-
 const differentiators: { Icon: Glyph; title: string; desc: string }[] = [
   {
     Icon: IconShield,
@@ -142,7 +119,7 @@ export default function AboutStory() {
         <div className="container-x">
           <div className="reveal mx-auto max-w-2xl text-center">
             <div className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-brand-600">
-              What we are
+              What we do
             </div>
             <h2 className="text-[2rem] font-black leading-[1.05] tracking-[-0.02em] text-balance text-ink-900 sm:text-4xl lg:text-[2.7rem]">
               Three businesses that feed each other
@@ -231,44 +208,6 @@ export default function AboutStory() {
                 <h3 className="mt-4 font-bold text-ink-900">{title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-ink-600">
                   {desc}
-                </p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      {/* ========================== TIMELINE ========================= */}
-      <section className="py-20 lg:py-24">
-        <div className="container-x">
-          <div className="reveal mx-auto max-w-2xl text-center">
-            <div className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-brand-600">
-              Our journey
-            </div>
-            <h2 className="text-[2rem] font-black leading-[1.05] tracking-[-0.02em] text-balance text-ink-900 sm:text-4xl lg:text-[2.7rem]">
-              From a campus lab to a full platform
-            </h2>
-          </div>
-
-          <ol className="reveal-late relative mt-14 grid gap-10 md:grid-cols-4 md:gap-6">
-            <div
-              aria-hidden
-              className="absolute left-0 right-0 top-3 hidden h-px bg-gradient-to-r from-brand-200 via-brand-400 to-brand-200 md:block"
-            />
-            {timeline.map((t) => (
-              <li
-                key={t.year}
-                className="relative pl-10 before:absolute before:left-3 before:top-6 before:h-full before:w-px before:bg-line last:before:hidden md:pl-0 md:before:hidden"
-              >
-                <span className="absolute left-0 top-0 z-10 grid h-6 w-6 place-items-center rounded-full border-2 border-brand-500 bg-white md:relative md:left-auto md:top-auto">
-                  <span className="h-2 w-2 rounded-full bg-brand-500" />
-                </span>
-                <div className="text-sm font-black tracking-[0.12em] text-brand-600 md:mt-5">
-                  {t.year}
-                </div>
-                <h3 className="mt-2 font-bold text-ink-900">{t.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink-600">
-                  {t.desc}
                 </p>
               </li>
             ))}
