@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { workshops } from "@/lib/data";
 import { Badge, SectionHeading } from "@/components/ui";
+import PageHero from "@/components/PageHero";
 import { IconArrow, IconCheck } from "@/components/icons";
 import WorkshopForm from "@/components/WorkshopForm";
 
@@ -15,39 +16,30 @@ const flow = ["Request", "Discussion", "Proposal", "Approval", "Execution"];
 export default function WorkshopsPage() {
   return (
     <>
-      <section className="relative overflow-hidden border-b border-line bg-[#f7f9fd]">
-        <div aria-hidden className="pointer-events-none absolute inset-0">
-          <div className="animate-drift absolute -left-24 -top-28 h-[26rem] w-[26rem] rounded-full bg-brand-400/22 blur-[130px]" />
-          <div className="animate-drift absolute right-0 top-0 h-80 w-80 rounded-full bg-cyan-accent/18 blur-[130px] [animation-delay:-7s]" />
-          <div className="grid-lines absolute inset-0 [mask-image:radial-gradient(75%_60%_at_50%_10%,black,transparent)]" />
-        </div>
-        <div className="container-x relative py-16">
-          <div className="animate-rise">
-            <Badge tone="cyan">Workshops &amp; Training</Badge>
-            <h1 className="mt-5 max-w-2xl text-4xl font-black leading-[1.06] tracking-[-0.025em] text-balance text-ink-900 sm:text-5xl">
-              Hands-on programs for{" "}
-              <span className="text-gradient">students, faculty &amp; teams</span>
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-pretty text-ink-600">
-              Bootcamps, internships, FDPs and corporate training — delivered
-              online, at your campus, or in the field.
-            </p>
-
-            <div className="mt-8 flex flex-wrap items-center gap-2">
-              {flow.map((s, i) => (
-                <span key={s} className="flex items-center gap-2">
-                  <span className="rounded-full border border-line-strong bg-white/80 px-3.5 py-1.5 text-sm font-semibold text-ink-700 backdrop-blur">
-                    {s}
-                  </span>
-                  {i < flow.length - 1 && (
-                    <span className="text-brand-400">→</span>
-                  )}
+      <PageHero
+        eyebrow="Workshops & Training"
+        title={
+          <>
+            Hands-on programs for{" "}
+            <span className="text-gradient-light">students, faculty &amp; teams</span>
+          </>
+        }
+        subtitle="Bootcamps, internships, FDPs and corporate training, delivered online, at your campus, or in the field."
+        actions={
+          <div className="flex flex-wrap items-center gap-2">
+            {flow.map((s, i) => (
+              <span key={s} className="flex items-center gap-2">
+                <span className="rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-sm font-semibold text-brand-100/90 backdrop-blur">
+                  {s}
                 </span>
-              ))}
-            </div>
+                {i < flow.length - 1 && (
+                  <span className="text-cyan-accent">→</span>
+                )}
+              </span>
+            ))}
           </div>
-        </div>
-      </section>
+        }
+      />
 
       <section className="py-16">
         <div className="container-x grid gap-12 lg:grid-cols-[1fr_440px]">

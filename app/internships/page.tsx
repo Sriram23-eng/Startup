@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { Badge, Button, SectionHeading } from "@/components/ui";
+import { Button, SectionHeading } from "@/components/ui";
+import PageHero from "@/components/PageHero";
 import InternshipForm from "@/components/InternshipForm";
 import { categories } from "@/lib/data";
 
@@ -31,58 +31,49 @@ const stages = [
 export default function InternshipsPage() {
   return (
     <>
-      <section className="relative overflow-hidden border-b border-line bg-[#f7f9fd]">
-        <div aria-hidden className="pointer-events-none absolute inset-0">
-          <div className="animate-drift absolute -left-24 -top-28 h-[26rem] w-[26rem] rounded-full bg-brand-400/22 blur-[130px]" />
-          <div className="animate-drift absolute right-0 top-0 h-80 w-80 rounded-full bg-cyan-accent/18 blur-[130px] [animation-delay:-7s]" />
-          <div className="grid-lines absolute inset-0 [mask-image:radial-gradient(75%_60%_at_50%_10%,black,transparent)]" />
-        </div>
-        <div className="container-x relative grid items-center gap-10 py-16 lg:grid-cols-[1fr_420px]">
-          <div className="animate-rise">
-            <Badge tone="cyan">Student Internship Portal</Badge>
-            <h1 className="mt-5 max-w-3xl text-4xl font-black leading-[1.06] tracking-[-0.025em] text-balance text-ink-900 sm:text-5xl">
-              Build real engineering proof, not just a{" "}
-              <span className="text-gradient">certificate</span>.
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-pretty text-ink-600">
-              Students work on guided IoT, embedded, AI and robotics projects
-              with milestone reviews, downloadable offer letters and online
-              certificate verification.
-            </p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <Button href="#apply" size="lg">
-                Apply now
-              </Button>
-              <Button href="/learn#verify" variant="outline" size="lg">
-                Verify certificate
-              </Button>
+      <PageHero
+        eyebrow="Student Internship Portal"
+        title={
+          <>
+            Build real engineering proof, not just a{" "}
+            <span className="text-gradient-light">certificate</span>.
+          </>
+        }
+        subtitle="Students work on guided IoT, embedded, AI and robotics projects with milestone reviews, downloadable offer letters and online certificate verification."
+        actions={
+          <>
+            <Button href="#apply" size="lg">
+              Apply now
+            </Button>
+            <Button href="/learn#verify" variant="outline-light" size="lg">
+              Verify certificate
+            </Button>
+          </>
+        }
+        aside={
+          <div className="ring-gradient-dark ring-gradient rounded-3xl bg-white/[0.04] p-6 backdrop-blur">
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-cyan-accent">
+              Internship status
+            </div>
+            <div className="mt-4 space-y-3">
+              {stages.map((stage, index) => (
+                <div key={stage} className="flex items-center gap-3">
+                  <span
+                    className={`grid h-8 w-8 place-items-center rounded-full text-xs font-bold ${
+                      index < 3
+                        ? "bg-cyan-accent text-navy-900"
+                        : "bg-white/10 text-brand-100/50"
+                    }`}
+                  >
+                    {index + 1}
+                  </span>
+                  <span className="text-sm font-semibold text-white">{stage}</span>
+                </div>
+              ))}
             </div>
           </div>
-          <div className="ring-gradient animate-rise rounded-3xl bg-white/75 p-2 shadow-glow backdrop-blur-xl [animation-delay:120ms]">
-            <div className="rounded-[1.35rem] bg-navy-900 p-6 text-white">
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-cyan-accent">
-                Internship status
-              </div>
-              <div className="mt-4 space-y-3">
-                {stages.map((stage, index) => (
-                  <div key={stage} className="flex items-center gap-3">
-                    <span
-                      className={`grid h-8 w-8 place-items-center rounded-full text-xs font-bold ${
-                        index < 3
-                          ? "bg-cyan-accent text-navy-900"
-                          : "bg-white/10 text-brand-100/50"
-                      }`}
-                    >
-                      {index + 1}
-                    </span>
-                    <span className="text-sm font-semibold">{stage}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+        }
+      />
 
       <section className="py-16">
         <div className="container-x">
