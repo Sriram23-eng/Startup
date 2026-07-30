@@ -116,7 +116,7 @@ export default async function HomePage() {
           <div className="grid-lines absolute inset-0 opacity-[0.14] [mask-image:radial-gradient(78%_60%_at_50%_22%,black,transparent)]" />
         </div>
 
-        <div className="container-x relative flex flex-col items-center py-24 text-center lg:py-28">
+        <div className="container-x relative flex flex-col items-center py-16 text-center lg:py-20">
           <div className="animate-rise inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold text-brand-100/90 backdrop-blur">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
@@ -125,11 +125,10 @@ export default async function HomePage() {
             Marketplace · Academy · Project Lab
           </div>
 
-          <h1 className="animate-rise mt-7 max-w-4xl text-[2.6rem] font-black leading-[0.98] tracking-[-0.04em] text-balance sm:text-6xl lg:text-7xl [animation-delay:60ms]">
+          <h1 className="animate-rise mt-6 max-w-4xl text-[2.5rem] font-black leading-[1.06] tracking-[-0.035em] sm:text-6xl lg:text-7xl [animation-delay:60ms]">
             Build, learn and ship
-            <br className="hidden sm:block" />{" "}
+            <br />
             <RotatingWords
-              className="text-gradient-light"
               words={[
                 "real-world IoT",
                 "LoRa networks",
@@ -140,12 +139,12 @@ export default async function HomePage() {
             />
           </h1>
 
-          <p className="animate-rise mt-6 max-w-xl text-lg leading-relaxed text-brand-100/70 [animation-delay:120ms]">
+          <p className="animate-rise mt-5 max-w-xl text-base leading-relaxed text-brand-100/70 sm:text-lg [animation-delay:120ms]">
             Ready-made kits, custom engineering builds, and hands-on training,
             with the hardware, code and people to back every project.
           </p>
 
-          <div className="animate-rise mt-9 flex flex-wrap items-center justify-center gap-3 [animation-delay:180ms]">
+          <div className="animate-rise mt-8 flex flex-wrap items-center justify-center gap-3 [animation-delay:180ms]">
             <Button href="/projects" size="lg">
               Explore project kits
               <IconArrow className="h-4 w-4" strokeWidth={2} />
@@ -188,12 +187,12 @@ export default async function HomePage() {
           </div>
 
           {/* Cinematic product showcase, centre stage */}
-          <div className="animate-rise mt-14 w-full max-w-3xl [animation-delay:300ms]">
+          <div className="animate-rise mt-11 w-full max-w-3xl [animation-delay:300ms]">
             {heroKits.length > 0 && <HeroShowcase kits={heroKits} />}
           </div>
 
           {/* Stats band */}
-          <div className="mt-16 grid w-full max-w-3xl grid-cols-2 gap-y-6 border-t border-white/10 pt-8 sm:grid-cols-4 sm:divide-x sm:divide-white/10">
+          <div className="mt-12 grid w-full max-w-3xl grid-cols-2 gap-y-6 border-t border-white/10 pt-8 sm:grid-cols-4 sm:divide-x sm:divide-white/10">
             {stats.map((s, i) => (
               <div key={s.label} className={i > 0 ? "sm:pl-5" : ""}>
                 <div className="text-2xl font-black tracking-tight text-white sm:text-3xl">

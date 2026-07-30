@@ -91,10 +91,10 @@ body {
 @layer utilities {
   .container-x {
     width: 100%;
-    max-width: 1240px;
+    max-width: 1280px;
     margin-inline: auto;
-    /* Breathes on desktop, stays tight on phones. */
-    padding-inline: clamp(1.25rem, 3vw, 2.75rem);
+    /* Comfortable on phones, not over-inset on desktop. */
+    padding-inline: clamp(1.1rem, 2.4vw, 2rem);
   }
 
   .text-gradient {
@@ -238,6 +238,23 @@ body {
       animation-range: entry 10% cover 32%;
     }
   }
+}
+
+/* Rotating headline word entrance */
+@keyframes word-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.32em);
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+.animate-word-in {
+  animation: word-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 /* Entrance animation */

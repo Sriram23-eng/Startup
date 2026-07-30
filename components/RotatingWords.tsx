@@ -1,10 +1,10 @@
 "use client";
 
 /* ------------------------------------------------------------------ */
-/*  Rotating headline word (Apple / OPPO style). Crossfades through a   */
-/*  list of phrases with a soft blur + slide. A hidden sizer holds the  */
-/*  width of the longest phrase so nothing reflows. Honours reduced     */
-/*  motion (shows the first phrase, no cycling).                       */
+/*  Rotating headline word (Apple / OPPO style). Only ONE word is ever  */
+/*  rendered, positioned over an invisible sizer that holds the width   */
+/*  of the longest phrase so nothing reflows and nothing can overlap.   */
+/*  Each swap re-runs a blur + slide entrance. Reduced-motion aware.    */
 /* ------------------------------------------------------------------ */
 import { useEffect, useState } from "react";
 
@@ -37,23 +37,20 @@ export default function RotatingWords({
   const longest = words.reduce((a, b) => (b.length > a.length ? b : a), "");
 
   return (
-    <span className={`relative inline-grid align-baseline ${className}`}>
-      <span className="invisible col-start-1 row-start-1 whitespace-nowrap" aria-hidden>
+    <span className={`relative inline-block whitespace-nowrap ${className}`}>
+      {/* Invisible sizer holds the box; nothing is painted for it. */}
+      <span className="invisible" aria-hidden>
         {longest}
       </span>
-      {words.map((w, idx) => (
-        <span
-          key={w}
-          aria-hidden={idx !== i}
-          className={`col-start-1 row-start-1 whitespace-nowrap transition-all duration-500 ease-out ${
-            idx === i
-              ? "opacity-100 translate-y-0 blur-0"
-              : "opacity-0 translate-y-[0.35em] blur-[3px]"
-          }`}
-        >
-          {w}
-        </span>
-      ))}
+      {/* The single visible word, re-animated on each change via key. */}
+      <span
+        key={i}
+        className={`text-gradient-light absolute left-0 top-0 ${
+          reduced ? "" : "animate-word-in"
+        }`}
+      >
+        {words[i]}
+      </span>
     </span>
   );
 }
