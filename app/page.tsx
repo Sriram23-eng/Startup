@@ -1,8 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui";
 import ProjectCard from "@/components/ProjectCard";
+import HeroShowcase from "@/components/HeroShowcase";
 import {
   CategoryIcon,
   IconArrow,
@@ -17,7 +17,6 @@ import {
   IconMail,
   IconPhone,
   IconPin,
-  IconShield,
   IconSparkle,
   IconStar,
   IconTruck,
@@ -96,11 +95,14 @@ export default async function HomePage() {
   const fromPrice = allProjects.length
     ? Math.min(...allProjects.map((p) => p.price))
     : 0;
-  // Real hero product: the featured kit, else the top-rated one. A genuine
-  // photo replaces the old fake sensor console (a taste-skill hero no-no).
-  const heroKit =
-    allProjects.find((p) => p.featured) ??
-    [...allProjects].sort((a, b) => (b.rating || 0) - (a.rating || 0))[0];
+  // Hero showcase: several real kit photos that crossfade. Featured kits
+  // first, then top-rated, so the rotation always has something to show.
+  const heroKits = [
+    ...allProjects.filter((p) => p.featured),
+    ...[...allProjects].sort((a, b) => (b.rating || 0) - (a.rating || 0)),
+  ]
+    .filter((p, i, arr) => arr.findIndex((x) => x.slug === p.slug) === i)
+    .slice(0, 5);
 
   return (
     <>
@@ -113,7 +115,7 @@ export default async function HomePage() {
           <div className="grid-lines absolute inset-0 [mask-image:radial-gradient(70%_55%_at_50%_20%,black,transparent)]" />
         </div>
 
-        <div className="container-x relative grid items-center gap-14 py-20 lg:grid-cols-[1.06fr_0.94fr] lg:gap-12 lg:py-28">
+        <div className="container-x relative grid items-center gap-10 py-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10 lg:py-24">
           {/* ---- Copy column ---- */}
           <div className="animate-rise">
             <div className="inline-flex items-center gap-2.5 rounded-full border border-line-strong bg-white/80 px-3.5 py-1.5 text-xs font-semibold text-ink-700 shadow-sm backdrop-blur">
@@ -202,76 +204,8 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* ---- Product visual: a real kit photo, not a fabricated console ---- */}
-          {heroKit && (
-            <div className="relative animate-rise [animation-delay:120ms]">
-              <div
-                aria-hidden
-                className="absolute inset-8 -z-10 rounded-[2rem] bg-brand-500/20 blur-3xl"
-              />
-              <div className="ring-gradient group rounded-[1.75rem] bg-white/70 p-2.5 shadow-lift backdrop-blur-xl">
-                <div className="overflow-hidden rounded-[1.4rem] bg-white">
-                  <div className="relative aspect-[4/3]">
-                    <Image
-                      src={heroKit.image}
-                      alt={heroKit.title}
-                      fill
-                      priority
-                      sizes="(max-width: 1024px) 100vw, 45vw"
-                      className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
-                    />
-                    <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-navy-950/55 to-transparent" />
-                    <div className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-xs font-bold text-ink-900 shadow-card backdrop-blur">
-                      <IconStar className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-                      {heroKit.rating} rating
-                    </div>
-                    <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3 text-white">
-                      <div className="min-w-0">
-                        <div className="text-[11px] font-semibold uppercase tracking-wide text-cyan-accent">
-                          Featured kit
-                        </div>
-                        <div className="truncate text-sm font-bold">
-                          {heroKit.title}
-                        </div>
-                      </div>
-                      <div className="shrink-0 text-lg font-black tracking-tight">
-                        {formatINR(heroKit.price)}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Two real facts, not a fabricated live feed. */}
-              <div className="absolute -bottom-5 -left-4 hidden rounded-2xl border border-line bg-white/95 p-4 shadow-card backdrop-blur sm:block">
-                <div className="flex items-center gap-3">
-                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-emerald-50 text-emerald-600">
-                    <IconCheck className="h-5 w-5" strokeWidth={2.4} />
-                  </span>
-                  <div>
-                    <div className="text-sm font-bold text-ink-900">
-                      Ships assembled
-                    </div>
-                    <div className="text-xs text-ink-400">Tested on our bench</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="absolute -right-4 -top-6 hidden rounded-2xl border border-line bg-white/95 px-4 py-3 shadow-card backdrop-blur md:block">
-                <div className="flex items-center gap-2.5">
-                  <span className="grid h-9 w-9 place-items-center rounded-lg bg-brand-50 text-brand-600">
-                    <IconShield className="h-4 w-4" strokeWidth={1.8} />
-                  </span>
-                  <div>
-                    <div className="text-[11px] font-medium text-ink-400">
-                      Source and docs
-                    </div>
-                    <div className="text-sm font-black text-ink-900">Included</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+          {/* ---- Animated multi-photo product showcase ---- */}
+          {heroKits.length > 0 && <HeroShowcase kits={heroKits} />}
         </div>
 
         {/* Capability strip — closes the hero and answers "what do I get?" */}

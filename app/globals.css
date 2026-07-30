@@ -91,9 +91,10 @@ body {
 @layer utilities {
   .container-x {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1240px;
     margin-inline: auto;
-    padding-inline: 1.25rem;
+    /* Breathes on desktop, stays tight on phones. */
+    padding-inline: clamp(1.25rem, 3vw, 2.75rem);
   }
 
   .text-gradient {

@@ -13,13 +13,13 @@ type ButtonProps = {
 };
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+  "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-all duration-200 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 active:translate-y-0 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed";
 
 const variants: Record<string, string> = {
   primary:
-    "bg-brand-600 text-white shadow-[0_10px_30px_-10px_rgba(29,71,219,0.7)] hover:bg-brand-700 hover:-translate-y-0.5",
+    "bg-brand-600 text-white shadow-[0_12px_28px_-12px_rgba(5,150,105,0.75)] hover:bg-brand-700 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_-14px_rgba(5,150,105,0.85)]",
   white:
-    "bg-white text-navy-800 shadow-card hover:-translate-y-0.5 hover:shadow-glow",
+    "bg-white text-ink-900 shadow-card hover:-translate-y-0.5 hover:shadow-lift ring-1 ring-line",
   outline:
     "border border-line-strong text-ink-900 hover:border-brand-500 hover:text-brand-600 bg-white/60",
   // For dark sections. Passing `bg-transparent` via className can't override
