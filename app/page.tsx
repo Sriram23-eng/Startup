@@ -3,7 +3,10 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui";
 import OrbitShowreel from "@/components/OrbitShowreel";
-import FeaturedSlider from "@/components/FeaturedSlider";
+import StackedKits from "@/components/StackedKits";
+import MediaGrid from "@/components/MediaGrid";
+import ImageCollage from "@/components/ImageCollage";
+import GlowButton from "@/components/GlowButton";
 import AboutStory from "@/components/AboutStory";
 import {
   IconArrow,
@@ -74,11 +77,14 @@ export default async function HomePage() {
       {/* ==================== HERO (Orbit showreel) ================== */}
       <OrbitShowreel images={stripImages} />
 
-      {/* ============ FEATURED SLIDER (numbered pagination) ========= */}
-      <FeaturedSlider projects={allProjects} />
+      {/* ============ FEATURED KITS (stacked-cards scroll) ========= */}
+      <StackedKits projects={allProjects} />
 
       {/* ============ ABOUT STORY (moved onto the home page) ========= */}
       <AboutStory />
+
+      {/* ==================== MEDIA GRID (catalogue) =============== */}
+      <MediaGrid projects={allProjects} />
 
       {/* ======================== HOW IT WORKS ======================== */}
       <section className="py-20">
@@ -190,6 +196,9 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ================== IMAGE COLLAGE (real builds) ============ */}
+      <ImageCollage images={stripImages} />
+
       {/* ======================== TESTIMONIALS ======================= */}
       <section className="border-y border-line bg-white py-20">
         <div className="container-x">
@@ -294,9 +303,9 @@ export default async function HomePage() {
                   engineer — not a sales bot — reads every message.
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3">
-                  <Button href="/custom-project" variant="white" size="lg">
+                  <GlowButton href="/custom-project">
                     Request custom project
-                  </Button>
+                  </GlowButton>
                   <Button href="/contact" variant="outline-light" size="lg">
                     Talk to us
                   </Button>
