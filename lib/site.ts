@@ -19,7 +19,7 @@ export const site: SiteConfig = {
   tagline: "Projects · Skills · Internships · Workshops",
   description:
     "Ready-made electronics and IoT project kits, custom engineering builds, hands-on workshops and internships, all in one platform.",
-  email: "msprojects@techgamil.com",
+  email: "hello@elektronnexus.in",
   phone: "+91 90000 00000",
   whatsapp: "+919000000000",
   city: "Hyderabad, India",
