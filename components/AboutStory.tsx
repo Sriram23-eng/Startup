@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { Button } from "@/components/ui";
 import {
   IconArrow,
   IconAward,
@@ -117,17 +118,29 @@ export default function AboutStory() {
       {/* ========================== PILLARS ========================== */}
       <section className="py-20 lg:py-24">
         <div className="container-x">
-          <div className="reveal mx-auto max-w-2xl text-center">
+          <div className="reveal mx-auto max-w-3xl text-center">
             <div className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-brand-600">
-              What we do
+              Who we are
             </div>
             <h2 className="text-[2rem] font-black leading-[1.05] tracking-[-0.02em] text-balance text-ink-900 sm:text-4xl lg:text-[2.7rem]">
-              Three businesses that feed each other
+              We help people <span className="text-gradient">build the future</span>,
+              one project at a time.
             </h2>
-            <p className="mt-4 text-lg leading-relaxed text-pretty text-ink-600">
-              What we learn building custom systems becomes a kit. What the kit
-              teaches becomes a course. It’s the same team throughout.
+            <p className="mt-5 text-lg leading-relaxed text-pretty text-ink-600">
+              Elektron Nexus is an IoT marketplace, training academy and
+              project-development lab, three businesses that feed each other.
+              What we learn building custom systems becomes a kit; what the kit
+              teaches becomes a course, taught by the same team throughout.
             </p>
+            <div className="mt-7 flex flex-wrap justify-center gap-3">
+              <Button href="/custom-project" size="lg">
+                Work with us
+                <IconArrow className="h-4 w-4" strokeWidth={2} />
+              </Button>
+              <Button href="/contact" variant="white" size="lg">
+                Get in touch
+              </Button>
+            </div>
           </div>
 
           <div className="reveal-late mt-12 grid gap-5 md:grid-cols-3">

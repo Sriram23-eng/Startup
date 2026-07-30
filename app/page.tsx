@@ -5,7 +5,6 @@ import { Button } from "@/components/ui";
 import OrbitShowreel from "@/components/OrbitShowreel";
 import FeaturedSlider from "@/components/FeaturedSlider";
 import AboutStory from "@/components/AboutStory";
-import DotField from "@/components/DotField";
 import {
   IconArrow,
   IconAward,
@@ -74,71 +73,6 @@ export default async function HomePage() {
     <>
       {/* ==================== HERO (Orbit showreel) ================== */}
       <OrbitShowreel images={stripImages} />
-
-      {/* ==================== ABOUT INTRO (who we are) =============== */}
-      <section id="who-we-are" className="relative overflow-hidden scroll-mt-24 py-20 lg:py-24">
-        <DotField className="inset-y-0 right-0 hidden w-1/2 lg:block" />
-        <div className="container-x relative grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
-          <div className="reveal">
-            <div className="text-xs font-bold uppercase tracking-[0.2em] text-brand-600">
-              Who we are
-            </div>
-            <h2 className="mt-3 text-[2rem] font-black leading-[1.05] tracking-[-0.02em] text-balance text-ink-900 sm:text-4xl lg:text-[2.7rem]">
-              We help people <span className="text-gradient">build the future</span>,
-              one project at a time.
-            </h2>
-            <p className="mt-5 text-lg leading-relaxed text-pretty text-ink-600">
-              Elektron Nexus is an IoT marketplace, training academy and
-              project-development lab. We exist to close the gap between
-              classroom theory and real, deployable engineering, for students,
-              faculty and companies alike.
-            </p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <Button href="/custom-project" size="lg">
-                Work with us
-                <IconArrow className="h-4 w-4" strokeWidth={2} />
-              </Button>
-              <Button href="/contact" variant="white" size="lg">
-                Get in touch
-              </Button>
-            </div>
-          </div>
-
-          {/* At-a-glance panel */}
-          <div className="reveal-late rounded-3xl border border-line bg-white p-7 shadow-card">
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-brand-600">
-              At a glance
-            </div>
-            <dl className="mt-5 divide-y divide-line">
-              {[
-                ["Founded", "2022"],
-                ["Based in", site.city],
-                ["Focus", "IoT · Embedded · AI"],
-                ["Works with", "Students, faculty & industry"],
-              ].map(([k, v]) => (
-                <div
-                  key={k}
-                  className="flex items-baseline justify-between gap-4 py-3.5"
-                >
-                  <dt className="text-sm font-medium text-ink-400">{k}</dt>
-                  <dd className="text-right text-sm font-bold text-ink-900">
-                    {v}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-            <div className="mt-4 flex items-start gap-3 rounded-2xl bg-brand-50/70 p-4">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-brand-600 text-white">
-                <IconCheck className="h-4 w-4" strokeWidth={2.6} />
-              </span>
-              <p className="text-sm leading-relaxed text-ink-600">
-                Every custom project ships with source, schematics and full IP
-                transfer.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ============ FEATURED SLIDER (numbered pagination) ========= */}
       <FeaturedSlider projects={allProjects} />
@@ -305,6 +239,37 @@ export default async function HomePage() {
                   <IconArrow className="h-4 w-4" strokeWidth={2} />
                 </Button>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ==================== AT A GLANCE (compact, end) =========== */}
+      <section className="border-t border-line py-14">
+        <div className="container-x">
+          <div className="reveal grid gap-8 rounded-3xl border border-line bg-white p-8 shadow-card sm:grid-cols-2 lg:grid-cols-4 lg:items-center">
+            {[
+              ["Founded", "2022"],
+              ["Focus", "IoT · Embedded · AI"],
+              ["Works with", "Students, faculty & industry"],
+            ].map(([k, v]) => (
+              <div key={k}>
+                <div className="text-xs font-bold uppercase tracking-[0.16em] text-brand-600">
+                  {k}
+                </div>
+                <div className="mt-1.5 text-lg font-black tracking-tight text-ink-900">
+                  {v}
+                </div>
+              </div>
+            ))}
+            <div className="flex items-start gap-3 rounded-2xl bg-brand-50/70 p-4">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-brand-600 text-white">
+                <IconCheck className="h-4 w-4" strokeWidth={2.6} />
+              </span>
+              <p className="text-sm leading-relaxed text-ink-600">
+                Every custom project ships with source, schematics and full IP
+                transfer.
+              </p>
             </div>
           </div>
         </div>
