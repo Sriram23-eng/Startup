@@ -54,7 +54,7 @@ export default function CostCalculator() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
-      <div className="rounded-2xl border border-navy-700/8 bg-white p-6 shadow-card">
+      <div className="rounded-2xl border border-line bg-white p-6 shadow-card">
         <Group label="1 · Controller">
           <div className="flex flex-wrap gap-2">
             {controllers.map((c) => (
@@ -147,7 +147,7 @@ function commName(id: string) {
 function Group({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="mb-6 last:mb-0">
-      <div className="mb-3 text-sm font-bold text-navy-800">{label}</div>
+      <div className="mb-3 text-sm font-bold text-ink-900">{label}</div>
       {children}
     </div>
   );
@@ -168,7 +168,7 @@ function Pick({
       className={`rounded-xl border px-3.5 py-2 text-sm font-medium transition ${
         active
           ? "border-brand-500 bg-brand-50 text-brand-700 ring-2 ring-brand-100"
-          : "border-navy-700/12 text-navy-700/70 hover:border-brand-300"
+          : "border-line-strong text-ink-700 hover:border-brand-300"
       }`}
     >
       {children}

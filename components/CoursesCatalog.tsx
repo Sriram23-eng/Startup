@@ -6,6 +6,7 @@ import { Course, categoryName } from "@/lib/data";
 import { formatINR } from "@/lib/site";
 import { Button } from "./ui";
 import { Label, Select } from "./Field";
+import { IconBook, IconClock, IconUsers, IconStar, IconArrow } from "@/components/icons";
 
 type Tab = "all" | "Live" | "Self-paced";
 
@@ -39,22 +40,25 @@ export default function CoursesCatalog({ courses }: { courses: Course[] }) {
             <button
               key={t}
               onClick={() => setTab(t)}
-              className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
+              className={`inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-semibold transition ${
                 tab === t
                   ? "bg-white text-brand-700 shadow-sm"
-                  : "text-navy-700/60 hover:text-navy-800"
+                  : "text-ink-400 hover:text-ink-900"
               }`}
             >
-              {t === "all" ? "All classes" : t === "Live" ? "🔴 Live cohorts" : "Self-paced"}
+              {t === "Live" && (
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" />
+              )}
+              {t === "all" ? "All classes" : t === "Live" ? "Live cohorts" : "Self-paced"}
             </button>
           ))}
         </div>
         <div className="flex items-center gap-2 text-sm">
-          <span className="text-navy-700/50">Level</span>
+          <span className="text-ink-400">Level</span>
           <select
             value={level}
             onChange={(e) => setLevel(e.target.value)}
-            className="rounded-lg border border-navy-700/12 bg-white px-3 py-2 font-medium outline-none focus:border-brand-400"
+            className="rounded-lg border border-line-strong bg-white px-3 py-2 font-medium text-ink-900 outline-none focus:border-brand-400"
           >
             <option value="all">Any</option>
             <option>Beginner</option>
@@ -88,7 +92,7 @@ function CourseCard({
 }) {
   const live = course.mode === "Live";
   return (
-    <div className="group flex flex-col overflow-hidden rounded-2xl border border-navy-700/8 bg-white shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-glow">
+    <div className="group flex flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-card lift hover:border-brand-200 hover:shadow-lift">
       <div className="relative aspect-[16/9] overflow-hidden">
         <Image
           src={course.image}
@@ -105,7 +109,7 @@ function CourseCard({
               LIVE COHORT
             </span>
           ) : (
-            <span className="rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-bold text-navy-800 shadow">
+            <span className="rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-bold text-ink-900 shadow">
               Self-paced
             </span>
           )}
@@ -118,34 +122,41 @@ function CourseCard({
       <div className="flex flex-1 flex-col p-5">
         <div className="mb-2 flex items-center gap-2 text-xs font-semibold text-brand-600">
           <span>{categoryName(course.category)}</span>
-          <span className="text-navy-700/30">•</span>
-          <span className="flex items-center gap-1 text-amber-500">
-            ★ <span className="text-navy-700/70">{course.rating}</span>
+          <span className="text-ink-400/50">•</span>
+          <span className="flex items-center gap-1">
+            <IconStar className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+            <span className="text-ink-700">{course.rating}</span>
           </span>
-          <span className="text-navy-700/30">•</span>
-          <span className="text-navy-700/50">
+          <span className="text-ink-400/50">•</span>
+          <span className="text-ink-400">
             {course.learners.toLocaleString("en-IN")} learners
           </span>
         </div>
-        <h3 className="text-base font-bold leading-snug text-navy-800 group-hover:text-brand-700">
+        <h3 className="text-base font-bold leading-snug tracking-tight text-ink-900 group-hover:text-brand-700">
           {course.title}
         </h3>
-        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-navy-700/60">
+        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ink-600">
           {course.blurb}
         </p>
 
-        <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-navy-700/55">
-          <span>📚 {course.lessons} lessons</span>
-          <span>⏱ {course.hours} hrs</span>
-          <span>👤 {course.instructor.split(" · ")[0]}</span>
+        <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs font-medium text-ink-400">
+          <span className="inline-flex items-center gap-1.5">
+            <IconBook className="h-3.5 w-3.5" /> {course.lessons} lessons
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <IconClock className="h-3.5 w-3.5" /> {course.hours} hrs
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <IconUsers className="h-3.5 w-3.5" /> {course.instructor.split(" · ")[0]}
+          </span>
         </div>
 
         {live && (
           <div className="mt-3 rounded-lg bg-brand-50/70 px-3 py-2 text-xs">
-            <div className="font-semibold text-navy-800">
-              🗓 Starts {course.startDate}
+            <div className="font-semibold text-ink-900">
+              Starts {course.startDate}
             </div>
-            <div className="text-navy-700/60">{course.schedule}</div>
+            <div className="text-ink-600">{course.schedule}</div>
             {typeof course.seatsLeft === "number" && (
               <div className="mt-1 font-bold text-red-500">
                 Only {course.seatsLeft} seats left
@@ -154,22 +165,23 @@ function CourseCard({
           </div>
         )}
 
-        <div className="mt-4 flex items-center justify-between border-t border-navy-700/8 pt-4">
+        <div className="mt-4 flex items-center justify-between border-t border-line pt-4">
           <div className="flex items-baseline gap-2">
-            <span className="text-lg font-extrabold text-navy-800">
+            <span className="text-lg font-black tracking-tight text-ink-900">
               {formatINR(course.price)}
             </span>
             {course.oldPrice && (
-              <span className="text-sm text-navy-700/40 line-through">
+              <span className="text-sm text-ink-400 line-through">
                 {formatINR(course.oldPrice)}
               </span>
             )}
           </div>
           <button
             onClick={onEnroll}
-            className="rounded-lg bg-brand-600 px-3.5 py-2 text-sm font-bold text-white transition hover:bg-brand-700"
+            className="inline-flex items-center gap-1 rounded-lg bg-brand-600 px-3.5 py-2 text-sm font-bold text-white transition hover:bg-brand-700"
           >
-            {live ? "Reserve seat" : "Enroll"} →
+            {live ? "Reserve seat" : "Enroll"}
+            <IconArrow className="h-4 w-4" strokeWidth={2} />
           </button>
         </div>
       </div>
@@ -220,7 +232,7 @@ function EnrollForm({
   }
 
   return (
-    <div className="overflow-hidden rounded-3xl border border-navy-700/8 bg-white shadow-card">
+    <div className="overflow-hidden rounded-3xl border border-line bg-white shadow-card">
       <div className="grid md:grid-cols-2">
         {/* Summary */}
         <div className="relative overflow-hidden bg-navy-800 p-8 text-white">
@@ -266,10 +278,10 @@ function EnrollForm({
                 <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-emerald-50 text-3xl">
                   ✓
                 </div>
-                <h3 className="mt-4 text-xl font-extrabold text-navy-800">
-                  Seat reserved! 🎉
+                <h3 className="mt-4 text-xl font-black tracking-tight text-ink-900">
+                  Seat reserved!
                 </h3>
-                <p className="mt-2 text-sm text-navy-700/60">
+                <p className="mt-2 text-sm text-ink-600">
                   Your reservation for <strong>{course?.title}</strong> is in.
                   We&apos;ll confirm your access shortly — track it on your{" "}
                   <a
@@ -284,7 +296,7 @@ function EnrollForm({
             </div>
           ) : (
             <div>
-              <h3 className="text-lg font-bold text-navy-800">
+              <h3 className="text-lg font-black tracking-tight text-ink-900">
                 Reserve your spot
               </h3>
               <div className="mt-4 space-y-4">
@@ -296,7 +308,7 @@ function EnrollForm({
                   >
                     {courses.map((c) => (
                       <option key={c.slug} value={c.slug}>
-                        {c.mode === "Live" ? "🔴 " : ""}
+                        {c.mode === "Live" ? "● " : ""}
                         {c.title}
                       </option>
                     ))}
@@ -323,7 +335,7 @@ function EnrollForm({
                   >
                     Sign in to reserve →
                   </Button>
-                  <p className="mt-3 text-center text-xs text-navy-700/45">
+                  <p className="mt-3 text-center text-xs text-ink-400">
                     Create a free account to reserve your seat
                   </p>
                 </>
@@ -332,7 +344,7 @@ function EnrollForm({
                   <Button size="lg" className="mt-5 w-full" onClick={reserve}>
                     {status === "sending" ? "Reserving…" : "Reserve seat →"}
                   </Button>
-                  <p className="mt-3 text-center text-xs text-navy-700/45">
+                  <p className="mt-3 text-center text-xs text-ink-400">
                     No payment now · we&apos;ll confirm access after payment
                   </p>
                 </>

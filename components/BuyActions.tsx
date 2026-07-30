@@ -60,7 +60,7 @@ export default function BuyActions({
     <div>
       {hasOptions ? (
         <div className="mb-4">
-          <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-navy-700/45">
+          <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-400">
             {multiSelect ? "Choose options (add-ons)" : "Choose an option"}
           </div>
           <div className="grid gap-2 sm:grid-cols-2">
@@ -76,7 +76,7 @@ export default function BuyActions({
                       ? "border-brand-500"
                       : on
                       ? "border-brand-500 bg-brand-50 ring-2 ring-brand-100"
-                      : "border-navy-700/12 hover:bg-brand-50/50"
+                      : "border-line-strong hover:bg-brand-50/50"
                   } ${o.popular && on ? "bg-brand-50 ring-2 ring-brand-100" : ""}`}
                 >
                   {o.popular && (
@@ -88,14 +88,14 @@ export default function BuyActions({
                     className={`mt-0.5 grid h-5 w-5 shrink-0 place-items-center border text-[11px] ${
                       multiSelect ? "rounded-md" : "rounded-full"
                     } ${
-                      on ? "border-brand-600 bg-brand-600 text-white" : "border-navy-700/25 text-transparent"
+                      on ? "border-brand-600 bg-brand-600 text-white" : "border-line-strong text-transparent"
                     }`}
                   >
                     ✓
                   </span>
                   <span>
-                    <span className="block text-sm font-semibold text-navy-800">{o.label}</span>
-                    <span className="block text-lg font-extrabold text-navy-800">
+                    <span className="block text-sm font-semibold text-ink-900">{o.label}</span>
+                    <span className="block text-lg font-extrabold text-ink-900">
                       {formatMoney(o.price, currency)}
                     </span>
                   </span>
@@ -107,10 +107,10 @@ export default function BuyActions({
       ) : (
         <div>
           <div className="flex flex-wrap items-baseline gap-2.5">
-            <span className="text-3xl font-black text-navy-800">{formatMoney(price, currency)}</span>
+            <span className="text-3xl font-black text-ink-900">{formatMoney(price, currency)}</span>
             {off > 0 && (
               <>
-                <span className="text-lg text-navy-700/40 line-through">
+                <span className="text-lg text-ink-400 line-through">
                   {formatMoney(originalPrice!, currency)}
                 </span>
                 <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-sm font-bold text-emerald-600">
@@ -127,31 +127,31 @@ export default function BuyActions({
         </div>
       )}
 
-      <div className="mt-1 text-xs text-navy-700/45">
+      <div className="mt-1 text-xs text-ink-400">
         Inclusive of hardware, source code &amp; documentation
       </div>
 
       <div className="mt-5 flex items-center gap-4">
-        <div className="flex items-center rounded-xl border border-navy-700/12 bg-white">
+        <div className="flex items-center rounded-xl border border-line-strong bg-white">
           <button
             onClick={() => setQty((q) => Math.max(1, q - 1))}
-            className="px-3.5 py-2.5 text-lg font-bold text-navy-700/60 hover:text-brand-600"
+            className="px-3.5 py-2.5 text-lg font-bold text-ink-400 hover:text-brand-600"
           >
             −
           </button>
-          <span className="w-8 text-center font-bold text-navy-800">{qty}</span>
+          <span className="w-8 text-center font-bold text-ink-900">{qty}</span>
           <button
             onClick={() => setQty((q) => q + 1)}
-            className="px-3.5 py-2.5 text-lg font-bold text-navy-700/60 hover:text-brand-600"
+            className="px-3.5 py-2.5 text-lg font-bold text-ink-400 hover:text-brand-600"
           >
             +
           </button>
         </div>
         <div>
-          <div className="text-xs text-navy-700/50">
+          <div className="text-xs text-ink-400">
             Total{hasOptions && summary ? ` · ${summary}` : ""}
           </div>
-          <div className="text-xl font-black text-navy-800">{formatMoney(unit * qty, currency)}</div>
+          <div className="text-xl font-black text-ink-900">{formatMoney(unit * qty, currency)}</div>
         </div>
       </div>
 
@@ -181,7 +181,7 @@ export default function BuyActions({
           Buy now →
         </Button>
       </div>
-      <p className="mt-3 text-center text-xs text-navy-700/45">
+      <p className="mt-3 text-center text-xs text-ink-400">
         Secure checkout · Razorpay / UPI · Ships in 3–5 days
       </p>
     </div>

@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import ProjectCard from "./ProjectCard";
+import { CategoryIcon } from "@/components/icons";
 import { categories, sizeBands, Size, Project } from "@/lib/data";
 
 export default function ProjectsExplorer({
@@ -36,16 +37,16 @@ export default function ProjectsExplorer({
     <div className="grid gap-8 lg:grid-cols-[260px_1fr]">
       {/* ---------------- Sidebar filters ---------------- */}
       <aside className="lg:sticky lg:top-20 lg:self-start">
-        <div className="rounded-2xl border border-navy-700/8 bg-white p-5 shadow-card">
+        <div className="rounded-2xl border border-line bg-white p-5 shadow-card">
           <label className="relative block">
-            <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-navy-700/40">
+            <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-400">
               ⌕
             </span>
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search projects…"
-              className="w-full rounded-xl border border-navy-700/12 bg-brand-50/30 py-2.5 pl-9 pr-3 text-sm outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
+              className="w-full rounded-xl border border-line-strong bg-brand-50/30 py-2.5 pl-9 pr-3 text-sm text-ink-900 outline-none placeholder:text-ink-400 focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
             />
           </label>
 
@@ -75,7 +76,7 @@ export default function ProjectsExplorer({
                 active={cat === c.slug}
                 onClick={() => setCat(c.slug)}
               >
-                <span>{c.icon}</span> {c.name}
+                <CategoryIcon slug={c.slug} className="h-3.5 w-3.5" /> {c.name}
               </Chip>
             ))}
           </FilterGroup>
@@ -85,16 +86,16 @@ export default function ProjectsExplorer({
       {/* ---------------- Results ---------------- */}
       <div>
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm font-medium text-navy-700/60">
-            <span className="font-bold text-navy-800">{filtered.length}</span>{" "}
+          <p className="text-sm font-medium text-ink-600">
+            <span className="font-bold text-ink-900">{filtered.length}</span>{" "}
             project{filtered.length !== 1 && "s"} found
           </p>
           <div className="flex items-center gap-2 text-sm">
-            <span className="text-navy-700/50">Sort</span>
+            <span className="text-ink-400">Sort</span>
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value as typeof sort)}
-              className="rounded-lg border border-navy-700/12 bg-white px-3 py-2 font-medium outline-none focus:border-brand-400"
+              className="rounded-lg border border-line-strong bg-white px-3 py-2 font-medium text-ink-900 outline-none focus:border-brand-400"
             >
               <option value="popular">Most popular</option>
               <option value="low">Price: low → high</option>
@@ -104,10 +105,9 @@ export default function ProjectsExplorer({
         </div>
 
         {filtered.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-navy-700/15 bg-white p-16 text-center">
-            <div className="text-4xl">🔍</div>
-            <p className="mt-3 font-semibold text-navy-800">No matches</p>
-            <p className="text-sm text-navy-700/55">
+          <div className="rounded-2xl border border-dashed border-line-strong bg-white p-16 text-center">
+            <p className="font-black tracking-tight text-ink-900">No matches</p>
+            <p className="mt-1 text-sm text-ink-600">
               Try clearing filters or request a custom build.
             </p>
           </div>
@@ -131,8 +131,8 @@ function FilterGroup({
   children: React.ReactNode;
 }) {
   return (
-    <div className="mt-5 border-t border-navy-700/8 pt-4">
-      <div className="mb-3 text-xs font-bold uppercase tracking-wider text-navy-700/45">
+    <div className="mt-5 border-t border-line pt-4">
+      <div className="mb-3 text-xs font-bold uppercase tracking-wider text-ink-400">
         {title}
       </div>
       <div className="flex flex-wrap gap-2">{children}</div>
@@ -155,7 +155,7 @@ function Chip({
       className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition ${
         active
           ? "bg-brand-600 text-white shadow-[0_6px_16px_-8px_rgba(29,71,219,0.8)]"
-          : "bg-brand-50/60 text-navy-700/70 hover:bg-brand-100"
+          : "bg-brand-50/60 text-ink-700 hover:bg-brand-100"
       }`}
     >
       {children}
