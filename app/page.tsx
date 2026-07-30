@@ -200,17 +200,23 @@ export default async function HomePage() {
       <ImageCollage images={stripImages} />
 
       {/* ======================== TESTIMONIALS ======================= */}
-      <section className="border-y border-line bg-white py-20">
-        <div className="container-x">
-          <Head
-            center
-            eyebrow="Success stories"
-            title="Loved by colleges & companies"
-          />
+      <section className="relative overflow-hidden bg-navy-900 py-20 text-white lg:py-24">
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <div className="mesh absolute inset-0 opacity-25" />
+          <div className="grid-lines absolute inset-0 opacity-[0.1]" />
+        </div>
+        <div className="container-x relative">
+          <div className="reveal mx-auto max-w-2xl text-center">
+            <div className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-cyan-accent">
+              Success stories
+            </div>
+            <h2 className="text-[2rem] font-black leading-[1.05] tracking-[-0.02em] text-balance sm:text-4xl lg:text-[2.7rem]">
+              Loved by colleges &amp; companies
+            </h2>
+          </div>
 
-          {/* One lead quote plus two supporting — deliberately not three
-              identical boxes, so the strongest story actually leads. */}
-          <div className="mt-12 grid gap-6 lg:grid-cols-12">
+          {/* One lead quote plus two supporting — the strongest story leads. */}
+          <div className="reveal-late mt-12 grid gap-6 lg:grid-cols-12">
             <Quote featured item={testimonials[0]} className="lg:col-span-7" />
             <div className="grid gap-6 lg:col-span-5">
               {testimonials.slice(1).map((t) => (
@@ -409,57 +415,41 @@ function Quote({
 
   return (
     <figure
-      className={`flex flex-col rounded-3xl p-7 md:p-8 ${
+      className={`relative flex flex-col overflow-hidden rounded-3xl p-7 backdrop-blur md:p-8 ${
         featured
-          ? // Centred: this card is stretched by the two stacked cards beside
-            // it, and a short quote pinned to the top left a dead gap.
-            "justify-center bg-navy-800 text-white"
-          : "border border-line bg-[#f7f9fd] text-ink-900"
+          ? "justify-center bg-gradient-to-br from-brand-600/25 via-white/[0.04] to-white/[0.02] ring-1 ring-brand-500/25"
+          : "bg-white/[0.04] ring-1 ring-white/10"
       } ${className}`}
     >
-      <div
-        className={`flex gap-0.5 ${featured ? "text-cyan-accent" : "text-amber-400"}`}
+      {/* Oversized decorative quote mark */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute -top-4 right-5 select-none font-serif text-[7rem] leading-none text-brand-400/20"
       >
+        ”
+      </span>
+
+      <div className="relative flex gap-0.5 text-amber-400">
         {[0, 1, 2, 3, 4].map((i) => (
           <IconStar key={i} className="h-4 w-4 fill-current" />
         ))}
       </div>
       <blockquote
-        className={`mt-5 text-pretty ${
+        className={`relative mt-5 text-pretty ${
           featured
-            ? "text-xl leading-relaxed text-white/90 md:text-2xl"
-            : "flex-1 leading-relaxed text-ink-600"
+            ? "text-xl leading-relaxed text-white/95 md:text-2xl"
+            : "flex-1 leading-relaxed text-brand-100/80"
         }`}
       >
         “{item.quote}”
       </blockquote>
-      <figcaption
-        className={`mt-6 flex items-center gap-3 border-t pt-5 ${
-          featured ? "border-white/10" : "border-line"
-        }`}
-      >
-        <span
-          className={`grid h-11 w-11 shrink-0 place-items-center rounded-full text-sm font-black ${
-            featured
-              ? "bg-cyan-accent/15 text-cyan-accent"
-              : "bg-brand-100 text-brand-700"
-          }`}
-        >
+      <figcaption className="relative mt-6 flex items-center gap-3 border-t border-white/10 pt-5">
+        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand-400 to-brand-600 text-sm font-black text-white ring-2 ring-white/15">
           {initials}
         </span>
         <span>
-          <span
-            className={`block font-bold ${featured ? "text-white" : "text-ink-900"}`}
-          >
-            {item.name}
-          </span>
-          <span
-            className={`block text-sm ${
-              featured ? "text-brand-100/60" : "text-ink-400"
-            }`}
-          >
-            {item.role}
-          </span>
+          <span className="block font-bold text-white">{item.name}</span>
+          <span className="block text-sm text-brand-100/55">{item.role}</span>
         </span>
       </figcaption>
     </figure>
