@@ -5,7 +5,6 @@ import { Button } from "@/components/ui";
 import OrbitShowreel from "@/components/OrbitShowreel";
 import StackedKits from "@/components/StackedKits";
 import MediaGrid from "@/components/MediaGrid";
-import ImageCollage from "@/components/ImageCollage";
 import GlowButton from "@/components/GlowButton";
 import AboutStory from "@/components/AboutStory";
 import {
@@ -195,9 +194,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* ================== IMAGE COLLAGE (real builds) ============ */}
-      <ImageCollage images={stripImages} />
 
       {/* ======================== TESTIMONIALS ======================= */}
       <section className="relative overflow-hidden bg-navy-900 py-20 text-white lg:py-24">
