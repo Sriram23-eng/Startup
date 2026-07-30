@@ -1,12 +1,11 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui";
-import ProjectCard from "@/components/ProjectCard";
 import HeroShowcase from "@/components/HeroShowcase";
 import RotatingWords from "@/components/RotatingWords";
 import { LogoMark } from "@/components/Logo";
+import AboutStory from "@/components/AboutStory";
 import {
-  CategoryIcon,
   IconArrow,
   IconAward,
   IconBook,
@@ -25,7 +24,6 @@ import {
   IconUsers,
 } from "@/components/icons";
 import {
-  categories,
   workshops,
   testimonials,
   partners,
@@ -92,7 +90,6 @@ export default async function HomePage() {
     getProjects(),
     getCourses(),
   ]);
-  const featured = allProjects.slice(0, 6);
   const liveCourses = allCourses.filter((c) => c.mode === "Live").slice(0, 3);
   const fromPrice = allProjects.length
     ? Math.min(...allProjects.map((p) => p.price))
@@ -220,7 +217,7 @@ export default async function HomePage() {
       <nav className="sticky top-16 z-30 border-b border-line bg-[#f6f8f7]/85 backdrop-blur-xl">
         <div className="container-x flex items-center gap-2 overflow-x-auto py-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {[
-            ["Ready-made kits", "#kits"],
+            ["Ready-made kits", "/projects"],
             ["Custom builds", "#paths"],
             ["The academy", "#academy"],
             ["Internships", "#internships"],
@@ -359,55 +356,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ====================== FEATURED PROJECTS ===================== */}
-      <section id="kits" className="scroll-mt-28 border-y border-line bg-white py-24 lg:py-28">
-        <div className="container-x">
-          <Head
-            eyebrow="Ready-made kits"
-            title="Order today, build this weekend"
-            subtitle="Hardware, source code, documentation and circuit diagrams in one box."
-            action={
-              <Button href="/projects" variant="outline">
-                All kits
-                <IconArrow className="h-4 w-4" strokeWidth={2} />
-              </Button>
-            }
-          />
-
-          {/* Category rail — 11 domains as a scannable pill row instead of the
-              12-card grid that used to sit above yet another card grid. */}
-          <div className="mt-8 flex flex-wrap gap-2">
-            {categories.map((c) => (
-              <Link
-                key={c.slug}
-                href={`/projects?cat=${c.slug}`}
-                className="group inline-flex items-center gap-2 rounded-full border border-line bg-white px-3.5 py-2 text-sm font-semibold text-ink-700 transition-all hover:-translate-y-0.5 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
-                title={c.blurb}
-              >
-                <CategoryIcon
-                  slug={c.slug}
-                  className="h-4 w-4 text-ink-400 transition-colors group-hover:text-brand-600"
-                  strokeWidth={1.8}
-                />
-                {c.name}
-              </Link>
-            ))}
-            <Link
-              href="/custom-project"
-              className="inline-flex items-center gap-2 rounded-full bg-navy-800 px-3.5 py-2 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-navy-700"
-            >
-              <IconSparkle className="h-4 w-4 text-cyan-accent" strokeWidth={1.8} />
-              Something custom
-            </Link>
-          </div>
-
-          <div className="reveal-late mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {featured.map((p) => (
-              <ProjectCard key={p.slug} project={p} />
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ============ ABOUT STORY (moved onto the home page) ========= */}
+      <AboutStory />
 
       {/* ======================== HOW IT WORKS ======================== */}
       <section className="py-20">
