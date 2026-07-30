@@ -63,7 +63,7 @@ export default function AuthForm() {
                 <span className="text-[13px] font-black">MS</span>
                 <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-cyan-accent" />
               </span>
-              <span className="font-extrabold">MS Project &amp; Tech Solution</span>
+              <span className="font-extrabold">Elektron Nexus</span>
             </div>
             <div className="mt-auto">
               <h2 className="text-3xl font-black leading-tight">

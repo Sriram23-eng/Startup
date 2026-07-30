@@ -7,7 +7,7 @@ import { blogPosts } from "@/lib/data";
 export const metadata: Metadata = {
   title: "Blog & Tutorials",
   description:
-    "Practical IoT, embedded, AI and hardware tutorials, comparisons and deployment stories from the MS Project & Tech Solution lab.",
+    "Practical IoT, embedded, AI and hardware tutorials, comparisons and deployment stories from the Elektron Nexus lab.",
 };
 
 export default function BlogPage() {

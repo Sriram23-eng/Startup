@@ -6,7 +6,7 @@ import CertVerify from "@/components/CertVerify";
 export const metadata: Metadata = {
   title: "Certificate Verification",
   description:
-    "Verify the authenticity of a certificate issued by MS Project & Tech Solution using its certificate ID.",
+    "Verify the authenticity of a certificate issued by Elektron Nexus using its certificate ID.",
 };
 
 export default function CertificatesPage() {

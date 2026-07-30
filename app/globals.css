@@ -4,44 +4,45 @@
 /*  Design tokens — premium white + dark-navy engineering theme        */
 /* ------------------------------------------------------------------ */
 @theme {
-  /* Dark surfaces: near-black "ink", replacing the old navy blues. Used for
-     dark anchor sections, the navbar mark and deep gradients. */
-  --color-navy-950: #05070d;
-  --color-navy-900: #0b1220;
-  --color-navy-800: #111827;
-  --color-navy-700: #1f2937;
-  --color-navy-600: #334155;
-  --color-navy-500: #475569;
+  /* Dark surfaces: Elektron Nexus charcoal (#212529 = primary neutral).
+     Used for dark hero sections, dark anchors and deep gradients. */
+  --color-navy-950: #16191c;
+  --color-navy-900: #212529;
+  --color-navy-800: #2a2f35;
+  --color-navy-700: #343a40;
+  --color-navy-600: #495057;
+  --color-navy-500: #6c757d;
 
-  /* Accent: emerald. One confident accent across the whole site. */
-  --color-brand-50: #ecfdf5;
-  --color-brand-100: #d1fae5;
-  --color-brand-200: #a7f3d0;
-  --color-brand-300: #6ee7b7;
-  --color-brand-400: #34d399;
-  --color-brand-500: #10b981;
-  --color-brand-600: #059669;
-  --color-brand-700: #047857;
+  /* Brand accent: Elektron Nexus green. brand-500 is the exact reference
+     green (#32CD32); 600/700 deepen it so white-on-green buttons read well. */
+  --color-brand-50: #eefcef;
+  --color-brand-100: #d6f7d8;
+  --color-brand-200: #aeefb3;
+  --color-brand-300: #79e383;
+  --color-brand-400: #4fd659;
+  --color-brand-500: #32cd32;
+  --color-brand-600: #23a52b;
+  --color-brand-700: #1c8324;
 
-  /* Secondary glow: teal. */
-  --color-cyan-accent: #14b8a6;
+  /* Secondary glow, kept in the green family for a single-accent brand. */
+  --color-cyan-accent: #5ee06a;
 
-  /* Semantic text ramp on a slate axis. All AA-contrast on white and on the
-     off-white page background. */
-  --color-ink-900: #0f172a; /* headings */
-  --color-ink-700: #334155; /* strong body */
-  --color-ink-600: #475569; /* body            7.5:1 */
-  --color-ink-400: #64748b; /* meta / captions 4.9:1 */
+  /* Semantic text ramp on the charcoal / grey axis (Bootstrap-ish greys that
+     pair with #212529). AA-contrast on white and the #f8f9fa page bg. */
+  --color-ink-900: #212529; /* headings (brand primary neutral) */
+  --color-ink-700: #343a40; /* strong body */
+  --color-ink-600: #495057; /* body            ~7:1 */
+  --color-ink-400: #6c757d; /* meta / captions ~4.6:1 */
 
-  /* Hairlines — neutral slate. */
-  --color-line: #e2e8f0;
-  --color-line-strong: #cbd5e1;
+  /* Hairlines — neutral grey. */
+  --color-line: #e9ecef;
+  --color-line-strong: #dee2e6;
 
   --font-sans: var(--font-geist), "Inter", ui-sans-serif, system-ui,
     -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
-  --shadow-glow: 0 0 0 1px rgba(5, 150, 105, 0.15),
-    0 18px 50px -18px rgba(6, 78, 59, 0.45);
+  --shadow-glow: 0 0 0 1px rgba(50, 205, 50, 0.18),
+    0 18px 50px -18px rgba(28, 131, 36, 0.45);
   --shadow-card: 0 1px 2px rgba(2, 6, 23, 0.04),
     0 12px 32px -16px rgba(2, 6, 23, 0.18);
   --shadow-lift: 0 2px 4px rgba(2, 6, 23, 0.04),
@@ -49,8 +50,8 @@
 }
 
 :root {
-  --bg: #f6f8f7;
-  --fg: #0f172a;
+  --bg: #f8f9fa;
+  --fg: #212529;
 }
 
 html {
@@ -124,7 +125,7 @@ body {
 
   .grid-dots {
     background-image: radial-gradient(
-      rgba(5, 150, 105, 0.18) 1px,
+      rgba(50, 205, 50, 0.18) 1px,
       transparent 1px
     );
     background-size: 22px 22px;
@@ -132,9 +133,9 @@ body {
 
   .mesh {
     background:
-      radial-gradient(60% 50% at 15% 10%, rgba(5, 150, 105, 0.35), transparent 60%),
-      radial-gradient(50% 45% at 90% 0%, rgba(20, 184, 166, 0.25), transparent 55%),
-      radial-gradient(60% 60% at 80% 100%, rgba(6, 78, 59, 0.45), transparent 60%);
+      radial-gradient(60% 50% at 15% 10%, rgba(50, 205, 50, 0.32), transparent 60%),
+      radial-gradient(50% 45% at 90% 0%, rgba(94, 224, 106, 0.22), transparent 55%),
+      radial-gradient(60% 60% at 80% 100%, rgba(28, 131, 36, 0.4), transparent 60%);
   }
 
   .glass {
@@ -168,9 +169,9 @@ body {
     padding: 1px;
     background: linear-gradient(
       140deg,
-      rgba(5, 150, 105, 0.55),
-      rgba(20, 184, 166, 0.4) 42%,
-      rgba(5, 150, 105, 0.06) 72%
+      rgba(50, 205, 50, 0.55),
+      rgba(94, 224, 106, 0.4) 42%,
+      rgba(50, 205, 50, 0.06) 72%
     );
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,

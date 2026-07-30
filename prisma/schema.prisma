@@ -1,4 +1,4 @@
-// Prisma schema for MS Project & Tech Solution.
+// Prisma schema for Elektron Nexus.
 // Used in production (Postgres). Locally, if DATABASE_URL is unset, the app
 // falls back to the JSON file store automatically — see lib/store.ts.
 

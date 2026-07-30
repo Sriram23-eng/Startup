@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { navForAccountType } from "@/lib/site";
 import { Button } from "./ui";
+import { Logo } from "./Logo";
 
 type Me = { name: string; accountType: string } | null;
 
@@ -30,30 +31,12 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "border-b border-line bg-white/85 backdrop-blur-xl"
-          : "bg-transparent"
+      className={`sticky top-0 z-50 border-b border-line bg-white/85 backdrop-blur-xl transition-shadow duration-300 ${
+        scrolled ? "shadow-sm" : ""
       }`}
     >
       <nav className="container-x flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2.5">
-          <span className="relative grid h-9 w-9 place-items-center overflow-hidden rounded-xl bg-gradient-to-br from-navy-800 to-brand-700 text-white shadow-glow">
-            <span className="text-[13px] font-black tracking-tight text-white">
-              MS
-            </span>
-            <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-cyan-accent" />
-          </span>
-          <span className="flex flex-col leading-none">
-            <span className="text-[15px] font-extrabold tracking-tight text-ink-900">
-              MS Project{" "}
-              <span className="text-brand-600">& Tech</span>
-            </span>
-            <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-ink-400">
-              Solution
-            </span>
-          </span>
-        </Link>
+        <Logo markClassName="h-9 w-9 text-brand-600" />
 
         <div className="hidden items-center gap-0.5 lg:flex">
           {nav.map((item) =>

@@ -7,7 +7,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Contact Us",
   description:
-    "Get in touch with MS Project & Tech Solution for kits, custom projects, workshops, courses and internships.",
+    "Get in touch with Elektron Nexus for kits, custom projects, workshops, courses and internships.",
 };
 
 export default function ContactPage() {

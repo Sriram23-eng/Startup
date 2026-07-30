@@ -24,7 +24,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "MS Project & Tech Solution — an IoT marketplace, training academy and project development lab helping students, faculty and companies build real technology.",
+    "Elektron Nexus — an IoT marketplace, training academy and project development lab helping students, faculty and companies build real technology.",
 };
 
 type Glyph = (p: { className?: string; strokeWidth?: number }) => ReactNode;

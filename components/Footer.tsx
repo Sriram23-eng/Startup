@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
 import { categories } from "@/lib/data";
+import { LogoMark } from "./Logo";
 
 export default function Footer() {
   return (
@@ -9,12 +10,7 @@ export default function Footer() {
       <div className="container-x relative grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-[1.6fr_repeat(4,1fr)]">
         <div>
           <div className="flex items-center gap-2.5">
-            <span className="relative grid h-9 w-9 place-items-center rounded-xl bg-white/10 ring-1 ring-white/15">
-              <span className="text-[13px] font-black tracking-tight text-white">
-                MS
-              </span>
-              <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-cyan-accent" />
-            </span>
+            <LogoMark className="h-10 w-10 text-brand-400" />
             <span className="text-lg font-extrabold text-white">{site.name}</span>
           </div>
           <p className="mt-4 max-w-xs text-sm leading-relaxed">

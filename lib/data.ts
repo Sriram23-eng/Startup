@@ -301,7 +301,7 @@ export const workshops: Workshop[] = [
 export const testimonials = [
   {
     quote:
-      "We deployed Inventre's LoRa weather network across our 40-acre campus. Setup took a weekend and it's been rock solid for a year.",
+      "We deployed Elektron Nexus' LoRa weather network across our 40-acre campus. Setup took a weekend and it's been rock solid for a year.",
     name: "Dr. A. Rao",
     role: "HOD, ECE — VNR VJIET",
   },

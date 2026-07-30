@@ -14,11 +14,11 @@ type SiteConfig = {
 };
 
 export const site: SiteConfig = {
-  name: "MS Project & Tech Solution",
-  shortName: "MS",
-  tagline: "IoT Marketplace · Training Academy · Project Lab",
+  name: "Elektron Nexus",
+  shortName: "EN",
+  tagline: "Projects · Skills · Internships · Workshops",
   description:
-    "Ready-made IoT project kits, custom engineering development, hands-on workshops and internships — all in one platform.",
+    "Ready-made electronics and IoT project kits, custom engineering builds, hands-on workshops and internships, all in one platform.",
   email: "msprojects@techgamil.com",
   phone: "+91 90000 00000",
   whatsapp: "+919000000000",

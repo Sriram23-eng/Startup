@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ReactNode } from "react";
+import { LogoMark } from "@/components/Logo";
 
 const links = [
   { href: "/admin", label: "Dashboard", icon: "▦" },
@@ -36,13 +37,10 @@ export default function AdminShell({
       {/* Sidebar */}
       <aside className="sticky top-0 z-30 flex h-auto flex-col border-b border-navy-700/8 bg-navy-900 text-white lg:h-screen lg:border-b-0 lg:border-r">
         <div className="flex items-center gap-2.5 p-5">
-          <span className="relative grid h-9 w-9 place-items-center rounded-xl bg-white/10 ring-1 ring-white/15">
-            <span className="text-[13px] font-black">MS</span>
-            <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-cyan-accent" />
-          </span>
+          <LogoMark className="h-9 w-9 text-brand-400" />
           <div className="leading-tight">
-            <div className="text-sm font-extrabold">MS Admin</div>
-            <div className="text-[11px] text-brand-100/50">Control panel</div>
+            <div className="text-sm font-extrabold">Elektron Nexus</div>
+            <div className="text-[11px] text-brand-100/50">Admin panel</div>
           </div>
         </div>
 

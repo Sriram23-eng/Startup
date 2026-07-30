@@ -5,7 +5,7 @@ import AuthForm from "@/components/AuthForm";
 export const metadata: Metadata = {
   title: "Login or Register",
   description:
-    "Sign in to your MS Project & Tech Solution account to access orders, downloads, courses, internships and certificates.",
+    "Sign in to your Elektron Nexus account to access orders, downloads, courses, internships and certificates.",
 };
 
 export default function LoginPage() {
