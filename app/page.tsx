@@ -255,7 +255,7 @@ export default async function HomePage() {
       </section>
 
       {/* ==================== ABOUT INTRO (who we are) =============== */}
-      <section className="py-20 lg:py-24">
+      <section id="who-we-are" className="scroll-mt-24 py-20 lg:py-24">
         <div className="container-x grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
           <div className="reveal">
             <div className="text-xs font-bold uppercase tracking-[0.2em] text-brand-600">
