@@ -165,31 +165,26 @@ export default async function HomePage() {
           </div>
 
           {/* LOGO */}
-          <div className="animate-rise relative flex flex-col items-center justify-center gap-4 overflow-hidden rounded-3xl border border-brand-500/25 bg-gradient-to-br from-brand-600/20 via-navy-900 to-navy-900 p-8 text-center backdrop-blur lg:col-span-4 [animation-delay:80ms]">
+          <div className="animate-rise relative flex flex-col overflow-hidden rounded-3xl border border-brand-500/25 bg-gradient-to-br from-brand-600/20 via-navy-900 to-navy-900 p-8 backdrop-blur lg:col-span-4 [animation-delay:80ms]">
             <div className="grid-dots pointer-events-none absolute inset-0 opacity-40" />
-            <div className="relative">
-              <LogoMark className="mx-auto h-20 w-20 text-brand-400" />
-              <div className="mt-4 text-2xl font-black tracking-tight">
+            <div className="relative flex flex-col items-center text-center">
+              <LogoMark className="h-16 w-16 text-brand-400" />
+              <div className="mt-3 text-2xl font-black tracking-tight">
                 Elektron <span className="text-brand-400">Nexus</span>
               </div>
               <div className="mt-1.5 text-[11px] font-bold uppercase tracking-[0.24em] text-brand-100/60">
                 Core Electronics Hub
               </div>
             </div>
-          </div>
 
-          {/* VALUE — stats */}
-          <div className="animate-rise flex flex-col justify-center rounded-3xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur lg:col-span-4 [animation-delay:160ms]">
-            <div className="text-xs font-bold uppercase tracking-[0.2em] text-cyan-accent">
-              Trusted at scale
-            </div>
-            <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6">
+            {/* Stats, directly under the logo */}
+            <div className="relative mt-6 grid grid-cols-2 gap-x-4 gap-y-5 border-t border-white/10 pt-6">
               {stats.map((s) => (
                 <div key={s.label}>
-                  <div className="text-2xl font-black tracking-tight sm:text-3xl">
+                  <div className="text-xl font-black tracking-tight sm:text-2xl">
                     {s.value}
                   </div>
-                  <div className="mt-0.5 text-xs text-brand-100/55">
+                  <div className="mt-0.5 text-[11px] text-brand-100/55">
                     {s.label}
                   </div>
                 </div>
@@ -197,8 +192,8 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* UI transitions — animated showcase */}
-          <div className="animate-rise flex min-h-[20rem] rounded-3xl border border-white/10 bg-white/[0.03] p-2.5 backdrop-blur lg:col-span-8 lg:min-h-[24rem] [animation-delay:200ms]">
+          {/* UI transitions — full-width animated showcase */}
+          <div className="animate-rise flex min-h-[20rem] overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-2.5 backdrop-blur lg:col-span-12 lg:min-h-[30rem] [animation-delay:160ms]">
             {heroKits.length > 0 && <HeroShowcase bare kits={heroKits} />}
           </div>
         </div>
