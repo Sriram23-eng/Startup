@@ -56,7 +56,6 @@ export const site: SiteConfig = {
         { label: "Learning Center", href: "/learn", desc: "Tools & cost calculator" },
       ],
     },
-    { label: "About", href: "/#who-we-are" },
   ],
 };
 
