@@ -1,10 +1,20 @@
 import type { Metadata } from "next";
+import { Geist } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingChat from "@/components/FloatingChat";
 import ChromeGate from "@/components/ChromeGate";
 import { site } from "@/lib/site";
+
+// Geist over Inter — a more distinctive, engineering-flavoured sans, self-hosted
+// by next/font (no render-blocking Google request). Exposed as --font-geist and
+// wired into --font-sans in globals.css.
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -31,15 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="en" className={geist.variable}>
       <body className="min-h-screen antialiased">
         <ChromeGate
           header={<Navbar />}
