@@ -32,7 +32,7 @@ export default function Navbar() {
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-navy-700/8 bg-white/85 backdrop-blur-xl"
+          ? "border-b border-line bg-white/85 backdrop-blur-xl"
           : "bg-transparent"
       }`}
     >
@@ -45,11 +45,11 @@ export default function Navbar() {
             <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-cyan-accent" />
           </span>
           <span className="flex flex-col leading-none">
-            <span className="text-[15px] font-extrabold tracking-tight text-navy-800">
+            <span className="text-[15px] font-extrabold tracking-tight text-ink-900">
               MS Project{" "}
               <span className="text-brand-600">& Tech</span>
             </span>
-            <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-navy-700/45">
+            <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-ink-400">
               Solution
             </span>
           </span>
@@ -61,7 +61,7 @@ export default function Navbar() {
               <div key={item.label} className="group relative">
                 <Link
                   href={item.href}
-                  className="flex items-center gap-1 rounded-lg px-3.5 py-2 text-sm font-semibold text-navy-700/80 transition group-hover:bg-brand-50 group-hover:text-brand-700"
+                  className="flex items-center gap-1 rounded-lg px-3.5 py-2 text-sm font-semibold text-ink-700 transition group-hover:bg-brand-50 group-hover:text-brand-700"
                 >
                   {item.label}
                   <span className="text-[10px] opacity-60 transition group-hover:rotate-180">
@@ -69,18 +69,18 @@ export default function Navbar() {
                   </span>
                 </Link>
                 <div className="invisible absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 translate-y-1 pt-2 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
-                  <div className="overflow-hidden rounded-2xl border border-navy-700/8 bg-white p-2 shadow-glow">
+                  <div className="overflow-hidden rounded-2xl border border-line bg-white p-2 shadow-glow">
                     {item.children.map((c) => (
                       <Link
                         key={c.label}
                         href={c.href}
                         className="flex flex-col rounded-xl px-3 py-2.5 transition hover:bg-brand-50"
                       >
-                        <span className="text-sm font-semibold text-navy-800">
+                        <span className="text-sm font-semibold text-ink-900">
                           {c.label}
                         </span>
                         {c.desc && (
-                          <span className="text-xs text-navy-700/50">
+                          <span className="text-xs text-ink-400">
                             {c.desc}
                           </span>
                         )}
@@ -93,7 +93,7 @@ export default function Navbar() {
               <Link
                 key={item.label}
                 href={item.href}
-                className="rounded-lg px-3.5 py-2 text-sm font-semibold text-navy-700/80 transition hover:bg-brand-50 hover:text-brand-700"
+                className="rounded-lg px-3.5 py-2 text-sm font-semibold text-ink-700 transition hover:bg-brand-50 hover:text-brand-700"
               >
                 {item.label}
               </Link>
@@ -121,7 +121,7 @@ export default function Navbar() {
         <button
           aria-label="Toggle menu"
           onClick={() => setOpen((v) => !v)}
-          className="grid h-10 w-10 place-items-center rounded-lg border border-navy-700/10 bg-white lg:hidden"
+          className="grid h-10 w-10 place-items-center rounded-lg border border-line-strong bg-white lg:hidden"
         >
           <div className="space-y-1.5">
             <span
@@ -144,14 +144,14 @@ export default function Navbar() {
       </nav>
 
       {open && (
-        <div className="border-t border-navy-700/8 bg-white lg:hidden">
+        <div className="border-t border-line bg-white lg:hidden">
           <div className="container-x flex flex-col gap-1 py-4">
             {nav.map((item) => (
               <div key={item.label}>
                 <Link
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="block rounded-lg px-3 py-2.5 text-sm font-bold text-navy-800 hover:bg-brand-50"
+                  className="block rounded-lg px-3 py-2.5 text-sm font-bold text-ink-900 hover:bg-brand-50"
                 >
                   {item.label}
                 </Link>
@@ -162,7 +162,7 @@ export default function Navbar() {
                         key={c.label}
                         href={c.href}
                         onClick={() => setOpen(false)}
-                        className="block rounded-lg px-3 py-2 text-sm font-medium text-navy-700/70 hover:bg-brand-50"
+                        className="block rounded-lg px-3 py-2 text-sm font-medium text-ink-600 hover:bg-brand-50"
                       >
                         {c.label}
                       </Link>

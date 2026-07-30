@@ -21,7 +21,7 @@ const variants: Record<string, string> = {
   white:
     "bg-white text-navy-800 shadow-card hover:-translate-y-0.5 hover:shadow-glow",
   outline:
-    "border border-navy-700/20 text-navy-800 hover:border-brand-500 hover:text-brand-600 bg-white/60",
+    "border border-line-strong text-ink-900 hover:border-brand-500 hover:text-brand-600 bg-white/60",
   // For dark sections. Passing `bg-transparent` via className can't override
   // `outline`'s bg-white/60 — same specificity, so source order in the
   // generated stylesheet decides. This variant sets the background itself.
@@ -108,16 +108,16 @@ export function SectionHeading({
         </div>
       )}
       <h2
-        className={`text-3xl font-extrabold tracking-tight sm:text-4xl ${
-          light ? "text-white" : "text-navy-800"
+        className={`text-3xl font-black tracking-tight text-balance sm:text-4xl ${
+          light ? "text-white" : "text-ink-900"
         }`}
       >
         {title}
       </h2>
       {subtitle && (
         <p
-          className={`mt-4 text-base leading-relaxed ${
-            light ? "text-brand-100/80" : "text-navy-700/70"
+          className={`mt-4 text-base leading-relaxed text-pretty ${
+            light ? "text-brand-100/80" : "text-ink-600"
           }`}
         >
           {subtitle}
@@ -137,7 +137,7 @@ export function Card({
 }) {
   return (
     <div
-      className={`rounded-2xl border border-navy-700/8 bg-white shadow-card ${className}`}
+      className={`rounded-2xl border border-line bg-white shadow-card ${className}`}
     >
       {children}
     </div>

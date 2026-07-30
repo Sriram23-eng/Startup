@@ -31,15 +31,20 @@ const stages = [
 export default function InternshipsPage() {
   return (
     <>
-      <section className="relative overflow-hidden border-b border-navy-700/8">
-        <div className="mesh pointer-events-none absolute inset-0 opacity-70" />
-        <div className="container-x relative grid gap-10 py-16 lg:grid-cols-[1fr_420px]">
-          <div>
+      <section className="relative overflow-hidden border-b border-line bg-[#f7f9fd]">
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <div className="animate-drift absolute -left-24 -top-28 h-[26rem] w-[26rem] rounded-full bg-brand-400/22 blur-[130px]" />
+          <div className="animate-drift absolute right-0 top-0 h-80 w-80 rounded-full bg-cyan-accent/18 blur-[130px] [animation-delay:-7s]" />
+          <div className="grid-lines absolute inset-0 [mask-image:radial-gradient(75%_60%_at_50%_10%,black,transparent)]" />
+        </div>
+        <div className="container-x relative grid items-center gap-10 py-16 lg:grid-cols-[1fr_420px]">
+          <div className="animate-rise">
             <Badge tone="cyan">Student Internship Portal</Badge>
-            <h1 className="mt-4 max-w-3xl text-3xl font-black tracking-tight text-navy-800 sm:text-5xl">
-              Build real engineering proof, not just a certificate.
+            <h1 className="mt-5 max-w-3xl text-4xl font-black leading-[1.06] tracking-[-0.025em] text-balance text-ink-900 sm:text-5xl">
+              Build real engineering proof, not just a{" "}
+              <span className="text-gradient">certificate</span>.
             </h1>
-            <p className="mt-4 max-w-2xl text-navy-700/70">
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-pretty text-ink-600">
               Students work on guided IoT, embedded, AI and robotics projects
               with milestone reviews, downloadable offer letters and online
               certificate verification.
@@ -53,9 +58,9 @@ export default function InternshipsPage() {
               </Button>
             </div>
           </div>
-          <div className="rounded-2xl border border-white/70 bg-white/80 p-5 shadow-glow backdrop-blur">
-            <div className="rounded-xl bg-navy-900 p-5 text-white">
-              <div className="text-xs font-bold uppercase tracking-wider text-cyan-accent">
+          <div className="ring-gradient animate-rise rounded-3xl bg-white/75 p-2 shadow-glow backdrop-blur-xl [animation-delay:120ms]">
+            <div className="rounded-[1.35rem] bg-navy-900 p-6 text-white">
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-cyan-accent">
                 Internship status
               </div>
               <div className="mt-4 space-y-3">
@@ -90,11 +95,11 @@ export default function InternshipsPage() {
             {tracks.map((track) => (
               <div
                 key={track}
-                className="rounded-2xl border border-navy-700/8 bg-white p-6 shadow-card"
+                className="group rounded-3xl border border-line bg-white p-6 shadow-card lift hover:border-brand-200 hover:shadow-lift"
               >
-                <div className="text-sm font-bold text-brand-600">4-8 weeks</div>
-                <h3 className="mt-2 font-bold text-navy-800">{track}</h3>
-                <p className="mt-2 text-sm text-navy-700/60">
+                <div className="text-xs font-bold uppercase tracking-[0.14em] text-brand-600">4–8 weeks</div>
+                <h3 className="mt-2 text-lg font-black tracking-tight text-ink-900">{track}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-ink-600">
                   Mentor-led project work with weekly reviews and final
                   documentation submission.
                 </p>
@@ -116,7 +121,7 @@ export default function InternshipsPage() {
               {categories.slice(0, 8).map((category) => (
                 <span
                   key={category.slug}
-                  className="rounded-full bg-brand-50 px-3 py-1.5 text-xs font-semibold text-navy-700/70"
+                  className="rounded-full bg-brand-50 px-3 py-1.5 text-xs font-semibold text-brand-700"
                 >
                   {category.name}
                 </span>
@@ -128,18 +133,22 @@ export default function InternshipsPage() {
       </section>
 
       <section className="py-16">
-        <div className="container-x rounded-2xl bg-navy-900 p-8 text-white md:p-10">
-          <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
-            <div>
-              <h2 className="text-2xl font-extrabold">Student dashboard ready</h2>
-              <p className="mt-2 max-w-2xl text-brand-100/70">
-                Purchased projects, downloads, internship status, offer letters
-                and certificate downloads are designed as next backend modules.
-              </p>
+        <div className="container-x">
+          <div className="relative overflow-hidden rounded-3xl bg-navy-900 p-8 text-white md:p-10">
+            <div className="mesh pointer-events-none absolute inset-0 opacity-50" />
+            <div aria-hidden className="grid-lines pointer-events-none absolute inset-0 opacity-[0.18] [mask-image:linear-gradient(to_bottom,black,transparent)]" />
+            <div className="relative grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
+              <div>
+                <h2 className="text-2xl font-black tracking-tight">Student dashboard ready</h2>
+                <p className="mt-2 max-w-2xl leading-relaxed text-brand-100/75">
+                  Purchased projects, downloads, internship status, offer letters
+                  and certificate downloads — all tracked in one place.
+                </p>
+              </div>
+              <Button href="/dashboard" variant="white">
+                Preview dashboard
+              </Button>
             </div>
-            <Button href="/dashboard" variant="white">
-              Preview dashboard
-            </Button>
           </div>
         </div>
       </section>
