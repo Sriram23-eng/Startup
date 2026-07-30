@@ -4,50 +4,53 @@
 /*  Design tokens — premium white + dark-navy engineering theme        */
 /* ------------------------------------------------------------------ */
 @theme {
-  --color-navy-950: #050b1a;
-  --color-navy-900: #07112a;
-  --color-navy-800: #0b1f3a;
-  --color-navy-700: #11305c;
-  --color-navy-600: #1c4282;
-  --color-navy-500: #2b59a8;
+  /* Dark surfaces: near-black "ink", replacing the old navy blues. Used for
+     dark anchor sections, the navbar mark and deep gradients. */
+  --color-navy-950: #05070d;
+  --color-navy-900: #0b1220;
+  --color-navy-800: #111827;
+  --color-navy-700: #1f2937;
+  --color-navy-600: #334155;
+  --color-navy-500: #475569;
 
-  --color-brand-50: #eef4ff;
-  --color-brand-100: #d9e6ff;
-  --color-brand-200: #bcd3ff;
-  --color-brand-300: #8db5ff;
-  --color-brand-400: #5a8dff;
-  --color-brand-500: #2f63f5;
-  --color-brand-600: #1d47db;
-  --color-brand-700: #1838b0;
+  /* Accent: emerald. One confident accent across the whole site. */
+  --color-brand-50: #ecfdf5;
+  --color-brand-100: #d1fae5;
+  --color-brand-200: #a7f3d0;
+  --color-brand-300: #6ee7b7;
+  --color-brand-400: #34d399;
+  --color-brand-500: #10b981;
+  --color-brand-600: #059669;
+  --color-brand-700: #047857;
 
-  --color-cyan-accent: #25d3ee;
+  /* Secondary glow: teal. */
+  --color-cyan-accent: #14b8a6;
 
-  /* Semantic text ramp. Solid values, all AA-contrast on white and on the
-     #f6f8fc page background — unlike the navy-700/40…/55 alphas they replace,
-     which land around 2.8–3.4:1 and fail for body copy. */
-  --color-ink-900: #0b1f3a; /* headings */
-  --color-ink-700: #2c3f66; /* strong body */
-  --color-ink-600: #46587d; /* body            7.1:1 */
-  --color-ink-400: #5d6f93; /* meta / captions 5.0:1 */
+  /* Semantic text ramp on a slate axis. All AA-contrast on white and on the
+     off-white page background. */
+  --color-ink-900: #0f172a; /* headings */
+  --color-ink-700: #334155; /* strong body */
+  --color-ink-600: #475569; /* body            7.5:1 */
+  --color-ink-400: #64748b; /* meta / captions 4.9:1 */
 
-  /* Hairlines — one value instead of navy-700/8 sprinkled everywhere. */
-  --color-line: #e4eaf5;
-  --color-line-strong: #d3ddee;
+  /* Hairlines — neutral slate. */
+  --color-line: #e2e8f0;
+  --color-line-strong: #cbd5e1;
 
   --font-sans: var(--font-geist), "Inter", ui-sans-serif, system-ui,
     -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
-  --shadow-glow: 0 0 0 1px rgba(47, 99, 245, 0.15),
-    0 18px 50px -18px rgba(13, 35, 90, 0.45);
-  --shadow-card: 0 1px 2px rgba(7, 17, 42, 0.04),
-    0 12px 32px -16px rgba(7, 17, 42, 0.18);
-  --shadow-lift: 0 2px 4px rgba(7, 17, 42, 0.04),
-    0 24px 48px -24px rgba(7, 17, 42, 0.28);
+  --shadow-glow: 0 0 0 1px rgba(5, 150, 105, 0.15),
+    0 18px 50px -18px rgba(6, 78, 59, 0.45);
+  --shadow-card: 0 1px 2px rgba(2, 6, 23, 0.04),
+    0 12px 32px -16px rgba(2, 6, 23, 0.18);
+  --shadow-lift: 0 2px 4px rgba(2, 6, 23, 0.04),
+    0 24px 48px -24px rgba(2, 6, 23, 0.28);
 }
 
 :root {
-  --bg: #f6f8fc;
-  --fg: #0b1f3a;
+  --bg: #f6f8f7;
+  --fg: #0f172a;
 }
 
 html {
@@ -107,7 +110,7 @@ body {
 
   .grid-dots {
     background-image: radial-gradient(
-      rgba(47, 99, 245, 0.18) 1px,
+      rgba(5, 150, 105, 0.18) 1px,
       transparent 1px
     );
     background-size: 22px 22px;
@@ -115,9 +118,9 @@ body {
 
   .mesh {
     background:
-      radial-gradient(60% 50% at 15% 10%, rgba(47, 99, 245, 0.35), transparent 60%),
-      radial-gradient(50% 45% at 90% 0%, rgba(37, 211, 238, 0.25), transparent 55%),
-      radial-gradient(60% 60% at 80% 100%, rgba(28, 66, 130, 0.45), transparent 60%);
+      radial-gradient(60% 50% at 15% 10%, rgba(5, 150, 105, 0.35), transparent 60%),
+      radial-gradient(50% 45% at 90% 0%, rgba(20, 184, 166, 0.25), transparent 55%),
+      radial-gradient(60% 60% at 80% 100%, rgba(6, 78, 59, 0.45), transparent 60%);
   }
 
   .glass {
@@ -151,9 +154,9 @@ body {
     padding: 1px;
     background: linear-gradient(
       140deg,
-      rgba(47, 99, 245, 0.55),
-      rgba(37, 211, 238, 0.4) 42%,
-      rgba(47, 99, 245, 0.06) 72%
+      rgba(5, 150, 105, 0.55),
+      rgba(20, 184, 166, 0.4) 42%,
+      rgba(5, 150, 105, 0.06) 72%
     );
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,

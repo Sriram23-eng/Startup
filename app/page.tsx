@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui";
 import ProjectCard from "@/components/ProjectCard";
@@ -6,7 +7,6 @@ import {
   CategoryIcon,
   IconArrow,
   IconAward,
-  IconBolt,
   IconBook,
   IconBox,
   IconCap,
@@ -96,6 +96,11 @@ export default async function HomePage() {
   const fromPrice = allProjects.length
     ? Math.min(...allProjects.map((p) => p.price))
     : 0;
+  // Real hero product: the featured kit, else the top-rated one. A genuine
+  // photo replaces the old fake sensor console (a taste-skill hero no-no).
+  const heroKit =
+    allProjects.find((p) => p.featured) ??
+    [...allProjects].sort((a, b) => (b.rating || 0) - (a.rating || 0))[0];
 
   return (
     <>
@@ -119,20 +124,14 @@ export default async function HomePage() {
               Marketplace · Academy · Project Lab
             </div>
 
-            {/* Explicit line breaks: left to wrap, "— end to end." split across
-                lines 2 and 3 at desktop widths and read as a stray fragment. */}
-            <h1 className="mt-6 text-[2.15rem] font-black leading-[1.04] tracking-[-0.025em] text-ink-900 min-[420px]:text-[2.6rem] sm:text-[3.4rem] lg:text-[3.6rem]">
-              Build, learn &amp; ship
-              <br />
+            <h1 className="mt-6 text-[2.15rem] font-black leading-[1.02] tracking-[-0.03em] text-balance text-ink-900 min-[420px]:text-[2.6rem] sm:text-[3.4rem] lg:text-[3.7rem]">
+              Build, learn and ship{" "}
               <span className="text-gradient">real-world IoT</span>
-              <br />
-              <span className="text-ink-900">— end to end.</span>
             </h1>
 
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-pretty text-ink-600">
-              Ready-made project kits, custom engineering builds, and hands-on
-              training. From a first Arduino blink to a multi-kilometre LoRa
-              deployment — hardware, code and people included.
+            <p className="mt-6 max-w-lg text-lg leading-relaxed text-pretty text-ink-600">
+              Ready-made kits, custom engineering builds, and hands-on training,
+              with the hardware, code and people to back every project.
             </p>
 
             {/* One primary action. The old three-equal-buttons row made every
@@ -203,8 +202,76 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* ---- Product visual ---- */}
-          <HeroConsole />
+          {/* ---- Product visual: a real kit photo, not a fabricated console ---- */}
+          {heroKit && (
+            <div className="relative animate-rise [animation-delay:120ms]">
+              <div
+                aria-hidden
+                className="absolute inset-8 -z-10 rounded-[2rem] bg-brand-500/20 blur-3xl"
+              />
+              <div className="ring-gradient group rounded-[1.75rem] bg-white/70 p-2.5 shadow-lift backdrop-blur-xl">
+                <div className="overflow-hidden rounded-[1.4rem] bg-white">
+                  <div className="relative aspect-[4/3]">
+                    <Image
+                      src={heroKit.image}
+                      alt={heroKit.title}
+                      fill
+                      priority
+                      sizes="(max-width: 1024px) 100vw, 45vw"
+                      className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
+                    />
+                    <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-navy-950/55 to-transparent" />
+                    <div className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-xs font-bold text-ink-900 shadow-card backdrop-blur">
+                      <IconStar className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                      {heroKit.rating} rating
+                    </div>
+                    <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3 text-white">
+                      <div className="min-w-0">
+                        <div className="text-[11px] font-semibold uppercase tracking-wide text-cyan-accent">
+                          Featured kit
+                        </div>
+                        <div className="truncate text-sm font-bold">
+                          {heroKit.title}
+                        </div>
+                      </div>
+                      <div className="shrink-0 text-lg font-black tracking-tight">
+                        {formatINR(heroKit.price)}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Two real facts, not a fabricated live feed. */}
+              <div className="absolute -bottom-5 -left-4 hidden rounded-2xl border border-line bg-white/95 p-4 shadow-card backdrop-blur sm:block">
+                <div className="flex items-center gap-3">
+                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-emerald-50 text-emerald-600">
+                    <IconCheck className="h-5 w-5" strokeWidth={2.4} />
+                  </span>
+                  <div>
+                    <div className="text-sm font-bold text-ink-900">
+                      Ships assembled
+                    </div>
+                    <div className="text-xs text-ink-400">Tested on our bench</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="absolute -right-4 -top-6 hidden rounded-2xl border border-line bg-white/95 px-4 py-3 shadow-card backdrop-blur md:block">
+                <div className="flex items-center gap-2.5">
+                  <span className="grid h-9 w-9 place-items-center rounded-lg bg-brand-50 text-brand-600">
+                    <IconShield className="h-4 w-4" strokeWidth={1.8} />
+                  </span>
+                  <div>
+                    <div className="text-[11px] font-medium text-ink-400">
+                      Source and docs
+                    </div>
+                    <div className="text-sm font-black text-ink-900">Included</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Capability strip — closes the hero and answers "what do I get?" */}
@@ -938,154 +1005,3 @@ function Quote({
   );
 }
 
-/* ---------------- Hero product visual ---------------- */
-
-function HeroConsole() {
-  return (
-    <div className="relative animate-rise [animation-delay:120ms]">
-      <div
-        aria-hidden
-        className="absolute inset-8 -z-10 rounded-[2rem] bg-brand-500/25 blur-3xl"
-      />
-
-      <div className="ring-gradient rounded-[1.75rem] bg-white/70 p-2.5 shadow-glow backdrop-blur-xl">
-        <div className="relative overflow-hidden rounded-[1.4rem] bg-navy-900 p-6 text-brand-100">
-          <div className="mesh pointer-events-none absolute inset-0 opacity-30" />
-
-          <div className="relative">
-            {/* window chrome */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1.5">
-                <span className="h-2.5 w-2.5 rounded-full bg-red-400/80" />
-                <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
-                <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/80" />
-              </div>
-              <span className="flex items-center gap-2 rounded-full bg-emerald-500/15 px-2.5 py-1 text-[11px] font-semibold text-emerald-300">
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
-                Live
-              </span>
-            </div>
-
-            <div className="mt-5 flex items-center justify-between">
-              <div>
-                <div className="font-mono text-xs font-semibold text-cyan-accent">
-                  field-node-07
-                </div>
-                <div className="mt-0.5 text-[11px] text-brand-100/45">
-                  Uptime 41d · last packet 3s ago
-                </div>
-              </div>
-              <span className="flex items-end gap-0.5">
-                {[6, 9, 12, 8].map((h, i) => (
-                  <span
-                    key={i}
-                    style={{ height: `${h}px` }}
-                    className="w-1 rounded-sm bg-cyan-accent/80"
-                  />
-                ))}
-                <span className="ml-1.5 font-mono text-[11px] text-brand-100/50">
-                  LoRa −94 dBm
-                </span>
-              </span>
-            </div>
-
-            <div className="mt-4 grid grid-cols-2 gap-3">
-              {[
-                ["Soil moisture", "38", "%"],
-                ["Air temp", "29.4", "°C"],
-                ["Humidity", "61", "%"],
-                ["Battery", "4.02", "V"],
-              ].map(([k, v, unit]) => (
-                <div
-                  key={k}
-                  className="rounded-xl bg-white/[0.06] p-3 ring-1 ring-white/10"
-                >
-                  <div className="text-[11px] text-brand-100/50">{k}</div>
-                  <div className="mt-0.5 flex items-baseline gap-1">
-                    <span className="text-lg font-bold text-white">{v}</span>
-                    <span className="text-xs font-medium text-brand-100/50">
-                      {unit}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Sparkline — replaces the flat bar row */}
-            <div className="mt-5 rounded-xl bg-white/[0.04] p-3 ring-1 ring-white/10">
-              <div className="flex items-center justify-between text-[11px]">
-                <span className="text-brand-100/50">Moisture · 12 h</span>
-                <span className="flex items-center gap-1 font-semibold text-emerald-300">
-                  <IconBolt className="h-3 w-3" strokeWidth={2} />
-                  +12.4%
-                </span>
-              </div>
-              <svg
-                viewBox="0 0 240 64"
-                preserveAspectRatio="none"
-                className="mt-2 h-16 w-full"
-                aria-hidden
-              >
-                <defs>
-                  <linearGradient id="sparkFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#25d3ee" stopOpacity="0.4" />
-                    <stop offset="100%" stopColor="#25d3ee" stopOpacity="0" />
-                  </linearGradient>
-                  <linearGradient id="sparkLine" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stopColor="#2f63f5" />
-                    <stop offset="100%" stopColor="#25d3ee" />
-                  </linearGradient>
-                </defs>
-                <path
-                  d="M0,37.6 L21.8,23.6 L43.6,30.9 L65.5,16.3 L87.3,26.4 L109.1,9.6 L130.9,19.7 L152.7,13 L174.5,27.5 L196.4,6.2 L218.2,20.8 L240,14.1 L240,64 L0,64 Z"
-                  fill="url(#sparkFill)"
-                />
-                <path
-                  d="M0,37.6 L21.8,23.6 L43.6,30.9 L65.5,16.3 L87.3,26.4 L109.1,9.6 L130.9,19.7 L152.7,13 L174.5,27.5 L196.4,6.2 L218.2,20.8 L240,14.1"
-                  fill="none"
-                  stroke="url(#sparkLine)"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  vectorEffect="non-scaling-stroke"
-                />
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* floating chips */}
-      <div className="absolute -bottom-5 -left-4 hidden rounded-2xl border border-line bg-white/95 p-4 shadow-card backdrop-blur sm:block">
-        <div className="flex items-center gap-3">
-          <span className="grid h-10 w-10 place-items-center rounded-xl bg-emerald-50 text-emerald-600">
-            <IconCheck className="h-5 w-5" strokeWidth={2.4} />
-          </span>
-          <div>
-            <div className="text-sm font-bold text-ink-900">
-              Deployed in 2 days
-            </div>
-            <div className="text-xs text-ink-400">Campus weather mesh</div>
-          </div>
-        </div>
-      </div>
-
-      {/* -top-9 keeps this clear of the console's "Live" pill. */}
-      <div className="absolute -right-4 -top-9 hidden rounded-2xl border border-line bg-white/95 px-4 py-3 shadow-card backdrop-blur md:block">
-        <div className="flex items-center gap-2.5">
-          <span className="grid h-9 w-9 place-items-center rounded-lg bg-brand-50 text-brand-600">
-            <IconShield className="h-4 w-4" strokeWidth={1.8} />
-          </span>
-          <div>
-            <div className="text-[11px] font-medium text-ink-400">
-              Every kit ships
-            </div>
-            <div className="text-sm font-black text-ink-900">
-              Bench-tested
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
