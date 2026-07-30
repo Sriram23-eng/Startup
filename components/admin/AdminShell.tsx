@@ -11,6 +11,7 @@ const links = [
   { href: "/admin/modules", label: "Modules", icon: "📚" },
   { href: "/admin/topics", label: "Topics", icon: "📝" },
   { href: "/admin/enrollments", label: "Reservations", icon: "🎫" },
+  { href: "/admin/leads", label: "Enquiries", icon: "📨" },
   { href: "/admin/users", label: "Users", icon: "👥" },
 ];
 

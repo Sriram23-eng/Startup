@@ -1,16 +1,22 @@
 import Link from "next/link";
 import AdminShell from "@/components/admin/AdminShell";
 import { getProjects, getCourses } from "@/lib/store";
+import { countNewLeads } from "@/lib/leads";
 import { formatINR } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
-  const [projects, courses] = await Promise.all([getProjects(), getCourses()]);
+  const [projects, courses, newLeads] = await Promise.all([
+    getProjects(),
+    getCourses(),
+    countNewLeads(),
+  ]);
   const liveCourses = courses.filter((c) => c.mode === "Live").length;
   const inventoryValue = projects.reduce((s, p) => s + p.price, 0);
 
   const cards = [
+    { label: "New enquiries", value: newLeads, href: "/admin/leads", icon: "📨" },
     { label: "Projects", value: projects.length, href: "/admin/projects", icon: "🧰" },
     { label: "Courses", value: courses.length, href: "/admin/courses", icon: "🎓" },
     { label: "Live cohorts", value: liveCourses, href: "/admin/courses", icon: "🔴" },
@@ -19,7 +25,7 @@ export default async function AdminDashboard() {
 
   return (
     <AdminShell title="Dashboard">
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
         {cards.map((c) => (
           <Link
             key={c.label}
@@ -47,18 +53,19 @@ export default async function AdminDashboard() {
           cta="Open projects"
         />
         <QuickPanel
-          title="Manage Courses"
-          desc="Add live cohorts or self-paced courses. Changes appear instantly on /courses."
-          href="/admin/courses"
-          cta="Open courses"
+          title="Enquiries"
+          desc="Messages from the contact, workshop, internship and custom-project forms."
+          href="/admin/leads"
+          cta="Open enquiries"
         />
       </div>
 
       <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900">
-        <strong>How it works:</strong> data is stored in <code>/data/*.json</code>{" "}
-        (seeded from your existing catalogue). Edits here write to that store and
-        the public pages read from it live. For Vercel/production, swap the store
-        for Postgres + Prisma — the API contract stays identical.
+        <strong>How it works:</strong> when <code>DATABASE_URL</code> is set (as
+        it is on Vercel) everything is stored in Postgres via Prisma. Locally,
+        with no <code>DATABASE_URL</code>, the app falls back to JSON files in{" "}
+        <code>/data</code> — handy for testing, but that fallback does not
+        persist on Vercel. Edits here are live on the public pages immediately.
       </div>
     </AdminShell>
   );

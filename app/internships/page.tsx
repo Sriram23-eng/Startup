@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Badge, Button, SectionHeading } from "@/components/ui";
+import InternshipForm from "@/components/InternshipForm";
 import { categories } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -109,7 +110,7 @@ export default function InternshipsPage() {
             <SectionHeading
               eyebrow="Apply"
               title="Internship application"
-              subtitle="This frontend stores the enquiry through the lead API. Connect it to CRM, email and certificate generation next."
+              subtitle="Tell us your track and we'll be in touch with next steps. You'll get a reference number to quote in any follow-up."
             />
             <div className="mt-6 flex flex-wrap gap-2">
               {categories.slice(0, 8).map((category) => (
@@ -122,43 +123,7 @@ export default function InternshipsPage() {
               ))}
             </div>
           </div>
-          <form className="rounded-2xl border border-navy-700/8 bg-brand-50/30 p-6 shadow-card sm:p-8">
-            <div className="grid gap-4 sm:grid-cols-2">
-              {["Full name", "Email", "Phone", "College"].map((label) => (
-                <label key={label} className="block">
-                  <span className="mb-1.5 block text-sm font-semibold text-navy-800">
-                    {label}
-                  </span>
-                  <input className="w-full rounded-xl border border-navy-700/12 bg-white px-4 py-3 text-sm outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100" />
-                </label>
-              ))}
-              <label className="block sm:col-span-2">
-                <span className="mb-1.5 block text-sm font-semibold text-navy-800">
-                  Preferred domain
-                </span>
-                <select className="w-full rounded-xl border border-navy-700/12 bg-white px-4 py-3 text-sm outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100">
-                  {categories.map((category) => (
-                    <option key={category.slug}>{category.name}</option>
-                  ))}
-                </select>
-              </label>
-              <label className="block sm:col-span-2">
-                <span className="mb-1.5 block text-sm font-semibold text-navy-800">
-                  Skills / project interest
-                </span>
-                <textarea
-                  rows={4}
-                  className="w-full resize-none rounded-xl border border-navy-700/12 bg-white px-4 py-3 text-sm outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
-                />
-              </label>
-            </div>
-            <Button className="mt-6 w-full" size="lg">
-              Submit application
-            </Button>
-            <p className="mt-3 text-center text-xs text-navy-700/45">
-              Backend submission can be wired to /api/leads.
-            </p>
-          </form>
+          <InternshipForm />
         </div>
       </section>
 

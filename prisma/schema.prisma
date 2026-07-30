@@ -104,6 +104,29 @@ model Enrollment {
   @@index([userId])
 }
 
+// An enquiry from any of the public forms (contact / workshop / internship /
+// custom-project). The four forms submit different field sets, so the common
+// ones get real columns (for the admin table + search) and the complete
+// submitted payload is kept verbatim in `details` — nothing is ever dropped.
+model Lead {
+  id      String @id @default(cuid())
+  ref     String // customer-facing reference, e.g. "LEAD-7F3K2Q"
+  type    String @default("general") // contact | workshop | internship | custom-project
+  name    String @default("")
+  email   String @default("")
+  phone   String @default("")
+  org     String @default("") // college / company
+  subject String @default("") // topic, project title or domain
+  message String @default("") // message / description / notes / why
+  details String @default("{}") // full submitted payload as JSON
+
+  status    String   @default("new") // new | contacted | closed
+  createdAt DateTime @default(now())
+
+  @@index([ref])
+  @@index([status])
+}
+
 // ----- W3Schools-style structured course content -----
 
 // A module groups topics, within a section band (Beginner/Intermediate/Advanced/Projects).
