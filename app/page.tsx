@@ -95,27 +95,6 @@ export default async function HomePage() {
         </div>
       </nav>
 
-      {/* ====================== TRUST / PARTNERS ====================== */}
-      <section className="border-b border-line bg-white py-10">
-        <div className="container-x">
-          <p className="text-center text-[11px] font-bold uppercase tracking-[0.22em] text-ink-400">
-            Trusted by students, faculty &amp; engineers at
-          </p>
-          <div className="marquee-hold relative mt-5 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]">
-            <div className="flex w-max animate-marquee gap-12">
-              {[...partners, ...partners].map((p, i) => (
-                <span
-                  key={i}
-                  className="whitespace-nowrap text-lg font-bold tracking-tight text-ink-400/70 transition-colors hover:text-brand-600"
-                >
-                  {p}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ==================== ABOUT INTRO (who we are) =============== */}
       <section id="who-we-are" className="relative overflow-hidden scroll-mt-24 py-20 lg:py-24">
         <DotField className="inset-y-0 right-0 hidden w-1/2 lg:block" />
@@ -219,6 +198,27 @@ export default async function HomePage() {
               </li>
             ))}
           </ol>
+        </div>
+      </section>
+
+      {/* ============ TRUST / PARTNERS (mid-page) ==================== */}
+      <section className="border-y border-line bg-white py-12">
+        <div className="container-x">
+          <p className="text-center text-[11px] font-bold uppercase tracking-[0.22em] text-ink-400">
+            Trusted by students, faculty &amp; engineers at
+          </p>
+          <div className="marquee-hold relative mt-5 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]">
+            <div className="flex w-max animate-marquee gap-12">
+              {[...partners, ...partners].map((p, i) => (
+                <span
+                  key={i}
+                  className="whitespace-nowrap text-lg font-bold tracking-tight text-ink-400/70 transition-colors hover:text-brand-600"
+                >
+                  {p}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
