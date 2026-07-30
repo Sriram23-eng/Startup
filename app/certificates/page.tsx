@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Badge } from "@/components/ui";
+import PageHero from "@/components/PageHero";
 import { IconShield, IconBolt, IconSignal } from "@/components/icons";
 import CertVerify from "@/components/CertVerify";
 
@@ -12,26 +12,17 @@ export const metadata: Metadata = {
 export default function CertificatesPage() {
   return (
     <>
-      <section className="relative overflow-hidden border-b border-line bg-[#f7f9fd]">
-        <div aria-hidden className="pointer-events-none absolute inset-0">
-          <div className="animate-drift absolute -left-16 -top-20 h-80 w-80 rounded-full bg-brand-400/20 blur-[130px]" />
-          <div className="animate-drift absolute right-0 -top-16 h-72 w-72 rounded-full bg-cyan-accent/16 blur-[130px] [animation-delay:-7s]" />
-          <div className="grid-lines absolute inset-0 [mask-image:radial-gradient(75%_60%_at_50%_10%,black,transparent)]" />
-        </div>
-        <div className="container-x relative py-16 text-center">
-          <div className="animate-rise">
-            <Badge tone="brand">Certificate Verification</Badge>
-            <h1 className="mx-auto mt-5 max-w-2xl text-4xl font-black leading-[1.06] tracking-[-0.025em] text-balance text-ink-900 sm:text-5xl">
-              Verify a certificate in{" "}
-              <span className="text-gradient">seconds</span>
-            </h1>
-            <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-pretty text-ink-600">
-              Enter the certificate ID printed on any certificate we issue to
-              confirm the holder, program and issue date.
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        align="center"
+        eyebrow="Certificate Verification"
+        title={
+          <>
+            Verify a certificate in{" "}
+            <span className="text-gradient-light">seconds</span>
+          </>
+        }
+        subtitle="Enter the certificate ID printed on any certificate we issue to confirm the holder, program and issue date."
+      />
 
       <section className="py-14">
         <div className="container-x mx-auto max-w-3xl">

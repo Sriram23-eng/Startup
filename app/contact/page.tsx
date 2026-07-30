@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Badge } from "@/components/ui";
+import PageHero from "@/components/PageHero";
 import { IconMail, IconPhone, IconPin } from "@/components/icons";
 import ContactForm from "@/components/ContactForm";
 import { site } from "@/lib/site";
@@ -26,26 +26,16 @@ export default function ContactPage() {
 
   return (
     <>
-      <section className="relative overflow-hidden border-b border-line bg-[#f7f9fd]">
-        <div aria-hidden className="pointer-events-none absolute inset-0">
-          <div className="animate-drift absolute -left-16 -top-20 h-80 w-80 rounded-full bg-brand-400/20 blur-[130px]" />
-          <div className="animate-drift absolute right-0 top-0 h-72 w-72 rounded-full bg-cyan-accent/18 blur-[130px] [animation-delay:-7s]" />
-          <div className="grid-lines absolute inset-0 [mask-image:radial-gradient(75%_60%_at_50%_10%,black,transparent)]" />
-        </div>
-        <div className="container-x relative py-16">
-          <div className="animate-rise">
-            <Badge tone="cyan">Contact</Badge>
-            <h1 className="mt-5 max-w-2xl text-4xl font-black leading-[1.06] tracking-[-0.025em] text-balance text-ink-900 sm:text-5xl">
-              Let’s talk about{" "}
-              <span className="text-gradient">your project</span>
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-pretty text-ink-600">
-              Questions about a kit, a custom build, a workshop or a course? Reach
-              out — a real engineer will reply.
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Contact"
+        title={
+          <>
+            Let’s talk about{" "}
+            <span className="text-gradient-light">your project</span>
+          </>
+        }
+        subtitle="Questions about a kit, a custom build, a workshop or a course? Reach out and a real engineer will reply."
+      />
 
       <section className="py-14">
         <div className="container-x grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
