@@ -97,10 +97,10 @@ export function SectionHeading({
   light?: boolean;
 }) {
   return (
-    <div className={`${center ? "mx-auto text-center" : ""} max-w-2xl`}>
+    <div className={`reveal ${center ? "mx-auto max-w-3xl text-center" : "max-w-2xl"}`}>
       {eyebrow && (
         <div
-          className={`mb-3 text-xs font-bold uppercase tracking-[0.18em] ${
+          className={`mb-3.5 text-xs font-bold uppercase tracking-[0.2em] ${
             light ? "text-cyan-accent" : "text-brand-600"
           }`}
         >
@@ -108,7 +108,7 @@ export function SectionHeading({
         </div>
       )}
       <h2
-        className={`text-3xl font-black tracking-tight text-balance sm:text-4xl ${
+        className={`text-[2rem] font-black leading-[1.05] tracking-[-0.02em] text-balance sm:text-4xl lg:text-[2.7rem] ${
           light ? "text-white" : "text-ink-900"
         }`}
       >
@@ -116,7 +116,7 @@ export function SectionHeading({
       </h2>
       {subtitle && (
         <p
-          className={`mt-4 text-base leading-relaxed text-pretty ${
+          className={`mt-4 text-lg leading-relaxed text-pretty ${
             light ? "text-brand-100/80" : "text-ink-600"
           }`}
         >
