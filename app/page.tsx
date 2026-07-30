@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import { Button } from "@/components/ui";
 import OrbitShowreel from "@/components/OrbitShowreel";
 import AboutStory from "@/components/AboutStory";
+import DotField from "@/components/DotField";
+import { LogoMark } from "@/components/Logo";
 import {
   IconArrow,
   IconAward,
@@ -145,8 +147,9 @@ export default async function HomePage() {
       </section>
 
       {/* ==================== ABOUT INTRO (who we are) =============== */}
-      <section id="who-we-are" className="scroll-mt-24 py-20 lg:py-24">
-        <div className="container-x grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
+      <section id="who-we-are" className="relative overflow-hidden scroll-mt-24 py-20 lg:py-24">
+        <DotField className="inset-y-0 right-0 hidden w-1/2 lg:block" />
+        <div className="container-x relative grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
           <div className="reveal">
             <div className="text-xs font-bold uppercase tracking-[0.2em] text-brand-600">
               Who we are
@@ -312,6 +315,42 @@ export default async function HomePage() {
 
       {/* ============ ABOUT STORY (moved onto the home page) ========= */}
       <AboutStory />
+
+      {/* =================== LOGO REVEAL (brand moment) ============== */}
+      <section className="relative overflow-hidden bg-navy-950 py-20 text-white lg:py-28">
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <div className="mesh absolute inset-0 opacity-20" />
+          <div className="grid-lines absolute inset-0 opacity-[0.1]" />
+        </div>
+
+        <div className="container-x relative flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.24em] text-brand-100/40">
+          <span>Elektron Nexus</span>
+          <span className="hidden sm:inline">Playground / 01</span>
+          <span>Est. 2022</span>
+        </div>
+
+        <div className="reveal relative flex flex-col items-center py-14 text-center">
+          <div className="relative">
+            <div
+              aria-hidden
+              className="absolute inset-0 -z-10 animate-pulse rounded-full bg-brand-500/25 blur-3xl"
+            />
+            <LogoMark className="h-28 w-28 text-brand-400 sm:h-40 sm:w-40" />
+          </div>
+          <div className="mt-7 text-3xl font-black uppercase tracking-tight sm:text-5xl">
+            Elektron <span className="text-brand-400">Nexus</span>
+          </div>
+          <div className="mt-2.5 text-xs font-bold uppercase tracking-[0.3em] text-brand-100/50">
+            Core Electronics Hub
+          </div>
+        </div>
+
+        <div className="container-x relative flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.24em] text-brand-100/40">
+          <span>IoT · Embedded · AI</span>
+          <span className="hidden sm:inline">Marketplace · Academy · Lab</span>
+          <span>Hyderabad</span>
+        </div>
+      </section>
 
       {/* ======================== HOW IT WORKS ======================== */}
       <section className="py-20">

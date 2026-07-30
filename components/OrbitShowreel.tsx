@@ -1,5 +1,4 @@
 import Image from "next/image";
-import AnimatedSearch from "./AnimatedSearch";
 
 /* ------------------------------------------------------------------ */
 /*  Orbit-style showreel hero (after the Jitter "Orbit" motion         */
@@ -33,11 +32,6 @@ export default function OrbitShowreel({ images }: { images: string[] }) {
           <br />
           &amp; ship
         </h1>
-
-        {/* Animated search bar */}
-        <div className="mt-9 flex w-full justify-center px-1">
-          <AnimatedSearch />
-        </div>
 
         {/* Scrolling filmstrip of photos */}
         <div className="marquee-hold relative mt-10 w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_7%,black_93%,transparent)]">
