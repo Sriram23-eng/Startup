@@ -75,26 +75,6 @@ export default async function HomePage() {
       {/* ==================== HERO (Orbit showreel) ================== */}
       <OrbitShowreel images={stripImages} />
 
-      {/* ================= FEATURE QUICK-NAV (OPPO-style) ============= */}
-      <nav className="sticky top-16 z-30 border-b border-line bg-[#f6f8f7]/85 backdrop-blur-xl">
-        <div className="container-x flex items-center gap-2 overflow-x-auto py-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {[
-            ["Ready-made kits", "/projects"],
-            ["Custom builds", "/custom-project"],
-            ["Courses", "/courses"],
-            ["Internships", "#internships"],
-          ].map(([label, href]) => (
-            <a
-              key={href}
-              href={href}
-              className="shrink-0 rounded-full border border-line-strong bg-white px-4 py-1.5 text-sm font-semibold text-ink-700 transition-colors hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
-            >
-              {label}
-            </a>
-          ))}
-        </div>
-      </nav>
-
       {/* ==================== ABOUT INTRO (who we are) =============== */}
       <section id="who-we-are" className="relative overflow-hidden scroll-mt-24 py-20 lg:py-24">
         <DotField className="inset-y-0 right-0 hidden w-1/2 lg:block" />
