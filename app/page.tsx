@@ -1,7 +1,9 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui";
 import OrbitShowreel from "@/components/OrbitShowreel";
+import FeaturedSlider from "@/components/FeaturedSlider";
 import AboutStory from "@/components/AboutStory";
 import DotField from "@/components/DotField";
 import { LogoMark } from "@/components/Logo";
@@ -211,6 +213,9 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ============ FEATURED SLIDER (numbered pagination) ========= */}
+      <FeaturedSlider projects={allProjects} />
+
       {/* ========================= THREE PATHS ======================== */}
       {/* Moved up from the middle of the page: a visitor arriving from
           "IoT marketplace + academy + lab" needs routing before catalogue. */}
@@ -387,6 +392,42 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ==================== PROJECT GALLERY GRID ================== */}
+      <section className="border-y border-line bg-white py-20 lg:py-24">
+        <div className="container-x">
+          <Head
+            center
+            eyebrow="The catalogue"
+            title="A build for every domain"
+            subtitle="From a first Arduino blink to a multi-kilometre LoRa deployment."
+          />
+          <div className="reveal-late mt-11 grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {allProjects.slice(0, 9).map((p, idx) => (
+              <Link
+                key={p.slug}
+                href={`/projects/${p.slug}`}
+                className={`group relative aspect-[4/3] overflow-hidden rounded-2xl ${
+                  idx === 4
+                    ? "ring-2 ring-brand-500 ring-offset-2 ring-offset-white"
+                    : ""
+                }`}
+              >
+                <Image
+                  src={p.image}
+                  alt={p.title}
+                  fill
+                  sizes="(max-width: 640px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy-950/75 via-navy-950/10 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+                <div className="absolute inset-x-3 bottom-3 translate-y-1 text-sm font-bold text-white opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100">
+                  {p.title}
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ========================= INTERNSHIPS ======================= */}
       <section id="internships" className="scroll-mt-28 py-24 lg:py-28">
@@ -459,6 +500,38 @@ export default async function HomePage() {
               {testimonials.slice(1).map((t) => (
                 <Quote key={t.name} item={t} />
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ==================== FULL-BLEED IMAGE BAND ================= */}
+      <section className="relative h-[60vh] min-h-[26rem] overflow-hidden">
+        <Image
+          src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=2000&q=72"
+          alt="Electronics workbench"
+          fill
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-navy-950/65" />
+        <div className="mesh pointer-events-none absolute inset-0 opacity-20" />
+        <div className="relative flex h-full items-center">
+          <div className="container-x text-white">
+            <div className="reveal max-w-2xl">
+              <h2 className="text-4xl font-black leading-[1.05] tracking-[-0.02em] text-balance sm:text-6xl">
+                From breadboard to field deployment
+              </h2>
+              <p className="mt-4 max-w-xl leading-relaxed text-brand-100/80">
+                Every kit is built, flashed and bench-tested, then documented so
+                you can take it live.
+              </p>
+              <div className="mt-7">
+                <Button href="/projects" size="lg">
+                  Explore the catalogue
+                  <IconArrow className="h-4 w-4" strokeWidth={2} />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
