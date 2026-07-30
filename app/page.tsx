@@ -226,8 +226,28 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ================= FEATURE QUICK-NAV (OPPO-style) ============= */}
+      <nav className="sticky top-16 z-30 border-b border-line bg-[#f6f8f7]/85 backdrop-blur-xl">
+        <div className="container-x flex items-center gap-2 overflow-x-auto py-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {[
+            ["Ready-made kits", "#kits"],
+            ["Custom builds", "#paths"],
+            ["The academy", "#academy"],
+            ["Internships", "#internships"],
+          ].map(([label, href]) => (
+            <a
+              key={href}
+              href={href}
+              className="shrink-0 rounded-full border border-line-strong bg-white px-4 py-1.5 text-sm font-semibold text-ink-700 transition-colors hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
+            >
+              {label}
+            </a>
+          ))}
+        </div>
+      </nav>
+
       {/* ====================== TRUST / PARTNERS ====================== */}
-      <section className="border-b border-line bg-white py-9">
+      <section className="border-b border-line bg-white py-10">
         <div className="container-x">
           <p className="text-center text-[11px] font-bold uppercase tracking-[0.22em] text-ink-400">
             Trusted by students, faculty &amp; engineers at
@@ -250,7 +270,7 @@ export default async function HomePage() {
       {/* ========================= THREE PATHS ======================== */}
       {/* Moved up from the middle of the page: a visitor arriving from
           "IoT marketplace + academy + lab" needs routing before catalogue. */}
-      <section className="py-20">
+      <section id="paths" className="scroll-mt-28 py-24 lg:py-28">
         <div className="container-x">
           <Head
             eyebrow="Where do you start?"
@@ -258,7 +278,7 @@ export default async function HomePage() {
             subtitle="Buy something that already works, commission something that doesn’t exist yet, or learn to build it yourself."
           />
 
-          <div className="mt-11 grid gap-5 lg:grid-cols-12">
+          <div className="reveal-late mt-11 grid gap-5 lg:grid-cols-12">
             {/* Primary path — wide */}
             <article className="ring-gradient group relative flex flex-col justify-between overflow-hidden rounded-3xl bg-white p-8 shadow-card lift hover:shadow-lift md:p-10 lg:col-span-7">
               <div
@@ -350,7 +370,7 @@ export default async function HomePage() {
       </section>
 
       {/* ====================== FEATURED PROJECTS ===================== */}
-      <section className="border-y border-line bg-white py-20">
+      <section id="kits" className="scroll-mt-28 border-y border-line bg-white py-24 lg:py-28">
         <div className="container-x">
           <Head
             eyebrow="Ready-made kits"
@@ -391,7 +411,7 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="reveal-late mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {featured.map((p) => (
               <ProjectCard key={p.slug} project={p} />
             ))}
@@ -409,7 +429,7 @@ export default async function HomePage() {
             subtitle="The same three steps whether you order a kit off the shelf or commission something new."
           />
 
-          <ol className="relative mt-14 grid gap-10 md:grid-cols-3 md:gap-8">
+          <ol className="reveal-late relative mt-14 grid gap-10 md:grid-cols-3 md:gap-8">
             {/* Connecting rail, desktop only */}
             <div
               aria-hidden
@@ -438,7 +458,7 @@ export default async function HomePage() {
       {/* Workshops and live courses were two consecutive card grids. Merged
           into one composite section — a list on the left, cohorts on the
           right — so the page has a single dark anchor instead of two. */}
-      <section className="relative overflow-hidden bg-navy-900 py-20 text-white">
+      <section id="academy" className="relative scroll-mt-28 overflow-hidden bg-navy-900 py-24 text-white lg:py-32">
         <div className="mesh pointer-events-none absolute inset-0 opacity-50" />
         <div
           aria-hidden
@@ -602,7 +622,7 @@ export default async function HomePage() {
       </section>
 
       {/* ========================= INTERNSHIPS ======================= */}
-      <section className="py-20">
+      <section id="internships" className="scroll-mt-28 py-24 lg:py-28">
         <div className="container-x">
           <div className="overflow-hidden rounded-3xl border border-line bg-white shadow-card">
             <div className="grid items-center gap-10 p-8 md:grid-cols-2 md:p-12">
@@ -759,21 +779,21 @@ function Head({
 }) {
   return (
     <div
-      className={
+      className={`reveal ${
         center
-          ? "mx-auto max-w-2xl text-center"
+          ? "mx-auto max-w-3xl text-center"
           : "flex flex-wrap items-end justify-between gap-5"
-      }
+      }`}
     >
-      <div className="max-w-2xl">
-        <div className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-brand-600">
+      <div className={center ? "" : "max-w-2xl"}>
+        <div className="mb-3.5 text-xs font-bold uppercase tracking-[0.2em] text-brand-600">
           {eyebrow}
         </div>
-        <h2 className="text-3xl font-black tracking-tight text-balance text-ink-900 sm:text-4xl">
+        <h2 className="text-[2rem] font-black leading-[1.05] tracking-[-0.02em] text-balance text-ink-900 sm:text-4xl lg:text-[2.9rem]">
           {title}
         </h2>
         {subtitle && (
-          <p className="mt-4 leading-relaxed text-pretty text-ink-600">
+          <p className="mt-4 text-lg leading-relaxed text-pretty text-ink-600">
             {subtitle}
           </p>
         )}

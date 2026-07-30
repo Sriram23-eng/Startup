@@ -193,6 +193,40 @@ body {
   }
 }
 
+/* ------------------------------------------------------------------ */
+/*  Scroll-reveal (OPPO / Apple product-page style).                    */
+/*  Pure CSS scroll-driven animation — no scroll listeners. Sections    */
+/*  fade and rise as they enter the viewport. Gated behind @supports so  */
+/*  browsers without view-timeline (Safari/Firefox today) simply show    */
+/*  the content, and behind reduced-motion so it can be switched off.    */
+/* ------------------------------------------------------------------ */
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry 2% cover 22%;
+    }
+    /* A gentler, later reveal for secondary elements. */
+    .reveal-late {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 32%;
+    }
+  }
+}
+
 /* Entrance animation */
 @keyframes rise {
   from {
