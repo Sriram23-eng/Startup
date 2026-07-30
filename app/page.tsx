@@ -254,6 +254,70 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ==================== ABOUT INTRO (who we are) =============== */}
+      <section className="py-20 lg:py-24">
+        <div className="container-x grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
+          <div className="reveal">
+            <div className="text-xs font-bold uppercase tracking-[0.2em] text-brand-600">
+              Who we are
+            </div>
+            <h2 className="mt-3 text-[2rem] font-black leading-[1.05] tracking-[-0.02em] text-balance text-ink-900 sm:text-4xl lg:text-[2.7rem]">
+              We help people <span className="text-gradient">build the future</span>,
+              one project at a time.
+            </h2>
+            <p className="mt-5 text-lg leading-relaxed text-pretty text-ink-600">
+              Elektron Nexus is an IoT marketplace, training academy and
+              project-development lab. We exist to close the gap between
+              classroom theory and real, deployable engineering, for students,
+              faculty and companies alike.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Button href="/custom-project" size="lg">
+                Work with us
+                <IconArrow className="h-4 w-4" strokeWidth={2} />
+              </Button>
+              <Button href="/contact" variant="white" size="lg">
+                Get in touch
+              </Button>
+            </div>
+          </div>
+
+          {/* At-a-glance panel */}
+          <div className="reveal-late rounded-3xl border border-line bg-white p-7 shadow-card">
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-brand-600">
+              At a glance
+            </div>
+            <dl className="mt-5 divide-y divide-line">
+              {[
+                ["Founded", "2022"],
+                ["Based in", site.city],
+                ["Focus", "IoT · Embedded · AI"],
+                ["Works with", "Students, faculty & industry"],
+              ].map(([k, v]) => (
+                <div
+                  key={k}
+                  className="flex items-baseline justify-between gap-4 py-3.5"
+                >
+                  <dt className="text-sm font-medium text-ink-400">{k}</dt>
+                  <dd className="text-right text-sm font-bold text-ink-900">
+                    {v}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+            <div className="mt-4 flex items-start gap-3 rounded-2xl bg-brand-50/70 p-4">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-brand-600 text-white">
+                <IconCheck className="h-4 w-4" strokeWidth={2.6} />
+              </span>
+              <p className="text-sm leading-relaxed text-ink-600">
+                Every custom project ships with source, schematics and full IP
+                transfer.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ========================= THREE PATHS ======================== */}
       {/* Moved up from the middle of the page: a visitor arriving from
           "IoT marketplace + academy + lab" needs routing before catalogue. */}
