@@ -6,55 +6,23 @@ import OrbitShowreel from "@/components/OrbitShowreel";
 import FeaturedSlider from "@/components/FeaturedSlider";
 import AboutStory from "@/components/AboutStory";
 import DotField from "@/components/DotField";
-import { LogoMark } from "@/components/Logo";
 import {
   IconArrow,
   IconAward,
-  IconBook,
-  IconBox,
-  IconCap,
   IconCheck,
-  IconChip,
   IconClock,
-  IconCode,
   IconMail,
   IconPhone,
   IconPin,
-  IconSparkle,
   IconStar,
-  IconTruck,
-  IconUsers,
 } from "@/components/icons";
-import {
-  testimonials,
-  partners,
-  stats,
-} from "@/lib/data";
+import { testimonials, partners } from "@/lib/data";
 import { getProjects } from "@/lib/store";
-import { formatINR, site } from "@/lib/site";
+import { site } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
 type Glyph = (p: { className?: string; strokeWidth?: number }) => ReactNode;
-
-/** What every buyer gets, regardless of which path they take. */
-const capabilities: { Icon: Glyph; title: string; desc: string }[] = [
-  {
-    Icon: IconTruck,
-    title: "Dispatch in 48 hours",
-    desc: "Kits ship assembled & tested",
-  },
-  {
-    Icon: IconCode,
-    title: "Source + docs included",
-    desc: "Firmware, schematics, BOM",
-  },
-  {
-    Icon: IconUsers,
-    title: "Engineer on call",
-    desc: "WhatsApp & email support",
-  },
-];
 
 const contactLinks: {
   Icon: Glyph;
@@ -218,42 +186,6 @@ export default async function HomePage() {
 
       {/* ============ ABOUT STORY (moved onto the home page) ========= */}
       <AboutStory />
-
-      {/* =================== LOGO REVEAL (brand moment) ============== */}
-      <section className="relative overflow-hidden bg-navy-950 py-20 text-white lg:py-28">
-        <div aria-hidden className="pointer-events-none absolute inset-0">
-          <div className="mesh absolute inset-0 opacity-20" />
-          <div className="grid-lines absolute inset-0 opacity-[0.1]" />
-        </div>
-
-        <div className="container-x relative flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.24em] text-brand-100/40">
-          <span>Elektron Nexus</span>
-          <span className="hidden sm:inline">Playground / 01</span>
-          <span>Est. 2022</span>
-        </div>
-
-        <div className="reveal relative flex flex-col items-center py-14 text-center">
-          <div className="relative">
-            <div
-              aria-hidden
-              className="absolute inset-0 -z-10 animate-pulse rounded-full bg-brand-500/25 blur-3xl"
-            />
-            <LogoMark className="h-28 w-28 text-brand-400 sm:h-40 sm:w-40" />
-          </div>
-          <div className="mt-7 text-3xl font-black uppercase tracking-tight sm:text-5xl">
-            Elektron <span className="text-brand-400">Nexus</span>
-          </div>
-          <div className="mt-2.5 text-xs font-bold uppercase tracking-[0.3em] text-brand-100/50">
-            Core Electronics Hub
-          </div>
-        </div>
-
-        <div className="container-x relative flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.24em] text-brand-100/40">
-          <span>IoT · Embedded · AI</span>
-          <span className="hidden sm:inline">Marketplace · Academy · Lab</span>
-          <span>Hyderabad</span>
-        </div>
-      </section>
 
       {/* ======================== HOW IT WORKS ======================== */}
       <section className="py-20">
@@ -501,86 +433,6 @@ function Head({
       </div>
       {action}
     </div>
-  );
-}
-
-function Bullet({ children }: { children: ReactNode }) {
-  return (
-    <li className="flex items-center gap-2.5 text-sm font-medium text-ink-700">
-      <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-brand-100 text-brand-700">
-        <IconCheck className="h-3 w-3" strokeWidth={2.6} />
-      </span>
-      {children}
-    </li>
-  );
-}
-
-function PathCard({
-  tone,
-  icon,
-  title,
-  desc,
-  meta,
-  cta,
-}: {
-  tone: "light" | "dark";
-  icon: ReactNode;
-  title: string;
-  desc: string;
-  meta: string;
-  cta: { label: string; href: string };
-}) {
-  const dark = tone === "dark";
-  return (
-    <Link
-      href={cta.href}
-      className={`group relative flex flex-col overflow-hidden rounded-3xl p-7 lift ${
-        dark
-          ? "bg-navy-800 text-white hover:shadow-lift"
-          : "border border-line bg-white text-ink-900 shadow-card hover:border-brand-200 hover:shadow-lift"
-      }`}
-    >
-      {dark && (
-        <div className="mesh pointer-events-none absolute inset-0 opacity-40" />
-      )}
-      <div className="relative flex h-full flex-col">
-        <span
-          className={`grid h-11 w-11 place-items-center rounded-xl ${
-            dark
-              ? "bg-cyan-accent/15 text-cyan-accent"
-              : "bg-brand-50 text-brand-600"
-          }`}
-        >
-          {icon}
-        </span>
-        <h3 className="mt-5 text-xl font-black tracking-tight">{title}</h3>
-        <p
-          className={`mt-2.5 flex-1 text-sm leading-relaxed ${
-            dark ? "text-brand-100/75" : "text-ink-600"
-          }`}
-        >
-          {desc}
-        </p>
-        <div
-          className={`mt-5 text-[11px] font-bold uppercase tracking-wider ${
-            dark ? "text-brand-100/50" : "text-ink-400"
-          }`}
-        >
-          {meta}
-        </div>
-        <div
-          className={`mt-4 inline-flex items-center gap-1.5 text-sm font-bold ${
-            dark ? "text-cyan-accent" : "text-brand-600"
-          }`}
-        >
-          {cta.label}
-          <IconArrow
-            className="h-4 w-4 transition-transform group-hover:translate-x-1"
-            strokeWidth={2}
-          />
-        </div>
-      </div>
-    </Link>
   );
 }
 

@@ -33,8 +33,13 @@ export default function OrbitShowreel({ images }: { images: string[] }) {
           &amp; ship
         </h1>
 
+        <p className="mt-6 max-w-lg text-sm leading-relaxed text-brand-100/65 sm:text-base">
+          Ready-made kits, custom engineering builds and hands-on training,
+          for electronics and IoT, all in one place.
+        </p>
+
         {/* Scrolling filmstrip of photos */}
-        <div className="marquee-hold relative mt-10 w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_7%,black_93%,transparent)]">
+        <div className="marquee-hold relative mt-9 w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_7%,black_93%,transparent)]">
           <div className="flex w-max animate-marquee gap-3">
             {strip.map((src, i) => (
               <span
@@ -53,9 +58,9 @@ export default function OrbitShowreel({ images }: { images: string[] }) {
           </div>
         </div>
 
-        <h2 className="mt-10 text-4xl font-black uppercase tracking-tight sm:text-6xl">
-          <span className="text-brand-400">E—01</span>
-          <span className="text-white/90"> / Electronics</span>
+        <h2 className="mt-9 text-4xl font-black uppercase tracking-tight sm:text-6xl">
+          <span className="text-brand-400">Real-world</span>
+          <span className="text-white/90"> electronics</span>
         </h2>
       </div>
 
