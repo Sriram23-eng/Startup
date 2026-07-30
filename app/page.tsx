@@ -112,7 +112,7 @@ export default async function HomePage() {
         <div className="container-x flex items-center gap-2 overflow-x-auto py-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {[
             ["Ready-made kits", "/projects"],
-            ["Custom builds", "#paths"],
+            ["Custom builds", "/custom-project"],
             ["Courses", "/courses"],
             ["Internships", "#internships"],
           ].map(([label, href]) => (
@@ -216,108 +216,6 @@ export default async function HomePage() {
       {/* ============ FEATURED SLIDER (numbered pagination) ========= */}
       <FeaturedSlider projects={allProjects} />
 
-      {/* ========================= THREE PATHS ======================== */}
-      {/* Moved up from the middle of the page: a visitor arriving from
-          "IoT marketplace + academy + lab" needs routing before catalogue. */}
-      <section id="paths" className="scroll-mt-28 py-24 lg:py-28">
-        <div className="container-x">
-          <Head
-            eyebrow="Where do you start?"
-            title="Three ways to work with us"
-            subtitle="Buy something that already works, commission something that doesn’t exist yet, or learn to build it yourself."
-          />
-
-          <div className="reveal-late mt-11 grid gap-5 lg:grid-cols-12">
-            {/* Primary path — wide */}
-            <article className="ring-gradient group relative flex flex-col justify-between overflow-hidden rounded-3xl bg-white p-8 shadow-card lift hover:shadow-lift md:p-10 lg:col-span-7">
-              <div
-                aria-hidden
-                className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-brand-400/12 blur-3xl"
-              />
-              <div className="relative">
-                <span className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-brand-700">
-                  <IconBox className="h-3.5 w-3.5" strokeWidth={2} />
-                  Most popular
-                </span>
-                <h3 className="mt-5 text-3xl font-black tracking-tight text-ink-900">
-                  Buy a ready-made kit
-                </h3>
-                <p className="mt-3 max-w-md text-ink-600">
-                  Complete, tested builds — hardware, source code, circuit
-                  diagrams, documentation and a setup guide, shipped to your
-                  door.
-                </p>
-
-                <ul className="mt-7 grid gap-2.5 sm:grid-cols-2">
-                  {[
-                    "Same-week dispatch",
-                    "Full documentation",
-                    "Demo video included",
-                    "Email + WhatsApp support",
-                  ].map((t) => (
-                    <Bullet key={t}>{t}</Bullet>
-                  ))}
-                </ul>
-
-                {/* Fills the height this card inherits from the taller column
-                    beside it, and answers the actual question buyers ask. */}
-                <div className="mt-8 rounded-2xl border border-line bg-[#f7f9fd] p-5">
-                  <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-ink-400">
-                    In the box
-                  </div>
-                  <div className="mt-3 grid gap-x-6 gap-y-2.5 sm:grid-cols-2">
-                    {[
-                      { Icon: IconBox, label: "Assembled hardware" },
-                      { Icon: IconCode, label: "Commented source code" },
-                      { Icon: IconBook, label: "Setup guide + BOM" },
-                      { Icon: IconChip, label: "Circuit diagrams" },
-                    ].map(({ Icon, label }) => (
-                      <div
-                        key={label}
-                        className="flex items-center gap-2.5 text-sm font-medium text-ink-700"
-                      >
-                        <Icon className="h-4 w-4 shrink-0 text-brand-600" />
-                        {label}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="relative mt-9 flex flex-wrap items-center gap-3">
-                <Button href="/projects" size="lg">
-                  Browse the catalogue
-                  <IconArrow className="h-4 w-4" strokeWidth={2} />
-                </Button>
-                <span className="text-sm font-medium text-ink-400">
-                  From {formatINR(fromPrice)} · {allProjects.length} kits live
-                </span>
-              </div>
-            </article>
-
-            {/* Two stacked secondary paths */}
-            <div className="grid gap-5 lg:col-span-5">
-              <PathCard
-                tone="dark"
-                icon={<IconSparkle className="h-5 w-5" strokeWidth={1.8} />}
-                title="Commission a custom build"
-                desc="Send requirements, get a transparent quote, receive milestone-based delivery with full IP and docs handed over."
-                meta="IoT · Embedded · LoRa · AI/ML"
-                cta={{ label: "Request a quote", href: "/custom-project" }}
-              />
-              <PathCard
-                tone="light"
-                icon={<IconCap className="h-5 w-5" strokeWidth={1.8} />}
-                title="Learn it properly"
-                desc="Mentor-led live cohorts, campus workshops, FDPs and internships that end in something you actually built."
-                meta="Live cohorts · Bootcamps · Internships"
-                cta={{ label: "See programs", href: "/courses" }}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ============ ABOUT STORY (moved onto the home page) ========= */}
       <AboutStory />
 
@@ -389,43 +287,6 @@ export default async function HomePage() {
               </li>
             ))}
           </ol>
-        </div>
-      </section>
-
-      {/* ==================== PROJECT GALLERY GRID ================== */}
-      <section className="border-y border-line bg-white py-20 lg:py-24">
-        <div className="container-x">
-          <Head
-            center
-            eyebrow="The catalogue"
-            title="A build for every domain"
-            subtitle="From a first Arduino blink to a multi-kilometre LoRa deployment."
-          />
-          <div className="reveal-late mt-11 grid grid-cols-2 gap-3 sm:grid-cols-3">
-            {allProjects.slice(0, 9).map((p, idx) => (
-              <Link
-                key={p.slug}
-                href={`/projects/${p.slug}`}
-                className={`group relative aspect-[4/3] overflow-hidden rounded-2xl ${
-                  idx === 4
-                    ? "ring-2 ring-brand-500 ring-offset-2 ring-offset-white"
-                    : ""
-                }`}
-              >
-                <Image
-                  src={p.image}
-                  alt={p.title}
-                  fill
-                  sizes="(max-width: 640px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy-950/75 via-navy-950/10 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-                <div className="absolute inset-x-3 bottom-3 translate-y-1 text-sm font-bold text-white opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100">
-                  {p.title}
-                </div>
-              </Link>
-            ))}
-          </div>
         </div>
       </section>
 
