@@ -8,13 +8,15 @@ import { categories, sizeBands, Size, Project } from "@/lib/data";
 export default function ProjectsExplorer({
   projects,
   initialCat = "all",
+  initialQuery = "",
 }: {
   projects: Project[];
   initialCat?: string;
+  initialQuery?: string;
 }) {
   const [cat, setCat] = useState(initialCat);
   const [size, setSize] = useState<Size | "all">("all");
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(initialQuery);
   const [sort, setSort] = useState<"popular" | "low" | "high">("popular");
 
   const filtered = useMemo(() => {

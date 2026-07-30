@@ -25,9 +25,9 @@ export const metadata: Metadata = {
 export default async function ProjectsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ cat?: string }>;
+  searchParams: Promise<{ cat?: string; q?: string }>;
 }) {
-  const { cat } = await searchParams;
+  const { cat, q } = await searchParams;
   const projects = await getProjects();
 
   // Real figures only, computed from the live catalogue.
@@ -187,7 +187,11 @@ export default async function ProjectsPage({
           </div>
 
           <div className="mt-10">
-            <ProjectsExplorer projects={projects} initialCat={cat ?? "all"} />
+            <ProjectsExplorer
+              projects={projects}
+              initialCat={cat ?? "all"}
+              initialQuery={q ?? ""}
+            />
           </div>
         </div>
       </section>

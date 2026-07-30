@@ -1,9 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui";
-import HeroShowcase from "@/components/HeroShowcase";
-import RotatingWords from "@/components/RotatingWords";
-import { LogoMark } from "@/components/Logo";
+import OrbitShowreel from "@/components/OrbitShowreel";
 import AboutStory from "@/components/AboutStory";
 import {
   IconArrow,
@@ -89,124 +87,21 @@ export default async function HomePage() {
   const fromPrice = allProjects.length
     ? Math.min(...allProjects.map((p) => p.price))
     : 0;
-  // Hero showcase: featured kits first, then top-rated. The photos are
-  // curated electronics stock (verified to load) for a polished, on-brand
-  // hero — the owner can replace these with real product shots in admin.
-  const HERO_PHOTOS = [
-    "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=72",
-    "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=1400&q=72",
-    "https://images.unsplash.com/photo-1553406830-ef2513450d76?auto=format&fit=crop&w=1400&q=72",
-    "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?auto=format&fit=crop&w=1400&q=72",
-    "https://images.unsplash.com/photo-1601987077677-5346c0c57d3f?auto=format&fit=crop&w=1400&q=72",
-  ];
-  const heroKits = [
-    ...allProjects.filter((p) => p.featured),
-    ...[...allProjects].sort((a, b) => (b.rating || 0) - (a.rating || 0)),
-  ]
-    .filter((p, i, arr) => arr.findIndex((x) => x.slug === p.slug) === i)
-    .slice(0, 5)
-    .map((p, i) => ({ ...p, image: HERO_PHOTOS[i % HERO_PHOTOS.length] }));
+
+  // Photos for the Orbit hero filmstrip: real catalogue images, plus a few
+  // curated electronics shots so the strip is always full and on-brand.
+  const stripImages = [
+    ...allProjects.map((p) => p.image).filter(Boolean),
+    "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=70",
+    "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=400&q=70",
+    "https://images.unsplash.com/photo-1553406830-ef2513450d76?auto=format&fit=crop&w=400&q=70",
+    "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?auto=format&fit=crop&w=400&q=70",
+  ].slice(0, 14);
 
   return (
     <>
-      {/* ==================== HERO (bento grid) ==================== */}
-      <section className="relative overflow-hidden bg-navy-950 text-white">
-        <div aria-hidden className="pointer-events-none absolute inset-0">
-          <div className="mesh absolute inset-0 opacity-45" />
-          <div className="animate-drift absolute -left-40 -top-44 h-[36rem] w-[36rem] rounded-full bg-brand-500/22 blur-[150px]" />
-          <div className="animate-drift absolute -right-32 top-8 h-[30rem] w-[30rem] rounded-full bg-cyan-accent/14 blur-[150px] [animation-delay:-6s]" />
-        </div>
-
-        <div className="container-x relative grid gap-4 py-10 lg:grid-cols-12 lg:py-14">
-          {/* TEXT — headline */}
-          <div className="animate-rise relative flex flex-col justify-center overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur lg:col-span-8 lg:p-12">
-            <div className="grid-lines pointer-events-none absolute inset-0 opacity-[0.1]" />
-            <div className="relative">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs font-semibold text-brand-100/90">
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-brand-400" />
-                Marketplace · Academy · Project Lab
-              </div>
-              <h1 className="mt-5 text-[2.3rem] font-black leading-[1.05] tracking-[-0.035em] sm:text-5xl lg:text-6xl">
-                Build, learn and ship
-                <br />
-                <RotatingWords
-                  words={[
-                    "real-world IoT",
-                    "LoRa networks",
-                    "edge AI",
-                    "robotics",
-                    "smart factories",
-                  ]}
-                />
-              </h1>
-              <p className="mt-5 max-w-lg text-base leading-relaxed text-brand-100/70 sm:text-lg">
-                Ready-made kits, custom engineering builds, and hands-on
-                training, with the hardware, code and people to back every
-                project.
-              </p>
-              <div className="mt-7 flex flex-wrap gap-3">
-                <Button href="/projects" size="lg">
-                  Explore project kits
-                  <IconArrow className="h-4 w-4" strokeWidth={2} />
-                </Button>
-                <Button href="/custom-project" variant="outline-light" size="lg">
-                  Request a custom build
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          {/* LOGO */}
-          <div className="animate-rise relative flex flex-col overflow-hidden rounded-3xl border border-brand-500/25 bg-gradient-to-br from-brand-600/20 via-navy-900 to-navy-900 p-8 backdrop-blur lg:col-span-4 [animation-delay:80ms]">
-            <div className="grid-dots pointer-events-none absolute inset-0 opacity-40" />
-            <div className="relative flex flex-col items-center text-center">
-              <LogoMark className="h-16 w-16 text-brand-400" />
-              <div className="mt-3 text-2xl font-black tracking-tight">
-                Elektron <span className="text-brand-400">Nexus</span>
-              </div>
-              <div className="mt-1.5 text-[11px] font-bold uppercase tracking-[0.24em] text-brand-100/60">
-                Core Electronics Hub
-              </div>
-            </div>
-
-            {/* Stats, directly under the logo */}
-            <div className="relative mt-6 grid grid-cols-2 gap-x-4 gap-y-5 border-t border-white/10 pt-6">
-              {stats.map((s) => (
-                <div key={s.label}>
-                  <div className="text-xl font-black tracking-tight sm:text-2xl">
-                    {s.value}
-                  </div>
-                  <div className="mt-0.5 text-[11px] text-brand-100/55">
-                    {s.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* UI transitions — full-width animated showcase */}
-          <div className="animate-rise flex min-h-[20rem] overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-2.5 backdrop-blur lg:col-span-12 lg:min-h-[30rem] [animation-delay:160ms]">
-            {heroKits.length > 0 && <HeroShowcase bare kits={heroKits} />}
-          </div>
-        </div>
-
-        {/* Capability strip — dark, closes the hero */}
-        <div className="relative border-t border-white/10 bg-white/[0.03] backdrop-blur">
-          <div className="container-x grid gap-x-8 gap-y-4 py-6 sm:grid-cols-3">
-            {capabilities.map(({ Icon, title, desc }) => (
-              <div key={title} className="flex items-center gap-3.5">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/5 text-cyan-accent ring-1 ring-white/10">
-                  <Icon className="h-5 w-5" />
-                </span>
-                <div>
-                  <div className="text-sm font-bold text-white">{title}</div>
-                  <div className="text-xs text-brand-100/55">{desc}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ==================== HERO (Orbit showreel) ================== */}
+      <OrbitShowreel images={stripImages} />
 
       {/* ================= FEATURE QUICK-NAV (OPPO-style) ============= */}
       <nav className="sticky top-16 z-30 border-b border-line bg-[#f6f8f7]/85 backdrop-blur-xl">
