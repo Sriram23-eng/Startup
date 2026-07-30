@@ -8,28 +8,36 @@ import { Project } from "@/lib/data";
 /*  and each reveals its title on hover.                                 */
 /* ------------------------------------------------------------------ */
 export default function MediaGrid({ projects }: { projects: Project[] }) {
-  const items = projects.slice(0, 9);
+  const items = projects.slice(0, 6);
   if (items.length < 3) return null;
 
   return (
-    <section className="border-y border-line bg-white py-16 lg:py-20">
+    <section className="border-y border-line bg-white py-12 lg:py-16">
       <div className="container-x">
-        <div className="reveal mx-auto max-w-2xl text-center">
-          <div className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-brand-600">
-            The catalogue
+        <div className="reveal flex flex-wrap items-end justify-between gap-4">
+          <div className="max-w-xl">
+            <div className="mb-2.5 text-xs font-bold uppercase tracking-[0.2em] text-brand-600">
+              The catalogue
+            </div>
+            <h2 className="text-[1.8rem] font-black leading-[1.05] tracking-[-0.02em] text-balance text-ink-900 sm:text-3xl lg:text-4xl">
+              A build for every domain
+            </h2>
           </div>
-          <h2 className="text-[2rem] font-black leading-[1.05] tracking-[-0.02em] text-balance text-ink-900 sm:text-4xl lg:text-[2.7rem]">
-            A build for every domain
-          </h2>
+          <Link
+            href="/projects"
+            className="text-sm font-bold text-brand-600 hover:underline"
+          >
+            View all kits →
+          </Link>
         </div>
 
-        <div className="reveal-late mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3">
+        <div className="reveal-late mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
           {items.map((p, idx) => (
             <Link
               key={p.slug}
               href={`/projects/${p.slug}`}
               className={`group relative aspect-[4/3] overflow-hidden rounded-2xl ${
-                idx === 4
+                idx === 1
                   ? "ring-2 ring-brand-500 ring-offset-2 ring-offset-white"
                   : ""
               }`}
