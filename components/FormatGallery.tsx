@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { workshopTracks } from "@/lib/data";
 import { IconArrow } from "@/components/icons";
 
@@ -103,10 +104,22 @@ export default function FormatGallery() {
           </div>
         </div>
 
-        {/* Orientation: how far through the pinned stage you are. */}
+        {/* Orientation: one segment per format, filling as it pans past.
+            A full-width rule was the wrong instrument here — pinned for
+            ~960px, it just parked a stray hairline across the page. */}
         <div className="container-x mt-8 hidden md:block">
-          <div aria-hidden className="relative h-px w-full bg-line-strong">
-            <span className="fmt-progress absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-brand-500" />
+          <div aria-hidden className="flex gap-2">
+            {workshopTracks.map((t, i) => (
+              <span
+                key={t.slug}
+                className="relative h-1 w-10 overflow-hidden rounded-full bg-line-strong"
+              >
+                <span
+                  className="fmt-dot absolute inset-0 origin-left scale-x-0 rounded-full bg-brand-500"
+                  style={{ "--i": i } as CSSProperties}
+                />
+              </span>
+            ))}
           </div>
         </div>
         <div className="container-x mt-4 md:hidden">

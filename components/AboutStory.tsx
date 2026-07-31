@@ -191,25 +191,41 @@ export default function AboutStory() {
       <section className="py-20 lg:py-24">
         <div className="container-x grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           {/* mission statement */}
-          <div className="reveal lg:sticky lg:top-24 lg:self-start">
-            <div className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-brand-600">
+          {/* Composed rather than fading as one slab — fading a whole column
+              of body copy just reads as washed-out mid-scroll. The heading
+              resolves out of blur, then the copy and the rule arrive behind
+              it, each on its own beat. */}
+          <div className="lg:sticky lg:top-24 lg:self-start">
+            <div
+              className="seq mb-3 text-xs font-bold uppercase tracking-[0.18em] text-brand-600"
+              style={{ "--i": 0 } as CSSProperties}
+            >
               Our mission
             </div>
-            <h2 className="text-[2rem] font-black leading-[1.05] tracking-[-0.02em] text-balance text-ink-900 sm:text-4xl lg:text-[2.7rem]">
+            <h2 className="reveal-focus text-[2rem] font-black leading-[1.05] tracking-[-0.02em] text-balance text-ink-900 sm:text-4xl lg:text-[2.7rem]">
               Make world-class engineering accessible
             </h2>
-            <p className="mt-5 text-lg leading-relaxed text-pretty text-ink-600">
+            <p
+              className="seq mt-5 text-lg leading-relaxed text-pretty text-ink-600"
+              style={{ "--i": 1 } as CSSProperties}
+            >
               Too many good ideas die on a breadboard. We exist to carry them
               across the line, with the right hardware, clean code, clear
               documentation and people who have done it before.
             </p>
-            <p className="mt-4 leading-relaxed text-pretty text-ink-600">
+            <p
+              className="seq mt-4 leading-relaxed text-pretty text-ink-600"
+              style={{ "--i": 2 } as CSSProperties}
+            >
               Whether you’re a student shipping a final-year project, a college
               upskilling its faculty, or a company prototyping a product, we
               give you the kit, the knowledge and the team to make it real.
             </p>
 
-            <div className="mt-8 rounded-2xl border border-line border-l-4 border-l-brand-500 bg-white p-5 shadow-card">
+            <div
+              className="seq mt-8 rounded-2xl border border-line border-l-4 border-l-brand-500 bg-white p-5 shadow-card"
+              style={{ "--i": 3 } as CSSProperties}
+            >
               <p className="text-pretty font-semibold leading-relaxed text-ink-700">
                 “If it can’t survive a week in the field, it isn’t finished.”
               </p>

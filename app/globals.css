@@ -495,12 +495,17 @@ body {
   }
 }
 
+/* Animates the standalone `scale` property, NOT `transform: scaleX()`.
+   Tailwind v4's `scale-x-0` utility sets `scale: 0 1`, and `scale`
+   multiplies with `transform` — so a transform-based keyframe is silently
+   cancelled by the utility and the bar never fills. Matching the property
+   lets the animation actually override the base state. */
 @keyframes hero-rail-fill {
   from {
-    transform: scaleX(0);
+    scale: 0 1;
   }
   to {
-    transform: scaleX(1);
+    scale: 1 1;
   }
 }
 
@@ -572,10 +577,13 @@ body {
       animation-range: contain 6% contain 94%;
       will-change: transform;
     }
-    .fmt-progress {
+    /* One segment per card: each fills across its own quarter of the pan,
+       so the indicator reads as "card 3 of 4" rather than a bare rule. */
+    .fmt-dot {
       animation: hero-rail-fill linear both;
       animation-timeline: --fmt;
-      animation-range: contain 0% contain 100%;
+      animation-range: contain calc(6% + var(--i, 0) * 22%) contain
+        calc(28% + var(--i, 0) * 22%);
     }
   }
 }

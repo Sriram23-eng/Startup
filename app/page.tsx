@@ -227,9 +227,9 @@ export default async function HomePage() {
           {/* Equal columns — a lead card stretched to match a two-card stack
               ends up mostly empty space, so all three share one row and the
               strongest story just takes the brand rule. */}
-          <div className="reveal-late mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {testimonials.map((t, i) => (
-              <Quote key={t.name} item={t} featured={i === 0} />
+              <Quote key={t.name} item={t} featured={i === 0} index={i} />
             ))}
           </div>
         </div>
@@ -280,8 +280,8 @@ export default async function HomePage() {
               ["Founded", "2022"],
               ["Focus", "IoT · Embedded · AI"],
               ["Works with", "Students, faculty & industry"],
-            ].map(([k, v]) => (
-              <div key={k}>
+            ].map(([k, v], i) => (
+              <div key={k} className="seq" style={{ "--i": i } as CSSProperties}>
                 <div className="text-xs font-bold uppercase tracking-[0.16em] text-brand-600">
                   {k}
                 </div>
@@ -290,7 +290,10 @@ export default async function HomePage() {
                 </div>
               </div>
             ))}
-            <div className="flex items-start gap-3 rounded-2xl bg-brand-50/70 p-4">
+            <div
+              className="seq flex items-start gap-3 rounded-2xl bg-brand-50/70 p-4"
+              style={{ "--i": 3 } as CSSProperties}
+            >
               <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-brand-600 text-white">
                 <IconCheck className="h-4 w-4" strokeWidth={2.6} />
               </span>
@@ -335,11 +338,12 @@ export default async function HomePage() {
 
               {/* Contact affordances — the old CTA just repeated the hero. */}
               <div className="grid gap-3">
-                {contactLinks.map(({ Icon, label, value, href }) => (
+                {contactLinks.map(({ Icon, label, value, href }, i) => (
                   <a
                     key={label}
                     href={href}
-                    className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.06] px-5 py-4 backdrop-blur transition-colors hover:border-cyan-accent/40 hover:bg-white/[0.1]"
+                    style={{ "--i": i } as CSSProperties}
+                    className="seq group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.06] px-5 py-4 backdrop-blur transition-colors hover:border-cyan-accent/40 hover:bg-white/[0.1]"
                   >
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-cyan-accent/15 text-cyan-accent">
                       <Icon className="h-5 w-5" />
@@ -397,7 +401,7 @@ function Head({
         <div className="mb-3.5 text-xs font-bold uppercase tracking-[0.2em] text-brand-600">
           {eyebrow}
         </div>
-        <h2 className="text-[2rem] font-black leading-[1.05] tracking-[-0.02em] text-balance text-ink-900 sm:text-4xl lg:text-[2.9rem]">
+        <h2 className="reveal-focus text-[2rem] font-black leading-[1.05] tracking-[-0.02em] text-balance text-ink-900 sm:text-4xl lg:text-[2.9rem]">
           {title}
         </h2>
         {subtitle && (
@@ -415,10 +419,13 @@ function Quote({
   item,
   featured = false,
   className = "",
+  index = 0,
 }: {
   item: { quote: string; name: string; role: string };
   featured?: boolean;
   className?: string;
+  /** Drives the staggered arrival. */
+  index?: number;
 }) {
   const initials = item.name
     .replace(/^(Dr|Mr|Ms|Mrs)\.?\s+/i, "")
@@ -430,7 +437,8 @@ function Quote({
 
   return (
     <figure
-      className={`lift relative flex flex-col overflow-hidden rounded-2xl border border-line bg-white p-5 shadow-card md:p-6 ${
+      style={{ "--i": index } as CSSProperties}
+      className={`seq lift relative flex flex-col overflow-hidden rounded-2xl border border-line bg-white p-5 shadow-card md:p-6 ${
         featured ? "border-l-4 border-l-brand-500" : ""
       } ${className}`}
     >
