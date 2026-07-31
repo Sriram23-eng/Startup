@@ -57,9 +57,6 @@ const process: { title: string; desc: string; meta: string }[] = [
 
 export default async function HomePage() {
   const allProjects = await getProjects();
-  const fromPrice = allProjects.length
-    ? Math.min(...allProjects.map((p) => p.price))
-    : 0;
 
   // Photos for the Orbit hero filmstrip: real catalogue images, plus a few
   // curated electronics shots so the strip is always full and on-brand.
