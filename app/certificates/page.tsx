@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import PageHero from "@/components/PageHero";
 import { IconShield, IconBolt, IconSignal } from "@/components/icons";
 import CertVerify from "@/components/CertVerify";
@@ -33,10 +34,11 @@ export default function CertificatesPage() {
               { Icon: IconShield, title: "Tamper-proof", desc: "Each certificate maps to a unique, immutable record." },
               { Icon: IconBolt, title: "Instant", desc: "Verification is real-time — no waiting or emails." },
               { Icon: IconSignal, title: "Shareable", desc: "Recruiters & colleges can verify from anywhere." },
-            ].map(({ Icon, title, desc }) => (
+            ].map(({ Icon, title, desc }, i) => (
               <div
                 key={title}
-                className="group rounded-3xl border border-line bg-white p-6 shadow-card lift hover:border-brand-200 hover:shadow-lift"
+                style={{ "--i": i } as CSSProperties}
+                className="seq group rounded-3xl border border-line bg-white p-6 shadow-card lift hover:border-brand-200 hover:shadow-lift"
               >
                 <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand-50 text-brand-600 transition-colors group-hover:bg-brand-600 group-hover:text-white">
                   <Icon className="h-5 w-5" />

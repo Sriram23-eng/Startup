@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import PageHero from "@/components/PageHero";
 import { IconMail, IconPhone, IconPin } from "@/components/icons";
 import ContactForm from "@/components/ContactForm";
@@ -42,11 +43,12 @@ export default function ContactPage() {
           {/* Channels */}
           <div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-              {channels.map(({ Icon, label, value, href, accent }) => (
+              {channels.map(({ Icon, label, value, href, accent }, i) => (
                 <a
                   key={label}
                   href={href}
-                  className="group flex items-center gap-4 rounded-2xl border border-line bg-white p-5 shadow-card lift hover:border-brand-200 hover:shadow-lift"
+                  style={{ "--i": i } as CSSProperties}
+                  className="seq group flex items-center gap-4 rounded-2xl border border-line bg-white p-5 shadow-card lift hover:border-brand-200 hover:shadow-lift"
                 >
                   <span className={`grid h-12 w-12 shrink-0 place-items-center rounded-xl ${accent}`}>
                     <Icon className="h-5 w-5" />

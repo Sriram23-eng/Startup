@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Badge } from "@/components/ui";
@@ -73,11 +74,12 @@ export default function BlogPage() {
 
           {/* Grid */}
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {rest.map((post) => (
+            {rest.map((post, i) => (
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
-                className="group flex flex-col overflow-hidden rounded-2xl border border-navy-700/8 bg-white shadow-card transition hover:-translate-y-1 hover:shadow-glow"
+                style={{ "--i": i % 3 } as CSSProperties}
+                className="seq group flex flex-col overflow-hidden rounded-2xl border border-navy-700/8 bg-white shadow-card transition hover:-translate-y-1 hover:shadow-glow"
               >
                 <div className="relative aspect-[16/9] overflow-hidden">
                   <Image

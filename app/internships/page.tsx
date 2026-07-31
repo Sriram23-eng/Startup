@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import { Button, SectionHeading } from "@/components/ui";
 import PageHero from "@/components/PageHero";
 import InternshipForm from "@/components/InternshipForm";
@@ -83,10 +84,11 @@ export default function InternshipsPage() {
             subtitle="Each internship includes task sheets, code reviews, final demo submission and certificate workflow."
           />
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {tracks.map((track) => (
+            {tracks.map((track, i) => (
               <div
                 key={track}
-                className="group rounded-3xl border border-line bg-white p-6 shadow-card lift hover:border-brand-200 hover:shadow-lift"
+                style={{ "--i": i % 3 } as CSSProperties}
+                className="seq group rounded-3xl border border-line bg-white p-6 shadow-card lift hover:border-brand-200 hover:shadow-lift"
               >
                 <div className="text-xs font-bold uppercase tracking-[0.14em] text-brand-600">4–8 weeks</div>
                 <h3 className="mt-2 text-lg font-black tracking-tight text-ink-900">{track}</h3>
