@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import AuthForm from "@/components/AuthForm";
 import { getCurrentUser } from "@/lib/auth";
+import { isGoogleConfigured } from "@/lib/google";
 
 export const metadata: Metadata = {
   title: "Login or Register",
@@ -15,11 +16,8 @@ export default async function LoginPage() {
   const user = await getCurrentUser();
   if (user) redirect("/dashboard");
 
-  // Button forced visible for preview. It becomes fully functional the
-  // moment GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET are set in Vercel; until
-  // then a click shows a friendly "not set up yet" message. To hide it again,
-  // restore: const googleEnabled = isGoogleConfigured();
-  const googleEnabled = true;
+  // Show the Google button only when it's actually configured (env vars set).
+  const googleEnabled = isGoogleConfigured();
 
   return (
     <section className="relative overflow-hidden bg-[#f7f9fd]">
