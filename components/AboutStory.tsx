@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import { Button } from "@/components/ui";
-import RevealOnView from "@/components/RevealOnView";
 import {
   IconArrow,
   IconAward,
@@ -225,14 +224,18 @@ export default function AboutStory() {
             <div className="reveal mb-5 text-xs font-bold uppercase tracking-[0.18em] text-brand-600">
               Why teams pick us
             </div>
-            <RevealOnView className="grid gap-3 sm:grid-cols-2">
+            {/* Scrubbed rather than sprung: the mission column stays pinned
+                on the left while these arrive one at a time, tied to the
+                scrollbar — the reference behaviour. Keeps the alternating
+                left/right origin the spring version introduced. */}
+            <ol className="grid gap-3 sm:grid-cols-2">
               {reasons.map(({ Icon, title, desc }, i) => (
                 <li
                   key={title}
-                  className="group relative rounded-2xl border border-line bg-white p-5 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-lift"
+                  className="seq-side group relative rounded-2xl border border-line bg-white p-5 shadow-card transition-colors duration-300 hover:border-brand-200 hover:shadow-lift"
                   style={
                     {
-                      animationDelay: `${i * 90}ms`,
+                      "--i": i,
                       "--from-x": i % 2 === 0 ? "-48px" : "48px",
                     } as CSSProperties
                   }
@@ -251,7 +254,7 @@ export default function AboutStory() {
                   </p>
                 </li>
               ))}
-            </RevealOnView>
+            </ol>
           </div>
         </div>
       </section>

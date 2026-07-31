@@ -266,6 +266,36 @@ body {
   }
 }
 
+/* Same sequenced arrival, but each item also slides in from its own side
+   via an inline --from-x (left column from the left, right from the
+   right). Scrubbed rather than sprung, so it tracks the scrollbar. */
+@keyframes step-in-side {
+  0% {
+    opacity: 0;
+    transform: translate3d(var(--from-x, 0px), 44px, 0) scale(0.96);
+  }
+  72% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+/* Horizontal pan for the pinned format gallery. The rail is wider than
+   the viewport, so `100vw - 100%` resolves negative — it travels left by
+   exactly its own overhang, landing the last card flush at the end. */
+@keyframes fmt-pan {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(100vw - 100%));
+  }
+}
+
 /* A rule that draws itself across as the section is scrubbed — the
    connective tissue in step/process sections. */
 @keyframes rail-draw {
@@ -394,6 +424,14 @@ body {
       animation-timeline: view();
       animation-range: cover calc(10% + var(--i, 0) * 7%) cover
         calc(40% + var(--i, 0) * 7%);
+    }
+    /* Same, with a per-item horizontal origin. Tighter stagger because
+       these run in a two-column grid — pairs should feel simultaneous. */
+    .seq-side {
+      animation: step-in-side linear both;
+      animation-timeline: view();
+      animation-range: cover calc(8% + var(--i, 0) * 4%) cover
+        calc(40% + var(--i, 0) * 4%);
     }
   }
 }
@@ -552,6 +590,27 @@ body {
     .hero-rail {
       animation: hero-rail-fill linear both;
       animation-timeline: --hero;
+      animation-range: contain 0% contain 100%;
+    }
+
+    /* ---- Pinned format gallery ----
+       The section holds while the four cards pan past, then releases to
+       the next section. `contain` again maps the timeline to exactly the
+       pinned period, and the small margins at each end give the row a
+       beat to settle before the pin lets go. */
+    .fmt-track {
+      view-timeline-name: --fmt;
+      view-timeline-axis: block;
+    }
+    .fmt-rail {
+      animation: fmt-pan linear both;
+      animation-timeline: --fmt;
+      animation-range: contain 6% contain 94%;
+      will-change: transform;
+    }
+    .fmt-progress {
+      animation: hero-rail-fill linear both;
+      animation-timeline: --fmt;
       animation-range: contain 0% contain 100%;
     }
   }
