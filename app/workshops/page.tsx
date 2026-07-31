@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import { workshops } from "@/lib/data";
 import { Badge, SectionHeading } from "@/components/ui";
 import PageHero from "@/components/PageHero";
@@ -64,11 +65,12 @@ export default function WorkshopsPage() {
               subtitle="Every program is customisable to your cohort size, level and schedule."
             />
             <div className="mt-8 space-y-5">
-              {workshops.map((w) => (
+              {workshops.map((w, i) => (
                 <div
                   key={w.slug}
                   id={w.slug}
-                  className="group grid gap-5 rounded-3xl border border-line bg-white p-6 shadow-card lift hover:border-brand-200 hover:shadow-lift sm:grid-cols-[1fr_auto]"
+                  style={{ "--i": i } as CSSProperties}
+                  className="seq group grid gap-5 rounded-3xl border border-line bg-white p-6 shadow-card lift hover:border-brand-200 hover:shadow-lift sm:grid-cols-[1fr_auto]"
                 >
                   <div>
                     <div className="flex flex-wrap items-center gap-2">

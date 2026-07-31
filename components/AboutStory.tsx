@@ -91,8 +91,11 @@ const reasons: { Icon: Glyph; title: string; desc: string }[] = [
 export default function AboutStory() {
   return (
     <>
-      {/* ========================== PILLARS ========================== */}
-      <section className="py-20 lg:py-24">
+      {/* ========================== PILLARS ==========================
+          `id` is the target /about redirects to — without it that link
+          silently dropped you at the top of the home page. scroll-mt
+          clears the sticky navbar. */}
+      <section id="who-we-are" className="scroll-mt-20 py-20 lg:py-24">
         <div className="container-x">
           <div className="reveal mx-auto max-w-3xl text-center">
             <div className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-brand-600">

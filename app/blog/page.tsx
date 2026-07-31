@@ -22,7 +22,9 @@ export default function BlogPage() {
         </div>
         <div className="container-x relative py-14">
           <Badge tone="brand">Blog & Tutorials</Badge>
-          <h1 className="mt-4 max-w-2xl text-3xl font-black tracking-tight text-navy-800 sm:text-4xl">
+          {/* Above the fold, so a time-based entrance — a scroll-driven one
+              would already be past its range at load and never play. */}
+          <h1 className="animate-rise mt-4 max-w-2xl text-3xl font-black tracking-tight text-navy-800 sm:text-4xl">
             Field notes from the lab
           </h1>
           <p className="mt-3 max-w-2xl text-navy-700/70">
