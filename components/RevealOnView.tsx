@@ -39,7 +39,9 @@ export default function RevealOnView({
           io.disconnect();
         }
       },
-      { threshold: 0.2 }
+      // Fire once the grid is well inside the viewport (its top has scrolled
+      // up past ~75% of the screen), not the moment its edge peeks in.
+      { threshold: 0, rootMargin: "0px 0px -25% 0px" }
     );
     io.observe(el);
     return () => io.disconnect();
