@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Badge, Button, SectionHeading } from "@/components/ui";
+import { Badge, SectionHeading } from "@/components/ui";
 import CostCalculator from "@/components/CostCalculator";
+import CertVerify from "@/components/CertVerify";
 
 export const metadata: Metadata = {
   title: "Learning Center",
@@ -72,27 +73,10 @@ export default function LearnPage() {
             <SectionHeading
               eyebrow="Certificate verification"
               title="Verify certificates online"
-              subtitle="Enter a certificate ID to confirm student, program and issue status. This is UI-ready; connect to the certificates table next."
+              subtitle="Enter the certificate ID printed on any certificate we issue to confirm the holder, program and issue date."
             />
           </div>
-          <div className="rounded-2xl border border-navy-700/8 bg-white p-6 shadow-card sm:p-8">
-            <label className="block">
-              <span className="mb-2 block text-sm font-semibold text-navy-800">
-                Certificate ID
-              </span>
-              <input
-                placeholder="INV-CERT-2026-001"
-                className="w-full rounded-xl border border-navy-700/12 bg-brand-50/30 px-4 py-3 text-sm outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
-              />
-            </label>
-            <Button className="mt-4 w-full" size="lg">
-              Verify certificate
-            </Button>
-            <div className="mt-5 rounded-xl bg-emerald-50 p-4 text-sm text-emerald-800">
-              Demo state: certificate verification service is ready for database
-              integration.
-            </div>
-          </div>
+          <CertVerify />
         </div>
       </section>
     </>
