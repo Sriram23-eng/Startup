@@ -19,6 +19,21 @@ export default function WorkshopsPage() {
   return (
     <>
       <PageHero
+        pinned
+        payoff={
+          <>
+            <h2 className="text-4xl font-black uppercase leading-[0.95] tracking-[-0.03em] lg:text-6xl">
+              Your campus.
+              <br />
+              Your team.
+              <br />
+              <span className="text-gradient-light">Your schedule.</span>
+            </h2>
+            <p className="mt-5 max-w-sm text-lg leading-relaxed text-brand-100/70">
+              We bring the lab, the hardware and the engineers to you.
+            </p>
+          </>
+        }
         eyebrow="Workshops & Training"
         title={
           <>

@@ -287,7 +287,7 @@ body {
 /* The featured product grows and drifts across the whole pinned stage —
    the constant anchor the copy hands off around, same role the filmstrip
    plays in the home hero. */
-@keyframes proj-media-rise {
+@keyframes stage-media-rise {
   0% {
     transform: scale(0.93) translateY(3%);
   }
@@ -610,29 +610,29 @@ body {
        Same beat structure as the home hero, reusing its keyframes so the
        two page openers share one motion language: copy lifts away, the
        featured kit grows as the anchor, a payoff line rises into the gap. */
-    .proj-track {
-      view-timeline-name: --proj;
+    .stage-track {
+      view-timeline-name: --stage;
       view-timeline-axis: block;
     }
-    .proj-lead {
+    .stage-lead {
       animation: hero-lead-out linear both;
-      animation-timeline: --proj;
+      animation-timeline: --stage;
       animation-range: contain 4% contain 46%;
     }
-    .proj-payoff {
+    .stage-payoff {
       animation: hero-payoff-in linear both;
-      animation-timeline: --proj;
+      animation-timeline: --stage;
       animation-range: contain 46% contain 86%;
     }
-    .proj-media {
-      animation: proj-media-rise linear both;
-      animation-timeline: --proj;
+    .stage-media {
+      animation: stage-media-rise linear both;
+      animation-timeline: --stage;
       animation-range: contain 0% contain 100%;
       will-change: transform;
     }
-    .proj-ambient {
+    .stage-ambient {
       animation: hero-ambient-drift linear both;
-      animation-timeline: --proj;
+      animation-timeline: --stage;
       animation-range: contain 0% contain 100%;
     }
 
