@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { workshops, type Workshop } from "@/lib/data";
-import { IconArrow, IconClock } from "@/components/icons";
+import { IconArrow } from "@/components/icons";
 
 /* ------------------------------------------------------------------ */
-/*  Home-page workshops section. Scannable cards: mode + level badges,  */
-/*  duration, blurb, outcome chips and a "from" price. Replaces the     */
-/*  old catalogue media grid.                                           */
+/*  Home-page workshops teaser. A clean, hairline-divided list (no card  */
+/*  boxes, no prices) — just the workshop matter, linking through to     */
+/*  the full /workshops page.                                            */
 /* ------------------------------------------------------------------ */
 const modeStyle: Record<Workshop["mode"], string> = {
   Online: "bg-cyan-accent/12 text-[#0b7c8c] ring-cyan-accent/30",
@@ -38,55 +38,35 @@ export default function Workshops() {
           </Link>
         </div>
 
-        <div className="reveal-late mt-8 grid gap-4 sm:grid-cols-2">
+        <div className="reveal-late mt-8">
           {workshops.map((w) => (
             <Link
               key={w.slug}
               href="/workshops"
-              className="group flex flex-col rounded-3xl border border-line bg-white p-6 shadow-card lift hover:border-brand-200 hover:shadow-lift"
+              className="group flex items-start justify-between gap-6 border-t border-line py-6 transition-colors last:border-b hover:bg-[#f7f9fd]"
             >
-              <div className="flex items-center justify-between gap-3">
-                <span
-                  className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-bold ring-1 ${modeStyle[w.mode]}`}
-                >
-                  {w.mode}
-                </span>
-                <span className="text-xs font-bold uppercase tracking-wider text-ink-400">
-                  {w.level}
-                </span>
-              </div>
-
-              <h3 className="mt-4 text-xl font-black tracking-tight text-ink-900">
-                {w.title}
-              </h3>
-              <div className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-ink-500">
-                <IconClock className="h-4 w-4" strokeWidth={2} />
-                {w.duration}
-              </div>
-              <p className="mt-3 text-sm leading-relaxed text-ink-600">
-                {w.blurb}
-              </p>
-
-              <div className="mt-4 flex flex-wrap gap-1.5">
-                {w.outcomes.slice(0, 4).map((o) => (
+              <div>
+                <div className="flex flex-wrap items-center gap-2.5">
                   <span
-                    key={o}
-                    className="rounded-lg bg-[#f1f5f9] px-2.5 py-1 text-xs font-medium text-ink-600"
+                    className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-bold ring-1 ${modeStyle[w.mode]}`}
                   >
-                    {o}
+                    {w.mode}
                   </span>
-                ))}
+                  <span className="text-xs font-bold uppercase tracking-wider text-ink-400">
+                    {w.level} · {w.duration}
+                  </span>
+                </div>
+                <h3 className="mt-2 text-lg font-black tracking-tight text-ink-900 transition-colors group-hover:text-brand-600 sm:text-xl">
+                  {w.title}
+                </h3>
+                <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-ink-600">
+                  {w.blurb}
+                </p>
               </div>
-
-              <div className="mt-5 border-t border-line pt-4">
-                <span className="inline-flex items-center gap-1.5 text-sm font-bold text-brand-600">
-                  Explore workshop
-                  <IconArrow
-                    className="h-4 w-4 transition-transform group-hover:translate-x-1"
-                    strokeWidth={2}
-                  />
-                </span>
-              </div>
+              <IconArrow
+                className="mt-1 h-5 w-5 shrink-0 text-brand-600 transition-transform group-hover:translate-x-1"
+                strokeWidth={2}
+              />
             </Link>
           ))}
         </div>
