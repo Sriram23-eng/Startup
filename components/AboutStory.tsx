@@ -151,62 +151,59 @@ export default function AboutStory() {
         </div>
       </section>
 
-      {/* ============= MISSION + WHY US (merged dark anchor) ========= */}
-      <section className="relative overflow-hidden bg-navy-900 py-20 text-white lg:py-24">
-        <div className="mesh pointer-events-none absolute inset-0 opacity-50" />
-        <div
-          aria-hidden
-          className="grid-lines pointer-events-none absolute inset-0 opacity-[0.18] [mask-image:linear-gradient(to_bottom,black,transparent)]"
-        />
-        <div className="container-x relative grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+      {/* ============= MISSION + WHY US (merged) ===================== */}
+      <section className="border-y border-line bg-white py-20 lg:py-24">
+        <div className="container-x grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           {/* mission statement */}
           <div className="reveal lg:sticky lg:top-24 lg:self-start">
-            <div className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-cyan-accent">
+            <div className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-brand-600">
               Our mission
             </div>
-            <h2 className="text-[2rem] font-black leading-[1.05] tracking-[-0.02em] text-balance sm:text-4xl lg:text-[2.7rem]">
+            <h2 className="text-[2rem] font-black leading-[1.05] tracking-[-0.02em] text-balance text-ink-900 sm:text-4xl lg:text-[2.7rem]">
               Make world-class engineering accessible
             </h2>
-            <p className="mt-5 text-lg leading-relaxed text-pretty text-brand-100/80">
+            <p className="mt-5 text-lg leading-relaxed text-pretty text-ink-600">
               Too many good ideas die on a breadboard. We exist to carry them
               across the line, with the right hardware, clean code, clear
               documentation and people who have done it before.
             </p>
-            <p className="mt-4 leading-relaxed text-pretty text-brand-100/70">
+            <p className="mt-4 leading-relaxed text-pretty text-ink-600">
               Whether you’re a student shipping a final-year project, a college
               upskilling its faculty, or a company prototyping a product, we
               give you the kit, the knowledge and the team to make it real.
             </p>
 
-            <div className="mt-8 rounded-2xl border-l-4 border-cyan-accent bg-white/[0.04] p-5 ring-1 ring-white/10">
-              <p className="text-pretty font-semibold leading-relaxed text-white">
+            <div className="mt-8 rounded-2xl border-l-4 border-brand-500 bg-brand-50/60 p-5">
+              <p className="text-pretty font-semibold leading-relaxed text-ink-700">
                 “If it can’t survive a week in the field, it isn’t finished.”
               </p>
-              <p className="mt-2 text-sm text-brand-100/60">
+              <p className="mt-2 text-sm text-ink-400">
                 the rule every build is checked against
               </p>
             </div>
           </div>
 
-          {/* why teams pick us */}
+          {/* why teams pick us — compact cards */}
           <div className="reveal-late">
-            <div className="mb-6 text-xs font-bold uppercase tracking-[0.18em] text-cyan-accent">
+            <div className="mb-5 text-xs font-bold uppercase tracking-[0.18em] text-brand-600">
               Why teams pick us
             </div>
-            <ol className="grid gap-4 sm:grid-cols-2">
+            <ol className="grid gap-3 sm:grid-cols-2">
               {reasons.map(({ Icon, title, desc }, i) => (
                 <li
                   key={title}
-                  className="group relative rounded-2xl border border-white/10 bg-white/[0.04] p-6 transition-colors hover:border-cyan-accent/30 hover:bg-white/[0.07]"
+                  className="group relative rounded-2xl border border-line bg-[#f7f9fd] p-5 transition-colors hover:border-brand-200 hover:bg-brand-50/50"
                 >
-                  <span className="absolute right-5 top-5 text-4xl font-black leading-none text-white/[0.07]">
+                  <span className="absolute right-4 top-4 text-3xl font-black leading-none text-ink-900/[0.06]">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="grid h-11 w-11 place-items-center rounded-xl bg-cyan-accent/12 text-cyan-accent ring-1 ring-cyan-accent/20">
-                    <Icon className="h-5 w-5" />
+                  <span className="grid h-9 w-9 place-items-center rounded-lg bg-white text-brand-600 shadow-card">
+                    <Icon className="h-[18px] w-[18px]" />
                   </span>
-                  <h3 className="mt-4 font-bold text-white">{title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-brand-100/70">
+                  <h3 className="mt-3.5 text-[15px] font-bold text-ink-900">
+                    {title}
+                  </h3>
+                  <p className="mt-1.5 text-[13px] leading-relaxed text-ink-600">
                     {desc}
                   </p>
                 </li>
