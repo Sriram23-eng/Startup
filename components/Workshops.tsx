@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { workshops, type Workshop } from "@/lib/data";
-import { formatINR } from "@/lib/site";
 import { IconArrow, IconClock } from "@/components/icons";
 
 /* ------------------------------------------------------------------ */
@@ -79,15 +78,9 @@ export default function Workshops() {
                 ))}
               </div>
 
-              <div className="mt-5 flex items-center justify-between border-t border-line pt-4">
-                <div className="text-sm text-ink-400">
-                  From{" "}
-                  <span className="font-black text-ink-900">
-                    {formatINR(w.priceFrom)}
-                  </span>
-                </div>
+              <div className="mt-5 border-t border-line pt-4">
                 <span className="inline-flex items-center gap-1.5 text-sm font-bold text-brand-600">
-                  View
+                  Explore workshop
                   <IconArrow
                     className="h-4 w-4 transition-transform group-hover:translate-x-1"
                     strokeWidth={2}

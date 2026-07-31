@@ -119,34 +119,66 @@ export default function AboutStory() {
             </div>
           </div>
 
-          <div className="reveal-late mt-12 grid gap-5 md:grid-cols-3">
-            {pillars.map(({ Icon, label, title, desc, href, cta }) => (
-              <Link
-                key={label}
-                href={href}
-                className="group flex flex-col rounded-3xl border border-line bg-white p-7 shadow-card lift hover:border-brand-200 hover:shadow-lift"
-              >
-                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-brand-50 text-brand-600 transition-colors group-hover:bg-brand-600 group-hover:text-white">
-                  <Icon className="h-6 w-6" />
-                </span>
-                <div className="mt-5 text-[11px] font-bold uppercase tracking-[0.16em] text-ink-400">
-                  {label}
-                </div>
-                <h3 className="mt-1.5 text-xl font-black tracking-tight text-ink-900">
-                  {title}
-                </h3>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-600">
-                  {desc}
-                </p>
-                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-brand-600">
-                  {cta}
-                  <IconArrow
-                    className="h-4 w-4 transition-transform group-hover:translate-x-1"
-                    strokeWidth={2}
+          <div className="reveal-late relative mt-14">
+            {/* the rope the three cards hang from (desktop only) */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-2 top-0 hidden md:block"
+            >
+              <div className="h-0.5 rounded-full bg-line-strong" />
+              <span className="absolute -left-1 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-line-strong" />
+              <span className="absolute -right-1 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-line-strong" />
+            </div>
+
+            <div className="grid gap-5 md:grid-cols-3 md:gap-6 md:pt-12">
+              {pillars.map(({ Icon, label, title, desc, href, cta }, i) => (
+                <div
+                  key={label}
+                  className="toran-hang relative"
+                  style={{ animationDelay: `${i * -1.6}s` }}
+                >
+                  {/* string from the rope to the card (desktop only) */}
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute -top-12 left-1/2 hidden h-12 w-px -translate-x-1/2 bg-line-strong md:block"
                   />
-                </span>
-              </Link>
-            ))}
+                  {/* knot at the rope */}
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute -top-[52px] left-1/2 hidden h-2 w-2 -translate-x-1/2 rounded-full bg-brand-400 ring-2 ring-white md:block"
+                  />
+                  {/* hook ring where the string meets the card */}
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute -top-1.5 left-1/2 z-10 hidden h-3 w-3 -translate-x-1/2 rounded-full border-2 border-line-strong bg-white md:block"
+                  />
+                  <Link
+                    href={href}
+                    className="group relative flex h-full flex-col rounded-3xl border border-line bg-white p-7 shadow-card lift hover:border-brand-200 hover:shadow-lift"
+                  >
+                    <span className="grid h-12 w-12 place-items-center rounded-2xl bg-brand-50 text-brand-600 transition-colors group-hover:bg-brand-600 group-hover:text-white">
+                      <Icon className="h-6 w-6" />
+                    </span>
+                    <div className="mt-5 text-[11px] font-bold uppercase tracking-[0.16em] text-ink-400">
+                      {label}
+                    </div>
+                    <h3 className="mt-1.5 text-xl font-black tracking-tight text-ink-900">
+                      {title}
+                    </h3>
+                    <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-600">
+                      {desc}
+                    </p>
+                    <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-brand-600">
+                      {cta}
+                      <IconArrow
+                        className="h-4 w-4 transition-transform group-hover:translate-x-1"
+                        strokeWidth={2}
+                      />
+                    </span>
+                  </Link>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

@@ -303,6 +303,26 @@ body {
   animation: drift 18s ease-in-out infinite;
 }
 
+/* "Toran" hanging cards — a gentle sway pivoting from the string at the top,
+   so a card reads as suspended, not sliding. Desktop/tablet only (the rope
+   and strings are hidden on a single-column mobile stack), and the global
+   reduced-motion rule below switches it off entirely. */
+@keyframes toran-sway {
+  0%, 100% { transform: rotate(-0.7deg); }
+  50% { transform: rotate(0.7deg); }
+}
+@media (min-width: 768px) {
+  .toran-hang {
+    transform-origin: top center;
+    animation: toran-sway 6s ease-in-out infinite;
+    will-change: transform;
+  }
+  /* Steady it when the visitor reaches to click. */
+  .toran-hang:hover {
+    animation-play-state: paused;
+  }
+}
+
 /* ------------------------------------------------------------------ */
 /*  Motion preferences — every animation above is decorative, so an     */
 /*  explicit reduce request switches all of them off.                   */
