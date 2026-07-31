@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Project, categoryName } from "@/lib/data";
 import { formatINR } from "@/lib/site";
 import { IconArrow } from "@/components/icons";
+import { LogoMark } from "./Logo";
 
 /* ------------------------------------------------------------------ */
 /*  Featured kits as a stacked-cards scroll reveal (after the Jitter    */
@@ -14,8 +15,21 @@ export default function StackedKits({ projects }: { projects: Project[] }) {
   if (!kits.length) return null;
 
   return (
-    <section className="py-16 lg:py-20">
-      <div className="container-x grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
+    // `overflow-clip`, not `overflow-hidden` — hidden would make the section a
+    // scroll container and kill the sticky card stack inside it.
+    <section className="relative overflow-clip py-16 lg:py-20">
+      {/* Oversized chip mark bleeding off the right edge — a faint brand
+          watermark behind the deck. Sticky + zero-height so it stays parked
+          in the viewport for the whole scroll instead of sitting at the
+          section's midpoint. Decorative, desktop only. */}
+      <div
+        aria-hidden
+        className="pointer-events-none sticky top-0 z-0 hidden h-0 lg:block"
+      >
+        <LogoMark className="absolute right-0 top-[calc(50vh-13rem)] h-[26rem] w-[26rem] translate-x-[18%] text-brand-600/[0.07]" />
+      </div>
+
+      <div className="container-x relative grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
         {/* heading pinned on the left while the stack scrolls beside it */}
         <div className="reveal lg:sticky lg:top-24 lg:self-start">
           <div className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-brand-600">
