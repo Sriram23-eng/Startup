@@ -84,11 +84,18 @@ model User {
   id           String   @id @default(cuid())
   name         String
   email        String   @unique
-  passwordHash String
-  role         String   @default("student") // student | admin
+  passwordHash String   @default("") // empty for Google-only accounts
+  role         String   @default("student") // student | admin | trainer
   accountType  String   @default("student") // student | college
   college      String? // institution name (college accounts)
-  createdAt    DateTime @default(now())
+
+  // OAuth / Google sign-in
+  googleId    String?   @unique // Google account id (sub claim)
+  image       String? // profile picture URL
+  provider    String    @default("password") // password | google
+  lastLoginAt DateTime?
+
+  createdAt DateTime @default(now())
 }
 
 // A reservation. status starts "pending"; admin sets it to "approved"

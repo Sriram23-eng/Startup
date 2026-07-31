@@ -23,6 +23,10 @@ export type User = {
   role: string;
   accountType: string; // student | college
   college?: string | null; // institution name (college accounts)
+  googleId?: string | null; // Google account id (sub) — OAuth users
+  image?: string | null; // profile picture URL
+  provider?: string; // password | google
+  lastLoginAt?: string | null;
   createdAt?: string;
 };
 
@@ -57,8 +61,10 @@ async function writeJson(file: string, data: unknown): Promise<boolean> {
 /* eslint-disable @typescript-eslint/no-explicit-any */
 function stripDate<T>(row: any): T {
   if (!row) return row;
-  const { createdAt, ...rest } = row;
-  return { ...rest, createdAt: createdAt?.toISOString?.() ?? createdAt } as T;
+  const out: any = { ...row };
+  if (out.createdAt?.toISOString) out.createdAt = out.createdAt.toISOString();
+  if (out.lastLoginAt?.toISOString) out.lastLoginAt = out.lastLoginAt.toISOString();
+  return out as T;
 }
 
 export const normalizeEmail = (e: string) => String(e || "").trim().toLowerCase();
@@ -83,6 +89,96 @@ export async function getUserById(id: string): Promise<User | null> {
   }
   const list = await readJson<User[]>(U_FILE, []);
   return list.find((u) => u.id === id) ?? null;
+}
+
+export async function getUserByGoogleId(googleId: string): Promise<User | null> {
+  if (USE_DB) {
+    const { prisma } = await import("./prisma");
+    const row = await prisma.user.findUnique({ where: { googleId } });
+    return row ? stripDate<User>(row) : null;
+  }
+  const list = await readJson<User[]>(U_FILE, []);
+  return list.find((u) => u.googleId === googleId) ?? null;
+}
+
+/**
+ * Sign a user in with Google: match by googleId, else by email (so an
+ * existing email/password account is reused, never duplicated), else
+ * create a fresh Google-provisioned account. Always stamps lastLoginAt.
+ */
+export async function findOrCreateGoogleUser(data: {
+  googleId: string;
+  email: string;
+  name: string;
+  image?: string | null;
+}): Promise<User> {
+  const email = normalizeEmail(data.email);
+  const now = new Date();
+
+  if (USE_DB) {
+    const { prisma } = await import("./prisma");
+    let row =
+      (await prisma.user.findUnique({ where: { googleId: data.googleId } })) ||
+      (await prisma.user.findUnique({ where: { email } }));
+
+    if (row) {
+      const updated = await prisma.user.update({
+        where: { id: row.id },
+        data: {
+          googleId: data.googleId,
+          image: data.image ?? row.image,
+          // keep "password" provider if they already have a password login
+          provider: row.passwordHash ? row.provider : "google",
+          lastLoginAt: now,
+        },
+      });
+      return stripDate<User>(updated);
+    }
+
+    const created = await prisma.user.create({
+      data: {
+        name: data.name,
+        email,
+        passwordHash: "",
+        googleId: data.googleId,
+        image: data.image ?? null,
+        provider: "google",
+        lastLoginAt: now,
+      },
+    });
+    return stripDate<User>(created);
+  }
+
+  // JSON backend (local dev)
+  const list = await readJson<User[]>(U_FILE, []);
+  const existing =
+    list.find((u) => u.googleId === data.googleId) ||
+    list.find((u) => u.email === email);
+  if (existing) {
+    existing.googleId = data.googleId;
+    existing.image = data.image ?? existing.image ?? null;
+    existing.provider = existing.passwordHash ? existing.provider : "google";
+    existing.lastLoginAt = now.toISOString();
+    await writeJson(U_FILE, list);
+    return existing;
+  }
+  const user: User = {
+    id: randomUUID(),
+    name: data.name,
+    email,
+    passwordHash: "",
+    role: "student",
+    accountType: "student",
+    college: null,
+    googleId: data.googleId,
+    image: data.image ?? null,
+    provider: "google",
+    lastLoginAt: now.toISOString(),
+    createdAt: now.toISOString(),
+  };
+  list.push(user);
+  await writeJson(U_FILE, list);
+  return user;
 }
 
 export async function createUser(data: {
