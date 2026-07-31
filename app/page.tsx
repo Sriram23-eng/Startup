@@ -85,62 +85,6 @@ export default async function HomePage() {
       {/* ==================== MEDIA GRID (catalogue) =============== */}
       <MediaGrid projects={allProjects} />
 
-      {/* ======================== HOW IT WORKS ======================== */}
-      <section className="py-20">
-        <div className="container-x">
-          <Head
-            center
-            eyebrow="How it works"
-            title="From “I need this” to “it’s running”"
-            subtitle="The same three steps whether you order a kit off the shelf or commission something new."
-          />
-
-          <ol className="reveal-late relative mt-14 grid gap-10 md:grid-cols-3 md:gap-8">
-            {/* Connecting rail, desktop only */}
-            <div
-              aria-hidden
-              className="absolute left-0 right-0 top-7 hidden h-px bg-gradient-to-r from-transparent via-brand-300 to-transparent md:block"
-            />
-            {process.map(({ title, desc, meta }, i) => (
-              <li key={title} className="relative">
-                <div className="relative z-10 grid h-14 w-14 place-items-center rounded-2xl border border-line bg-white text-lg font-black text-brand-600 shadow-card">
-                  {String(i + 1).padStart(2, "0")}
-                </div>
-                <h3 className="mt-5 text-lg font-bold text-ink-900">{title}</h3>
-                <p className="mt-2 max-w-sm leading-relaxed text-ink-600">
-                  {desc}
-                </p>
-                <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-brand-600">
-                  <IconClock className="h-3.5 w-3.5" strokeWidth={2} />
-                  {meta}
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      {/* ============ TRUST / PARTNERS (mid-page) ==================== */}
-      <section className="border-y border-line bg-white py-12">
-        <div className="container-x">
-          <p className="text-center text-[11px] font-bold uppercase tracking-[0.22em] text-ink-400">
-            Trusted by students, faculty &amp; engineers at
-          </p>
-          <div className="marquee-hold relative mt-5 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]">
-            <div className="flex w-max animate-marquee gap-12">
-              {[...partners, ...partners].map((p, i) => (
-                <span
-                  key={i}
-                  className="whitespace-nowrap text-lg font-bold tracking-tight text-ink-400/70 transition-colors hover:text-brand-600"
-                >
-                  {p}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ========================= INTERNSHIPS ======================= */}
       <section id="internships" className="scroll-mt-28 py-24 lg:py-28">
         <div className="container-x">
@@ -192,6 +136,62 @@ export default async function HomePage() {
               </ol>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ============ TRUST / PARTNERS (mid-page) ==================== */}
+      <section className="border-y border-line bg-white py-12">
+        <div className="container-x">
+          <p className="text-center text-[11px] font-bold uppercase tracking-[0.22em] text-ink-400">
+            Trusted by students, faculty &amp; engineers at
+          </p>
+          <div className="marquee-hold relative mt-5 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]">
+            <div className="flex w-max animate-marquee gap-12">
+              {[...partners, ...partners].map((p, i) => (
+                <span
+                  key={i}
+                  className="whitespace-nowrap text-lg font-bold tracking-tight text-ink-400/70 transition-colors hover:text-brand-600"
+                >
+                  {p}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ======================== HOW IT WORKS ======================== */}
+      <section className="py-20">
+        <div className="container-x">
+          <Head
+            center
+            eyebrow="How it works"
+            title="From “I need this” to “it’s running”"
+            subtitle="The same three steps whether you order a kit off the shelf or commission something new."
+          />
+
+          <ol className="reveal-late relative mt-14 grid gap-10 md:grid-cols-3 md:gap-8">
+            {/* Connecting rail, desktop only */}
+            <div
+              aria-hidden
+              className="absolute left-0 right-0 top-7 hidden h-px bg-gradient-to-r from-transparent via-brand-300 to-transparent md:block"
+            />
+            {process.map(({ title, desc, meta }, i) => (
+              <li key={title} className="relative">
+                <div className="relative z-10 grid h-14 w-14 place-items-center rounded-2xl border border-line bg-white text-lg font-black text-brand-600 shadow-card">
+                  {String(i + 1).padStart(2, "0")}
+                </div>
+                <h3 className="mt-5 text-lg font-bold text-ink-900">{title}</h3>
+                <p className="mt-2 max-w-sm leading-relaxed text-ink-600">
+                  {desc}
+                </p>
+                <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-brand-600">
+                  <IconClock className="h-3.5 w-3.5" strokeWidth={2} />
+                  {meta}
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
