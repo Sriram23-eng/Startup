@@ -248,6 +248,10 @@ body {
 .spring-list.js.is-in > * {
   animation: slide-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
+/* Already on screen at load (or reduced motion): reveal instantly. */
+.spring-list.js.is-shown > * {
+  opacity: 1;
+}
 @media (prefers-reduced-motion: reduce) {
   .spring-list.js > *,
   .spring-list.js.is-in > * {

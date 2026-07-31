@@ -19,7 +19,9 @@ export default function RevealOnView({
 }) {
   const ref = useRef<HTMLOListElement>(null);
   const [mounted, setMounted] = useState(false);
-  const [shown, setShown] = useState(false);
+  // "hidden" -> waiting; "in" -> play the animation; "shown" -> reveal
+  // instantly with no animation (already on screen at load / reduced motion).
+  const [mode, setMode] = useState<"hidden" | "in" | "shown">("hidden");
 
   useEffect(() => {
     setMounted(true);
@@ -28,14 +30,26 @@ export default function RevealOnView({
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce || !("IntersectionObserver" in window)) {
-      setShown(true);
+      setMode("shown");
       return;
     }
 
+    // The observer's first callback reports the state at load. If the grid is
+    // ALREADY in view then (e.g. a refresh with the scroll restored here), just
+    // show it — no animation. Only a later scroll-in plays the slide.
+    let initial = true;
     const io = new IntersectionObserver(
       ([entry]) => {
+        if (initial) {
+          initial = false;
+          if (entry.isIntersecting) {
+            setMode("shown");
+            io.disconnect();
+          }
+          return;
+        }
         if (entry.isIntersecting) {
-          setShown(true);
+          setMode("in");
           io.disconnect();
         }
       },
@@ -51,7 +65,7 @@ export default function RevealOnView({
     <ol
       ref={ref}
       className={`${className} spring-list${mounted ? " js" : ""}${
-        shown ? " is-in" : ""
+        mode === "in" ? " is-in" : mode === "shown" ? " is-shown" : ""
       }`}
     >
       {children}
