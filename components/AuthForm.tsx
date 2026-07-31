@@ -107,25 +107,34 @@ export default function AuthForm({ googleEnabled = false }: { googleEnabled?: bo
 
         {/* Form panel */}
         <div className="p-8 sm:p-10">
-          {/* Tabs */}
-          <div className="inline-flex rounded-xl bg-brand-50/70 p-1">
-            {(["login", "register"] as const).map((m) => (
-              <button
-                key={m}
-                type="button"
-                onClick={() => {
-                  setMode(m);
-                  setError("");
-                }}
-                className={`rounded-lg px-5 py-2 text-sm font-semibold capitalize transition ${
-                  mode === m
-                    ? "bg-white text-brand-700 shadow-sm"
-                    : "text-navy-700/60 hover:text-navy-800"
-                }`}
-              >
-                {m === "login" ? "Login" : "Register"}
-              </button>
-            ))}
+          {/* Tabs — sliding brand indicator (matches the dashboard tabs) */}
+          <div className="relative max-w-xs border-b border-line">
+            <div className="grid grid-cols-2">
+              {(["login", "register"] as const).map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() => {
+                    setMode(m);
+                    setError("");
+                  }}
+                  className={`px-4 py-3 text-sm font-bold capitalize transition-colors ${
+                    mode === m
+                      ? "text-brand-700"
+                      : "text-navy-700/50 hover:text-navy-800"
+                  }`}
+                >
+                  {m === "login" ? "Login" : "Register"}
+                </button>
+              ))}
+            </div>
+            <span
+              aria-hidden
+              className="absolute bottom-0 left-0 h-0.5 w-1/2 rounded-full bg-brand-500 transition-transform duration-300 ease-out"
+              style={{
+                transform: `translateX(${mode === "register" ? "100%" : "0%"})`,
+              }}
+            />
           </div>
 
           <h3 className="mt-6 text-2xl font-extrabold text-navy-800">
