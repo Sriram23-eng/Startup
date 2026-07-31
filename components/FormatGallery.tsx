@@ -44,7 +44,14 @@ export default function FormatGallery() {
         role="region"
         aria-label="Workshop delivery formats"
         tabIndex={0}
-        className="mt-9 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+        /* `overflow-y-hidden` is load-bearing: setting only `overflow-x`
+           makes CSS compute the other axis to `auto` as well, so the row
+           becomes a *vertical* scroll container that swallows wheel events.
+           `overscroll-x-contain` stops the scroll chaining to the page when
+           the row reaches its end, and `proximity` beats `mandatory` here —
+           mandatory forces a re-snap every time scrolling settles, which
+           fights the page and yanks you into the next section. */
+        className="mt-9 flex snap-x snap-proximity gap-4 overflow-x-auto overflow-y-hidden overscroll-x-contain pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
         style={
           {
             scrollPaddingInline: "clamp(1.1rem, 2.4vw, 2rem)",
