@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Project, categoryName } from "@/lib/data";
-import { formatINR } from "@/lib/site";
 import { IconArrow } from "@/components/icons";
 import { LogoMark } from "./Logo";
 
@@ -84,9 +83,6 @@ export default function StackedKits({ projects }: { projects: Project[] }) {
                       View kit
                       <IconArrow className="h-4 w-4" strokeWidth={2} />
                     </Link>
-                    <span className="text-lg font-black tracking-tight text-ink-900">
-                      {formatINR(k.price)}
-                    </span>
                   </div>
                 </div>
               </article>

@@ -30,14 +30,6 @@ const reasons: { title: string; desc: string }[] = [
     title: "Learn from practicing engineers",
     desc: "Train with professionals who design, build and deploy embedded systems — not just teach them.",
   },
-  {
-    title: "Complete learning resources",
-    desc: "Source code, circuit diagrams, documentation, design files and reference material for every project.",
-  },
-  {
-    title: "Beyond the classroom",
-    desc: "Community support, project guidance and technical help continue long after the workshop ends.",
-  },
 ];
 
 export default function Workshops() {
@@ -101,7 +93,7 @@ export default function Workshops() {
             Why learners choose our workshops
           </h3>
 
-          <ol className="mt-9 grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
+          <ol className="mt-9 grid gap-x-8 gap-y-9 sm:grid-cols-2 lg:grid-cols-4">
             {reasons.map((r, i) => (
               <li
                 key={r.title}
