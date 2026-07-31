@@ -220,7 +220,7 @@ body {
 @keyframes reveal-in {
   from {
     opacity: 0;
-    transform: translateY(30px) scale(0.985);
+    transform: translateY(48px) scale(0.975);
   }
   to {
     opacity: 1;
@@ -283,7 +283,7 @@ body {
 @keyframes step-in {
   0% {
     opacity: 0;
-    transform: translateY(38px) scale(0.96);
+    transform: translateY(58px) scale(0.95);
   }
   70% {
     opacity: 1;
@@ -333,29 +333,36 @@ body {
 
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
+    /* ---- Timing note, the whole reason these ranges look odd ----
+       `entry 2% cover 22%` finishes while the element is still ~70% down
+       the viewport — the bottom quarter, below where anyone is looking.
+       The animation ran perfectly and was never seen. Ranges below are
+       measured to START around 85% down and FINISH around 40% down, so
+       the movement happens while the content is in the reading band. */
     .reveal {
       animation: reveal-in linear both;
       animation-timeline: view();
-      animation-range: entry 2% cover 22%;
+      animation-range: cover 12% cover 42%;
     }
     /* A gentler, later reveal for secondary elements. */
     .reveal-late {
       animation: reveal-in linear both;
       animation-timeline: view();
-      animation-range: entry 10% cover 32%;
+      animation-range: cover 20% cover 52%;
     }
     /* Staggered reveal: each item starts a little later than the last via
        an inline --i index, so a grid pops in sequence as it scrolls up. */
     .reveal-stagger {
       animation: reveal-in linear both;
       animation-timeline: view();
-      animation-range: entry calc(4% + var(--i, 0) * 4%) cover 34%;
+      animation-range: cover calc(10% + var(--i, 0) * 5%) cover
+        calc(42% + var(--i, 0) * 5%);
     }
     /* Headline entrance — same rhythm as `.reveal`, resolved out of blur. */
     .reveal-focus {
       animation: reveal-focus linear both;
       animation-timeline: view();
-      animation-range: entry 2% cover 26%;
+      animation-range: cover 12% cover 44%;
     }
     /* Decorative depth layer. Runs across the element's whole pass, so it
        keeps moving the entire time the section is on screen. */
@@ -376,7 +383,7 @@ body {
     .rail-draw {
       animation: rail-draw linear both;
       animation-timeline: view();
-      animation-range: entry 20% cover 45%;
+      animation-range: cover 14% cover 52%;
     }
     /* Sequenced arrival. Each item carries an inline --i; the 9% spacing
        is wide enough that they land one at a time as you scroll, instead
@@ -385,8 +392,8 @@ body {
     .seq {
       animation: step-in linear both;
       animation-timeline: view();
-      animation-range: entry calc(6% + var(--i, 0) * 9%) cover
-        calc(34% + var(--i, 0) * 9%);
+      animation-range: cover calc(10% + var(--i, 0) * 7%) cover
+        calc(40% + var(--i, 0) * 7%);
     }
   }
 }
