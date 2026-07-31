@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { Button } from "@/components/ui";
 import OrbitShowreel from "@/components/OrbitShowreel";
 import StackedKits from "@/components/StackedKits";
-import MediaGrid from "@/components/MediaGrid";
+import Workshops from "@/components/Workshops";
 import GlowButton from "@/components/GlowButton";
 import AboutStory from "@/components/AboutStory";
 import {
@@ -82,8 +82,8 @@ export default async function HomePage() {
       {/* ============ FEATURED KITS (stacked-cards scroll) ========= */}
       <StackedKits projects={allProjects} />
 
-      {/* ==================== MEDIA GRID (catalogue) =============== */}
-      <MediaGrid projects={allProjects} />
+      {/* ==================== WORKSHOPS =============== */}
+      <Workshops />
 
       {/* ========================= INTERNSHIPS ======================= */}
       <section id="internships" className="scroll-mt-28 py-24 lg:py-28">

@@ -28,13 +28,6 @@ export default function StackedKits({ projects }: { projects: Project[] }) {
             Hardware, source code, documentation and circuit diagrams in one
             box. Scroll to flip through the stack.
           </p>
-          <Link
-            href="/projects"
-            className="mt-7 inline-flex items-center gap-2 rounded-xl border border-line bg-white px-5 py-3 text-sm font-bold text-ink-900 shadow-card transition-colors hover:border-brand-200 hover:text-brand-600"
-          >
-            Browse all kits
-            <IconArrow className="h-4 w-4" strokeWidth={2} />
-          </Link>
         </div>
 
         {/* the stacked cards */}
