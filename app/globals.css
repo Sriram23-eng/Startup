@@ -214,14 +214,84 @@ body {
 /*  browsers without view-timeline (Safari/Firefox today) simply show    */
 /*  the content, and behind reduced-motion so it can be switched off.    */
 /* ------------------------------------------------------------------ */
+/* The shared chapter entrance. A touch of scale with the rise reads as the
+   block settling forward in space rather than just sliding — the depth cue
+   the OPPO pages lean on. Transform + opacity only, so it composites. */
 @keyframes reveal-in {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(30px) scale(0.985);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Cinematic variant for section headlines: resolves out of a blur the way
+   the hero payoff does. Blur is not compositor-cheap, so this is for single
+   headings only — never for grids or full sections. */
+@keyframes reveal-focus {
+  from {
+    opacity: 0;
+    transform: translateY(26px) scale(0.97);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Depth: decorative layers travel further than the content in front of
+   them. --par sets the strength; the element ends up where it started at
+   the midpoint of its pass, so nothing drifts out of place at rest. */
+@keyframes parallax-drift {
+  from {
+    transform: translateY(var(--par, 5%));
+  }
+  to {
+    transform: translateY(calc(var(--par, 5%) * -1));
+  }
+}
+
+/* Full-bleed image bands settle out of a slow push-in as they cross. */
+@keyframes band-zoom {
+  from {
+    transform: scale(1.16);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* A rule that draws itself across as the section is scrubbed — the
+   connective tissue in step/process sections. */
+@keyframes rail-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Sequenced arrival: rises, settles and *holds*. Paired with a per-item
+   range offset this reads as items landing one after another as you
+   scroll, rather than the whole grid fading at once. */
+@keyframes step-in {
+  0% {
+    opacity: 0;
+    transform: translateY(38px) scale(0.96);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -280,6 +350,202 @@ body {
       animation: reveal-in linear both;
       animation-timeline: view();
       animation-range: entry calc(4% + var(--i, 0) * 4%) cover 34%;
+    }
+    /* Headline entrance — same rhythm as `.reveal`, resolved out of blur. */
+    .reveal-focus {
+      animation: reveal-focus linear both;
+      animation-timeline: view();
+      animation-range: entry 2% cover 26%;
+    }
+    /* Decorative depth layer. Runs across the element's whole pass, so it
+       keeps moving the entire time the section is on screen. */
+    .parallax {
+      animation: parallax-drift linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+      will-change: transform;
+    }
+    /* Slow push-in for full-bleed imagery. */
+    .band-zoom {
+      animation: band-zoom linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+      will-change: transform;
+    }
+    /* Connecting rule that draws across as the section is scrubbed. */
+    .rail-draw {
+      animation: rail-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 45%;
+    }
+    /* Sequenced arrival. Each item carries an inline --i; the 9% spacing
+       is wide enough that they land one at a time as you scroll, instead
+       of the near-simultaneous pop `.reveal-stagger` gives. Use for the
+       hero moment of a section — steps, pillars, numbered lists. */
+    .seq {
+      animation: step-in linear both;
+      animation-timeline: view();
+      animation-range: entry calc(6% + var(--i, 0) * 9%) cover
+        calc(34% + var(--i, 0) * 9%);
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  HERO — pinned scroll stage (OPPO Find X-style choreography).        */
+/*                                                                      */
+/*  The hero section is a tall track (220vh) with a sticky stage inside */
+/*  it. `view-timeline` on the track plus `animation-range: contain`    */
+/*  maps a timeline to exactly the period the stage is pinned: contain  */
+/*  0% is the moment it locks, 100% the moment it lets go. Layers then  */
+/*  take slices of that range, so the choreography is frame-accurate    */
+/*  against the pin rather than guessed from viewport offsets.          */
+/*                                                                      */
+/*  Everything animates transform/opacity (plus two small blurs), so it */
+/*  stays off the main thread. Each keyframe's `from` is the state the  */
+/*  layer already has in markup — so with no timeline support, on a     */
+/*  phone, or under reduce-motion, the hero is simply a complete static */
+/*  hero. Nothing important is hidden behind motion.                    */
+/* ------------------------------------------------------------------ */
+@keyframes hero-lead-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-14%) scale(1.06);
+    filter: blur(6px);
+  }
+}
+
+@keyframes hero-payoff-in {
+  from {
+    opacity: 0;
+    transform: translateY(2.5rem) scale(0.96);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* The strip wakes up, holds as the anchor, then recedes into depth. */
+@keyframes hero-strip-push {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.9) translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0.3;
+    transform: scale(1.12) translateY(-8%);
+  }
+}
+
+/* Giant wordmark surfacing behind everything, then settling back. */
+@keyframes hero-ghost-in {
+  0% {
+    opacity: 0;
+    transform: scale(1.16);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.55;
+    transform: scale(0.99);
+  }
+}
+
+/* Ambient glows travel further than the content — the parallax that
+   sells the depth. Applied to the wrapper so it doesn't fight the
+   `drift` animation already running on the glow itself. */
+@keyframes hero-ambient-drift {
+  from {
+    transform: translateY(0) scale(1);
+  }
+  to {
+    transform: translateY(-10%) scale(1.18);
+  }
+}
+
+@keyframes hero-cue-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes hero-rail-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  /* Desktop only: pinned stages fight mobile URL-bar resizing, and a
+     phone screen has no room for layers to move through. */
+  @media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
+    .hero-track {
+      view-timeline-name: --hero;
+      view-timeline-axis: block;
+    }
+
+    /* NOTE: `animation-timeline` must come *after* the `animation`
+       shorthand in each rule — the shorthand resets it to `auto`, which
+       silently drops the layer back onto the document timeline. */
+
+    /* The headline owns the opening, then clears out. */
+    .hero-lead {
+      animation: hero-lead-out linear both;
+      animation-timeline: --hero;
+      animation-range: contain 2% contain 40%;
+    }
+    /* …and the payoff rises into the space it left. */
+    .hero-payoff {
+      animation: hero-payoff-in linear both;
+      animation-timeline: --hero;
+      animation-range: contain 42% contain 82%;
+    }
+    .hero-strip {
+      animation: hero-strip-push linear both;
+      animation-timeline: --hero;
+      animation-range: contain 0% contain 100%;
+      will-change: transform, opacity;
+    }
+    .hero-ghost {
+      animation: hero-ghost-in linear both;
+      animation-timeline: --hero;
+      animation-range: contain 12% contain 100%;
+    }
+    .hero-ambient {
+      animation: hero-ambient-drift linear both;
+      animation-timeline: --hero;
+      animation-range: contain 0% contain 100%;
+    }
+    /* Retire the affordance once it has been used. */
+    .hero-cue {
+      animation: hero-cue-out linear both;
+      animation-timeline: --hero;
+      animation-range: contain 0% contain 10%;
+    }
+    .hero-rail {
+      animation: hero-rail-fill linear both;
+      animation-timeline: --hero;
+      animation-range: contain 0% contain 100%;
     }
   }
 }
