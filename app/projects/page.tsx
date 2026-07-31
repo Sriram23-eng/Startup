@@ -54,16 +54,30 @@ export default async function ProjectsPage({
 
   return (
     <>
-      {/* ============================ HERO ============================ */}
-      <section className="relative overflow-hidden bg-[#f7f9fd]">
-        <div aria-hidden className="pointer-events-none absolute inset-0">
+      {/* ============================ HERO ============================
+          A pinned stage rather than a block that scrolls away: the copy
+          lifts, the featured kit grows as the anchor, and a payoff line
+          rises into the space the copy left. Same choreography as the home
+          hero so both page openers read as one language. Desktop only —
+          the un-animated state below md is the complete static hero. */}
+      <section className="proj-track relative overflow-clip bg-[#f7f9fd] md:h-[200vh]">
+        <div className="relative overflow-clip md:sticky md:top-16 md:flex md:h-[calc(100svh-4rem)] md:items-center">
+        <div
+          aria-hidden
+          className="proj-ambient pointer-events-none absolute inset-0"
+        >
           <div className="animate-drift absolute -left-32 -top-40 h-[32rem] w-[32rem] rounded-full bg-brand-400/20 blur-[150px]" />
           <div className="animate-drift absolute -right-24 top-10 h-[26rem] w-[26rem] rounded-full bg-cyan-accent/16 blur-[140px] [animation-delay:-6s]" />
         </div>
 
-        <div className="container-x relative grid items-center gap-14 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10 lg:py-24">
-          {/* Copy */}
-          <div className="animate-rise">
+        <div className="container-x relative grid w-full items-center gap-14 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10 lg:py-24">
+          {/* Copy and payoff share a slot on desktop, so the payoff rises
+              into the space the copy vacates. They stack on phones. */}
+          <div className="grid">
+          {/* No `animate-rise` here: it sets the `animation` shorthand too,
+              and one element cannot run two — the load entrance would win
+              the cascade and the scroll choreography would never apply. */}
+          <div className="proj-lead md:col-start-1 md:row-start-1">
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-brand-600">
               The kit catalogue
             </div>
@@ -93,9 +107,24 @@ export default async function ProjectsPage({
             </dl>
           </div>
 
+          {/* The payoff — takes the copy's place as the stage resolves. */}
+          <div className="proj-payoff hidden md:col-start-1 md:row-start-1 md:block md:self-center">
+            <h2 className="text-4xl font-black uppercase leading-[0.95] tracking-[-0.03em] text-ink-900 lg:text-6xl">
+              Assembled.
+              <br />
+              Flashed.
+              <br />
+              <span className="text-gradient">Documented.</span>
+            </h2>
+            <p className="mt-5 max-w-sm text-lg leading-relaxed text-pretty text-ink-600">
+              Every kit clears the same bar before it ships.
+            </p>
+          </div>
+          </div>
+
           {/* Featured kit, a real product image rather than a decorative panel. */}
           {hero && (
-            <div className="animate-rise [animation-delay:120ms]">
+            <div className="proj-media">
               <div className="ring-gradient group relative rounded-[1.7rem] bg-white/70 p-2 shadow-lift backdrop-blur-xl">
                 <div className="overflow-hidden rounded-[1.35rem] bg-white">
                   <div className="relative aspect-[4/3]">
@@ -137,6 +166,7 @@ export default async function ProjectsPage({
               </div>
             </div>
           )}
+        </div>
         </div>
       </section>
 

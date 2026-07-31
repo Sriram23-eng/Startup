@@ -31,7 +31,10 @@ export default function ProjectCard({
           alt={project.title}
           fill
           sizes="(max-width: 768px) 100vw, 33vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          /* `card-media` scrubs a `transform` scale across the card's whole
+             pass; the hover uses Tailwind's `scale` property, so the two
+             compose instead of cancelling each other. */
+          className="card-media object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-navy-950/50 to-transparent" />
         <div className="absolute left-3 top-3 flex flex-wrap gap-2">

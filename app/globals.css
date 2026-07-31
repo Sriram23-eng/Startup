@@ -284,6 +284,35 @@ body {
   }
 }
 
+/* The featured product grows and drifts across the whole pinned stage —
+   the constant anchor the copy hands off around, same role the filmstrip
+   plays in the home hero. */
+@keyframes proj-media-rise {
+  0% {
+    transform: scale(0.93) translateY(3%);
+  }
+  55% {
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    transform: scale(1.07) translateY(-5%);
+  }
+}
+
+/* Continuous scrub inside catalogue card images: settles out of a slight
+   zoom across the card's entire pass. This is the piece a plain fade-in
+   grid is missing — motion while the card is on screen, not just as it
+   arrives. Uses `transform`, leaving the hover `scale` utility free to
+   compose on top rather than fight it. */
+@keyframes card-media-scrub {
+  from {
+    transform: scale(1.14);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
 /* Horizontal pan for the pinned format gallery. The rail is wider than
    the viewport, so `100vw - 100%` resolves negative — it travels left by
    exactly its own overhang, landing the last card flush at the end. */
@@ -577,6 +606,44 @@ body {
       animation-range: contain 6% contain 94%;
       will-change: transform;
     }
+    /* ---- Pinned projects hero ----
+       Same beat structure as the home hero, reusing its keyframes so the
+       two page openers share one motion language: copy lifts away, the
+       featured kit grows as the anchor, a payoff line rises into the gap. */
+    .proj-track {
+      view-timeline-name: --proj;
+      view-timeline-axis: block;
+    }
+    .proj-lead {
+      animation: hero-lead-out linear both;
+      animation-timeline: --proj;
+      animation-range: contain 4% contain 46%;
+    }
+    .proj-payoff {
+      animation: hero-payoff-in linear both;
+      animation-timeline: --proj;
+      animation-range: contain 46% contain 86%;
+    }
+    .proj-media {
+      animation: proj-media-rise linear both;
+      animation-timeline: --proj;
+      animation-range: contain 0% contain 100%;
+      will-change: transform;
+    }
+    .proj-ambient {
+      animation: hero-ambient-drift linear both;
+      animation-timeline: --proj;
+      animation-range: contain 0% contain 100%;
+    }
+
+    /* Catalogue card imagery keeps moving the whole time it is on screen.
+       No will-change here — a long grid would pay for it on every card. */
+    .card-media {
+      animation: card-media-scrub linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+
     /* One segment per card: each fills across its own quarter of the pan,
        so the indicator reads as "card 3 of 4" rather than a bare rule. */
     .fmt-dot {
