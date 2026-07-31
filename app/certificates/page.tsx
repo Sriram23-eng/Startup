@@ -13,23 +13,33 @@ export const metadata: Metadata = {
 export default function CertificatesPage() {
   return (
     <>
+      {/* The input sits with the instruction that explains it. Splitting them
+          meant reading what to enter, then scrolling to a form to enter it —
+          on a page whose whole purpose is that one action. */}
       <PageHero
         align="center"
-        eyebrow="Certificate Verification"
+        eyebrow="Certificate verification"
         title={
           <>
-            Verify a certificate in{" "}
-            <span className="text-gradient-light">seconds</span>
+            Verify certificates{" "}
+            <span className="text-gradient-light">online</span>
           </>
         }
         subtitle="Enter the certificate ID printed on any certificate we issue to confirm the holder, program and issue date."
+        actions={
+          /* Explicit width, not `w-full`: the centered hero column sizes to
+             its content, so a percentage width collapses and truncates the
+             placeholder. Note a JSX-style brace comment is invalid in a prop
+             expression — it parses as an object literal. */
+          <div className="w-[min(90vw,40rem)] text-left">
+            <CertVerify />
+          </div>
+        }
       />
 
       <section className="py-14">
         <div className="container-x mx-auto max-w-3xl">
-          <CertVerify />
-
-          <div className="mt-10 grid gap-5 sm:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-3">
             {[
               { Icon: IconShield, title: "Tamper-proof", desc: "Each certificate maps to a unique, immutable record." },
               { Icon: IconBolt, title: "Instant", desc: "Verification is real-time — no waiting or emails." },
