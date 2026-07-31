@@ -196,17 +196,16 @@ export default async function HomePage() {
       </section>
 
       {/* ======================== TESTIMONIALS ======================= */}
-      <section className="relative overflow-hidden bg-navy-900 py-20 text-white lg:py-24">
+      <section className="relative overflow-hidden bg-[#f3f6fb] py-20 lg:py-24">
         <div aria-hidden className="pointer-events-none absolute inset-0">
-          <div className="mesh absolute inset-0 opacity-25" />
-          <div className="grid-lines absolute inset-0 opacity-[0.1]" />
+          <div className="absolute left-1/2 top-0 h-72 w-[36rem] -translate-x-1/2 rounded-full bg-brand-400/10 blur-[120px]" />
         </div>
         <div className="container-x relative">
           <div className="reveal mx-auto max-w-2xl text-center">
-            <div className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-cyan-accent">
+            <div className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-brand-600">
               Success stories
             </div>
-            <h2 className="text-[2rem] font-black leading-[1.05] tracking-[-0.02em] text-balance sm:text-4xl lg:text-[2.7rem]">
+            <h2 className="text-[2rem] font-black leading-[1.05] tracking-[-0.02em] text-balance text-ink-900 sm:text-4xl lg:text-[2.7rem]">
               Loved by colleges &amp; companies
             </h2>
           </div>
@@ -411,16 +410,14 @@ function Quote({
 
   return (
     <figure
-      className={`relative flex flex-col overflow-hidden rounded-3xl p-7 backdrop-blur md:p-8 ${
-        featured
-          ? "justify-center bg-gradient-to-br from-brand-600/25 via-white/[0.04] to-white/[0.02] ring-1 ring-brand-500/25"
-          : "bg-white/[0.04] ring-1 ring-white/10"
+      className={`lift relative flex flex-col overflow-hidden rounded-3xl border border-line bg-white p-7 shadow-card md:p-8 ${
+        featured ? "justify-center border-l-4 border-l-brand-500" : ""
       } ${className}`}
     >
       {/* Oversized decorative quote mark */}
       <span
         aria-hidden
-        className="pointer-events-none absolute -top-4 right-5 select-none font-serif text-[7rem] leading-none text-brand-400/20"
+        className="pointer-events-none absolute -top-3 right-5 select-none font-serif text-[7rem] leading-none text-brand-500/15"
       >
         ”
       </span>
@@ -433,19 +430,19 @@ function Quote({
       <blockquote
         className={`relative mt-5 text-pretty ${
           featured
-            ? "text-xl leading-relaxed text-white/95 md:text-2xl"
-            : "flex-1 leading-relaxed text-brand-100/80"
+            ? "text-xl leading-relaxed text-ink-800 md:text-2xl"
+            : "flex-1 leading-relaxed text-ink-600"
         }`}
       >
         “{item.quote}”
       </blockquote>
-      <figcaption className="relative mt-6 flex items-center gap-3 border-t border-white/10 pt-5">
-        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand-400 to-brand-600 text-sm font-black text-white ring-2 ring-white/15">
+      <figcaption className="relative mt-6 flex items-center gap-3 border-t border-line pt-5">
+        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand-400 to-brand-600 text-sm font-black text-white ring-2 ring-white shadow-sm">
           {initials}
         </span>
         <span>
-          <span className="block font-bold text-white">{item.name}</span>
-          <span className="block text-sm text-brand-100/55">{item.role}</span>
+          <span className="block font-bold text-ink-900">{item.name}</span>
+          <span className="block text-sm text-ink-400">{item.role}</span>
         </span>
       </figcaption>
     </figure>
