@@ -325,42 +325,6 @@ body {
   }
 }
 
-/* Slide-in entrance: each card slides in horizontally from its own side
-   (left column from the left, right column from the right, set per item
-   via --from-x) while fading in. Time-based, played on scroll-into-view. */
-@keyframes slide-in {
-  from {
-    opacity: 0;
-    transform: translateX(var(--from-x, 40px));
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Played when RevealOnView adds .is-in. Items are only hidden once JS
-   marks the list active (.js), so no-JS visitors still see them. Each
-   child staggers via an inline animation-delay. */
-.spring-list.js > * {
-  opacity: 0;
-}
-.spring-list.js.is-in > * {
-  animation: slide-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-/* Already on screen at load (or reduced motion): reveal instantly. */
-.spring-list.js.is-shown > * {
-  opacity: 1;
-}
-@media (prefers-reduced-motion: reduce) {
-  .spring-list.js > *,
-  .spring-list.js.is-in > * {
-    opacity: 1;
-    transform: none;
-    animation: none;
-  }
-}
-
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     /* ---- Timing note, the whole reason these ranges look odd ----
