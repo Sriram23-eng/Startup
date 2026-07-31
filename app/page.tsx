@@ -76,11 +76,11 @@ export default async function HomePage() {
       {/* ==================== HERO (Orbit showreel) ================== */}
       <OrbitShowreel images={stripImages} />
 
+      {/* ============ ABOUT STORY (who we are + mission) ============ */}
+      <AboutStory />
+
       {/* ============ FEATURED KITS (stacked-cards scroll) ========= */}
       <StackedKits projects={allProjects} />
-
-      {/* ============ ABOUT STORY (moved onto the home page) ========= */}
-      <AboutStory />
 
       {/* ==================== MEDIA GRID (catalogue) =============== */}
       <MediaGrid projects={allProjects} />
