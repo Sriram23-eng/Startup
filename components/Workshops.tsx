@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { workshops, type Workshop } from "@/lib/data";
-import { IconArrow } from "@/components/icons";
 
 /* ------------------------------------------------------------------ */
 /*  Home-page workshops teaser. A clean, hairline-divided list (no card  */
@@ -38,14 +37,16 @@ export default function Workshops() {
           </Link>
         </div>
 
-        <div className="reveal-late mt-8">
-          {workshops.map((w) => (
-            <Link
-              key={w.slug}
-              href="/workshops"
-              className="group flex items-start justify-between gap-6 border-t border-line py-6 transition-colors last:border-b hover:bg-[#f7f9fd]"
-            >
-              <div>
+        <ol className="reveal-late mt-8 grid gap-4 sm:grid-cols-2">
+          {workshops.map((w, i) => (
+            <li key={w.slug}>
+              <Link
+                href="/workshops"
+                className="group relative flex h-full flex-col rounded-2xl border border-line bg-white p-6 shadow-card transition-all hover:border-brand-200 hover:shadow-lift"
+              >
+                <span className="absolute right-5 top-5 text-4xl font-black leading-none text-ink-900/[0.06]">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
                 <div className="flex flex-wrap items-center gap-2.5">
                   <span
                     className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-bold ring-1 ${modeStyle[w.mode]}`}
@@ -56,20 +57,16 @@ export default function Workshops() {
                     {w.level} · {w.duration}
                   </span>
                 </div>
-                <h3 className="mt-2 text-lg font-black tracking-tight text-ink-900 transition-colors group-hover:text-brand-600 sm:text-xl">
+                <h3 className="mt-3 text-lg font-black tracking-tight text-ink-900 transition-colors group-hover:text-brand-600">
                   {w.title}
                 </h3>
-                <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-ink-600">
+                <p className="mt-2 text-sm leading-relaxed text-ink-600">
                   {w.blurb}
                 </p>
-              </div>
-              <IconArrow
-                className="mt-1 h-5 w-5 shrink-0 text-brand-600 transition-transform group-hover:translate-x-1"
-                strokeWidth={2}
-              />
-            </Link>
+              </Link>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );
