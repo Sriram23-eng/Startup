@@ -5,6 +5,7 @@ import { Badge, Button } from "@/components/ui";
 import { getCurrentUser, type SafeUser } from "@/lib/auth";
 import { getEnrollmentsByUser, type Enrollment } from "@/lib/accounts";
 import LogoutButton from "@/components/LogoutButton";
+import Tabs from "@/components/Tabs";
 
 export const dynamic = "force-dynamic";
 
@@ -55,18 +56,36 @@ function StudentDashboard({ user, enrollments }: { user: SafeUser; enrollments: 
 
       <section className="py-12">
         <div className="container-x">
-          <AccountDetails user={user} />
-          <div className="mt-12 flex items-center justify-between">
-            <h2 className="text-xl font-extrabold text-navy-800">My courses</h2>
-            <Button href="/courses" variant="outline">Browse courses →</Button>
-          </div>
-          <EnrollmentList enrollments={enrollments} emptyCta="/courses" />
-
-          <div className="mt-12 grid gap-4 sm:grid-cols-3">
-            <QuickCard href="/projects" icon="🧰" title="Project kits" desc="Ready-made & custom" />
-            <QuickCard href="/courses" icon="🎥" title="Online classes" desc="Live & self-paced" />
-            <QuickCard href="/internships" icon="🎓" title="Internships" desc="Apply & track" />
-          </div>
+          <Tabs
+            tabs={[
+              {
+                label: "My courses",
+                content: (
+                  <>
+                    <div className="flex items-center justify-between">
+                      <h2 className="text-xl font-extrabold text-navy-800">My courses</h2>
+                      <Button href="/courses" variant="outline">Browse courses →</Button>
+                    </div>
+                    <EnrollmentList enrollments={enrollments} emptyCta="/courses" />
+                  </>
+                ),
+              },
+              {
+                label: "Account",
+                content: <AccountDetails user={user} />,
+              },
+              {
+                label: "Explore",
+                content: (
+                  <div className="grid gap-4 sm:grid-cols-3">
+                    <QuickCard href="/projects" icon="🧰" title="Project kits" desc="Ready-made & custom" />
+                    <QuickCard href="/courses" icon="🎥" title="Online classes" desc="Live & self-paced" />
+                    <QuickCard href="/internships" icon="🎓" title="Internships" desc="Apply & track" />
+                  </div>
+                ),
+              },
+            ]}
+          />
         </div>
       </section>
     </>
