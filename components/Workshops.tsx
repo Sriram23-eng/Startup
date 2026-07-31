@@ -1,8 +1,6 @@
 import type { CSSProperties } from "react";
-import Link from "next/link";
 import { Button } from "@/components/ui";
 import { IconArrow } from "@/components/icons";
-import { workshopTracks } from "@/lib/data";
 
 /* ------------------------------------------------------------------ */
 /*  Home-page workshops section. Argues *why* to join rather than       */
@@ -123,21 +121,6 @@ export default function Workshops() {
           </ol>
         </div>
 
-        {/* ---------------- Formats ---------------- */}
-        <div className="mt-14 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-line pt-7">
-          <span className="text-xs font-bold uppercase tracking-[0.16em] text-ink-400">
-            Delivered as
-          </span>
-          {workshopTracks.map((t) => (
-            <Link
-              key={t.slug}
-              href={`/workshops/${t.slug}`}
-              className="rounded-full border border-line px-3.5 py-1.5 text-sm font-semibold text-ink-700 transition-colors hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700"
-            >
-              {t.label}
-            </Link>
-          ))}
-        </div>
       </div>
     </section>
   );
