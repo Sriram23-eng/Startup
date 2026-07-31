@@ -1,6 +1,7 @@
 import Link from "next/link";
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Button } from "@/components/ui";
+import RevealOnView from "@/components/RevealOnView";
 import {
   IconArrow,
   IconAward,
@@ -220,12 +221,12 @@ export default function AboutStory() {
             <div className="reveal mb-5 text-xs font-bold uppercase tracking-[0.18em] text-brand-600">
               Why teams pick us
             </div>
-            <ol className="grid gap-3 sm:grid-cols-2">
+            <RevealOnView className="grid gap-3 sm:grid-cols-2">
               {reasons.map(({ Icon, title, desc }, i) => (
                 <li
                   key={title}
-                  className="reveal-blur group relative rounded-2xl border border-line bg-white p-5 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-lift"
-                  style={{ "--i": i } as CSSProperties}
+                  className="group relative rounded-2xl border border-line bg-white p-5 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-lift"
+                  style={{ animationDelay: `${i * 90}ms` }}
                 >
                   <span className="absolute right-4 top-4 text-3xl font-black leading-none text-ink-900/[0.06] transition-colors duration-300 group-hover:text-brand-500/25">
                     {String(i + 1).padStart(2, "0")}
@@ -241,7 +242,7 @@ export default function AboutStory() {
                   </p>
                 </li>
               ))}
-            </ol>
+            </RevealOnView>
           </div>
         </div>
       </section>
