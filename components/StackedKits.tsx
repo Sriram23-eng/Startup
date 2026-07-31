@@ -15,8 +15,9 @@ export default function StackedKits({ projects }: { projects: Project[] }) {
 
   return (
     <section className="py-16 lg:py-20">
-      <div className="container-x">
-        <div className="reveal mx-auto max-w-2xl text-center">
+      <div className="container-x grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
+        {/* heading pinned on the left while the stack scrolls beside it */}
+        <div className="reveal lg:sticky lg:top-24 lg:self-start">
           <div className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-brand-600">
             Featured kits
           </div>
@@ -27,17 +28,25 @@ export default function StackedKits({ projects }: { projects: Project[] }) {
             Hardware, source code, documentation and circuit diagrams in one
             box. Scroll to flip through the stack.
           </p>
+          <Link
+            href="/projects"
+            className="mt-7 inline-flex items-center gap-2 rounded-xl border border-line bg-white px-5 py-3 text-sm font-bold text-ink-900 shadow-card transition-colors hover:border-brand-200 hover:text-brand-600"
+          >
+            Browse all kits
+            <IconArrow className="h-4 w-4" strokeWidth={2} />
+          </Link>
         </div>
 
-        <div className="mx-auto mt-12 max-w-4xl">
+        {/* the stacked cards */}
+        <div>
           {kits.map((k, i) => (
             <div
               key={k.slug}
               className="sticky"
               style={{ top: `${96 + i * 22}px` }}
             >
-              <article className="mb-6 grid overflow-hidden rounded-[1.75rem] border border-line bg-white shadow-lift md:grid-cols-2">
-                <div className="relative aspect-[16/11] md:aspect-auto md:min-h-[21rem]">
+              <article className="mb-6 grid overflow-hidden rounded-[1.75rem] border border-line bg-white shadow-lift sm:grid-cols-2">
+                <div className="relative aspect-[16/11] sm:aspect-auto sm:min-h-[17rem]">
                   <Image
                     src={k.image}
                     alt={k.title}
@@ -50,11 +59,11 @@ export default function StackedKits({ projects }: { projects: Project[] }) {
                   </span>
                 </div>
 
-                <div className="flex flex-col justify-center p-8 lg:p-10">
+                <div className="flex flex-col justify-center p-7 lg:p-8">
                   <div className="text-xs font-semibold uppercase tracking-wide text-brand-600">
                     {categoryName(k.category)}
                   </div>
-                  <h3 className="mt-2 text-2xl font-black tracking-tight text-ink-900 sm:text-3xl">
+                  <h3 className="mt-2 text-xl font-black tracking-tight text-ink-900 sm:text-2xl">
                     {k.title}
                   </h3>
                   <p className="mt-3 leading-relaxed text-ink-600">
