@@ -196,7 +196,7 @@ export default async function HomePage() {
       </section>
 
       {/* ======================== TESTIMONIALS ======================= */}
-      <section className="relative overflow-hidden bg-[#f3f6fb] py-20 lg:py-24">
+      <section className="relative overflow-hidden bg-[#f3f6fb] py-16 lg:py-20">
         <div aria-hidden className="pointer-events-none absolute inset-0">
           <div className="absolute left-1/2 top-0 h-72 w-[36rem] -translate-x-1/2 rounded-full bg-brand-400/10 blur-[120px]" />
         </div>
@@ -210,14 +210,13 @@ export default async function HomePage() {
             </h2>
           </div>
 
-          {/* One lead quote plus two supporting — the strongest story leads. */}
-          <div className="reveal-late mt-12 grid gap-6 lg:grid-cols-12">
-            <Quote featured item={testimonials[0]} className="lg:col-span-7" />
-            <div className="grid gap-6 lg:col-span-5">
-              {testimonials.slice(1).map((t) => (
-                <Quote key={t.name} item={t} />
-              ))}
-            </div>
+          {/* Equal columns — a lead card stretched to match a two-card stack
+              ends up mostly empty space, so all three share one row and the
+              strongest story just takes the brand rule. */}
+          <div className="reveal-late mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {testimonials.map((t, i) => (
+              <Quote key={t.name} item={t} featured={i === 0} />
+            ))}
           </div>
         </div>
       </section>
@@ -410,39 +409,39 @@ function Quote({
 
   return (
     <figure
-      className={`lift relative flex flex-col overflow-hidden rounded-3xl border border-line bg-white p-7 shadow-card md:p-8 ${
-        featured ? "justify-center border-l-4 border-l-brand-500" : ""
+      className={`lift relative flex flex-col overflow-hidden rounded-2xl border border-line bg-white p-5 shadow-card md:p-6 ${
+        featured ? "border-l-4 border-l-brand-500" : ""
       } ${className}`}
     >
-      {/* Oversized decorative quote mark */}
+      {/* Decorative quote mark */}
       <span
         aria-hidden
-        className="pointer-events-none absolute -top-3 right-5 select-none font-serif text-[7rem] leading-none text-brand-500/15"
+        className="pointer-events-none absolute -top-2 right-4 select-none font-serif text-[4.5rem] leading-none text-brand-500/15"
       >
         ”
       </span>
 
       <div className="relative flex gap-0.5 text-amber-400">
         {[0, 1, 2, 3, 4].map((i) => (
-          <IconStar key={i} className="h-4 w-4 fill-current" />
+          <IconStar key={i} className="h-3.5 w-3.5 fill-current" aria-hidden />
         ))}
       </div>
       <blockquote
-        className={`relative mt-5 text-pretty ${
-          featured
-            ? "text-xl leading-relaxed text-ink-800 md:text-2xl"
-            : "flex-1 leading-relaxed text-ink-600"
+        className={`relative mt-3.5 flex-1 text-[15px] leading-relaxed text-pretty ${
+          featured ? "text-ink-700" : "text-ink-600"
         }`}
       >
         “{item.quote}”
       </blockquote>
-      <figcaption className="relative mt-6 flex items-center gap-3 border-t border-line pt-5">
-        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand-400 to-brand-600 text-sm font-black text-white ring-2 ring-white shadow-sm">
+      <figcaption className="relative mt-4 flex items-center gap-2.5 border-t border-line pt-3.5">
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand-400 to-brand-600 text-xs font-black text-white shadow-sm ring-2 ring-white">
           {initials}
         </span>
         <span>
-          <span className="block font-bold text-ink-900">{item.name}</span>
-          <span className="block text-sm text-ink-400">{item.role}</span>
+          <span className="block text-sm font-bold text-ink-900">
+            {item.name}
+          </span>
+          <span className="block text-xs text-ink-400">{item.role}</span>
         </span>
       </figcaption>
     </figure>
