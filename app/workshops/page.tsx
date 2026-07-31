@@ -4,6 +4,7 @@ import { Badge, SectionHeading } from "@/components/ui";
 import PageHero from "@/components/PageHero";
 import { IconArrow, IconCheck } from "@/components/icons";
 import WorkshopForm from "@/components/WorkshopForm";
+import WorkshopTrackNav from "@/components/WorkshopTrackNav";
 
 export const metadata: Metadata = {
   title: "Workshops, Training & FDP",
@@ -40,6 +41,18 @@ export default function WorkshopsPage() {
           </div>
         }
       />
+
+      {/* Delivery formats — each links to its own page. */}
+      <section className="border-b border-line bg-white py-14">
+        <div className="container-x">
+          <SectionHeading
+            eyebrow="Delivery formats"
+            title="Pick how you want it delivered"
+            subtitle="The same programs, run four different ways. Each format has its own page with what's included and how a booking runs."
+          />
+          <WorkshopTrackNav className="mt-9" />
+        </div>
+      </section>
 
       <section className="py-16">
         <div className="container-x grid gap-12 lg:grid-cols-[1fr_440px]">

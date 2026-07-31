@@ -5,7 +5,15 @@ import { workshops } from "@/lib/data";
 import { Button } from "./ui";
 import { Label, Input, Textarea, Select } from "./Field";
 
-export default function WorkshopForm() {
+export default function WorkshopForm({
+  /** Preselects the Mode field — track pages pass their own format. */
+  defaultMode = "Offline",
+  /** Form title, so a track page can name the format it's booking. */
+  heading = "Book a workshop / training",
+}: {
+  defaultMode?: string;
+  heading?: string;
+} = {}) {
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">(
     "idle"
   );
@@ -15,7 +23,7 @@ export default function WorkshopForm() {
     email: "",
     phone: "",
     participants: "20-40",
-    mode: "Offline",
+    mode: defaultMode,
     topic: workshops[0].title,
     duration: "",
     budget: "",
@@ -60,8 +68,8 @@ export default function WorkshopForm() {
       onSubmit={submit}
       className="rounded-2xl border border-navy-700/8 bg-white p-6 shadow-card sm:p-8"
     >
-      <h3 className="text-xl font-extrabold text-navy-800">
-        Book a workshop / training
+      <h3 className="text-xl font-extrabold capitalize text-navy-800">
+        {heading}
       </h3>
       <p className="mt-1 text-sm text-navy-700/55">
         Share your needs — we’ll send a tailored proposal & quote.

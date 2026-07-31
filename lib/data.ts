@@ -244,6 +244,17 @@ export const projects: Project[] = [
   },
 ];
 
+/* ------------------------------------------------------------------ */
+/*  Workshops.                                                         */
+/*                                                                     */
+/*  `mode` is how a program is normally delivered. `tracks` is which   */
+/*  landing pages it appears on — a program can belong to more than    */
+/*  one (a 5-day campus bootcamp is both "offline" and "fdp"), and     */
+/*  most programs can be re-formatted on request, which is why the     */
+/*  track pages also list the ones that aren't tagged.                 */
+/* ------------------------------------------------------------------ */
+export type WorkshopTrackSlug = "online" | "offline" | "fdp" | "corporate";
+
 export type Workshop = {
   slug: string;
   title: string;
@@ -253,6 +264,7 @@ export type Workshop = {
   blurb: string;
   outcomes: string[];
   priceFrom: number;
+  tracks: WorkshopTrackSlug[];
 };
 
 export const workshops: Workshop[] = [
@@ -265,6 +277,7 @@ export const workshops: Workshop[] = [
     blurb: "Hands-on sensors-to-cloud bootcamp. Every participant builds & keeps a working IoT node.",
     outcomes: ["Wi-Fi sensor nodes", "MQTT & cloud dashboards", "Mobile app control", "Capstone project"],
     priceFrom: 3500,
+    tracks: ["offline", "fdp"],
   },
   {
     slug: "ai-ml-edge",
@@ -275,6 +288,7 @@ export const workshops: Workshop[] = [
     blurb: "Train and deploy vision models to Raspberry Pi and microcontrollers.",
     outcomes: ["Dataset prep", "Model training", "Quantization", "Edge deployment"],
     priceFrom: 6000,
+    tracks: ["online", "corporate"],
   },
   {
     slug: "lora-field",
@@ -285,6 +299,7 @@ export const workshops: Workshop[] = [
     blurb: "Deploy a real multi-km LoRa network on your campus or facility.",
     outcomes: ["RF planning", "Gateway setup", "Node provisioning", "Live deployment"],
     priceFrom: 25000,
+    tracks: ["offline", "corporate"],
   },
   {
     slug: "fdp-embedded",
@@ -295,8 +310,219 @@ export const workshops: Workshop[] = [
     blurb: "AICTE-aligned FDP to upskill faculty with industry-grade IoT labs & curriculum.",
     outcomes: ["Lab manuals", "Project bank", "Assessment design", "Certification"],
     priceFrom: 40000,
+    tracks: ["fdp", "corporate"],
   },
 ];
+
+/* ------------------------------------------------------------------ */
+/*  Workshop tracks — the four delivery formats in the Workshops menu. */
+/*  Each one is a real page at /workshops/<slug>; this registry is the  */
+/*  single source for the nav, the hub page and the track pages.        */
+/* ------------------------------------------------------------------ */
+export type WorkshopTrack = {
+  slug: WorkshopTrackSlug;
+  /** Nav label + card title. */
+  label: string;
+  /** One-liner used in the dropdown and on the hub cards. */
+  navDesc: string;
+  eyebrow: string;
+  /** Headline, split so the second half can take the gradient accent. */
+  title: string;
+  accent: string;
+  subtitle: string;
+  /** Who it's built for — shown under the hero. */
+  audience: string;
+  /** At-a-glance facts, rendered as the hero aside. */
+  facts: { label: string; value: string }[];
+  /** What every engagement in this track includes. */
+  includes: string[];
+  /** How a booking actually runs, start to finish. */
+  steps: { title: string; desc: string }[];
+  /** Preselects the "Mode" field on the booking form. */
+  formMode: string;
+};
+
+export const workshopTracks: WorkshopTrack[] = [
+  {
+    slug: "online",
+    label: "Online Workshops",
+    navDesc: "Live, from anywhere",
+    eyebrow: "Online workshops",
+    title: "Live cohorts you can join",
+    accent: "from anywhere",
+    subtitle:
+      "Evening and weekend batches taught live over video by the engineers who build our kits — with the hardware posted to each participant before day one.",
+    audience: "Students, working professionals and distributed teams",
+    facts: [
+      { label: "Format", value: "Live video, 2–3 hrs per session" },
+      { label: "Batch size", value: "Capped at 30 so everyone gets debugged" },
+      { label: "Hardware", value: "Kit shipped ahead, or browser simulation" },
+      { label: "Recordings", value: "Available for 6 months after the cohort" },
+    ],
+    includes: [
+      "Live sessions with an engineer, not a pre-recorded playlist",
+      "Hardware kit couriered to every participant before the first session",
+      "Session recordings and slides for six months",
+      "A private group where questions get answered between sessions",
+      "Commented source code and circuit diagrams for every build",
+      "Certificate on completing the capstone",
+    ],
+    steps: [
+      {
+        title: "Tell us the cohort",
+        desc: "Group size, level and which evenings or weekends work for the batch.",
+      },
+      {
+        title: "We lock the schedule",
+        desc: "You get a session-by-session plan and a joining link; kits go out by courier.",
+      },
+      {
+        title: "Run the cohort",
+        desc: "Live sessions with hands-on time on real hardware, recorded as you go.",
+      },
+      {
+        title: "Capstone & certificates",
+        desc: "Each participant ships a working build and receives a verifiable certificate.",
+      },
+    ],
+    formMode: "Online",
+  },
+  {
+    slug: "offline",
+    label: "Offline & Field",
+    navDesc: "On-campus & on-site",
+    eyebrow: "Offline & field",
+    title: "We bring the lab to",
+    accent: "your campus or site",
+    subtitle:
+      "On-campus bootcamps where we arrive with a full hardware lab in the room, and field workshops where a real network goes up on your actual site before we leave.",
+    audience: "Colleges, departments and facilities teams",
+    facts: [
+      { label: "On-campus", value: "Hardware lab for up to 80 participants" },
+      { label: "Field", value: "Live deployment on your premises" },
+      { label: "Duration", value: "2–5 days, scheduled around your calendar" },
+      { label: "Travel", value: "Anywhere in India; team and gear included" },
+    ],
+    includes: [
+      "Every board, sensor, gateway and tool carried in by our team",
+      "One instructor per 25 participants, plus a lab assistant",
+      "Working benches — participants build, not watch",
+      "For field workshops: RF survey, gateway install and a live network",
+      "Printed lab manuals and the full digital pack afterwards",
+      "The deployed hardware stays with you, documented and handed over",
+    ],
+    steps: [
+      {
+        title: "Site and cohort check",
+        desc: "A short call on room, power, participant count and what you want standing at the end.",
+      },
+      {
+        title: "Proposal and dates",
+        desc: "A fixed scope, a schedule and a quote — no per-head surprises later.",
+      },
+      {
+        title: "We arrive and set up",
+        desc: "Team and equipment on site the evening before; benches ready at start time.",
+      },
+      {
+        title: "Handover",
+        desc: "Deployed hardware, source, schematics and manuals left with your department.",
+      },
+    ],
+    formMode: "Offline",
+  },
+  {
+    slug: "fdp",
+    label: "FDP & Bootcamps",
+    navDesc: "Faculty & student programs",
+    eyebrow: "FDP & bootcamps",
+    title: "Programs that leave a",
+    accent: "department stronger",
+    subtitle:
+      "AICTE-aligned faculty development programs that hand over lab manuals and a project bank, and multi-day student bootcamps that end with every participant holding something that works.",
+    audience: "Faculty, HODs and student chapters",
+    facts: [
+      { label: "FDP", value: "1 week, AICTE-aligned" },
+      { label: "Bootcamp", value: "3–5 days, 30 hrs hands-on" },
+      { label: "Leave-behind", value: "Lab manuals + project bank" },
+      { label: "Certification", value: "Verifiable, for every participant" },
+    ],
+    includes: [
+      "Curriculum mapped to your syllabus and lab hours",
+      "A project bank your department can set for years afterwards",
+      "Lab manuals written for your equipment, not a generic handout",
+      "Assessment design — rubrics, viva questions and evaluation sheets",
+      "Train-the-trainer sessions so your faculty can run it next time",
+      "Verifiable certificates for faculty and students",
+    ],
+    steps: [
+      {
+        title: "Map the syllabus",
+        desc: "We read your curriculum and lab list, then propose what fills the actual gap.",
+      },
+      {
+        title: "Approval pack",
+        desc: "Objectives, schedule, outcomes and budget in the format your committee needs.",
+      },
+      {
+        title: "Run the program",
+        desc: "A week of hands-on sessions with working hardware on every bench.",
+      },
+      {
+        title: "Leave the department equipped",
+        desc: "Manuals, project bank, assessment kit and certificates, all handed over.",
+      },
+    ],
+    formMode: "FDP",
+  },
+  {
+    slug: "corporate",
+    label: "Corporate Training",
+    navDesc: "Upskill your team",
+    eyebrow: "Corporate training",
+    title: "Team training built around",
+    accent: "your stack",
+    subtitle:
+      "We write the syllabus with your engineering lead, against your hardware and your product — delivered on-site or remote, under NDA, with nothing generic in it.",
+    audience: "Engineering teams, L&D leads and product groups",
+    facts: [
+      { label: "Syllabus", value: "Written against your stack" },
+      { label: "Delivery", value: "On-site, remote or hybrid" },
+      { label: "Confidentiality", value: "NDA signed before scoping" },
+      { label: "Follow-up", value: "Office hours for 30 days after" },
+    ],
+    includes: [
+      "Scoping session with your engineering lead before anything is written",
+      "Exercises built on your boards, your protocols and your codebase",
+      "NDA in place before we see anything internal",
+      "Delivery on-site, remote or split across time zones",
+      "Recordings and materials your team keeps internally",
+      "Thirty days of office hours after the training ends",
+    ],
+    steps: [
+      {
+        title: "Scoping call",
+        desc: "NDA first, then a session with your lead on where the team actually needs lifting.",
+      },
+      {
+        title: "Custom syllabus",
+        desc: "A written plan against your stack, with exercises drawn from your own product.",
+      },
+      {
+        title: "Delivery",
+        desc: "On-site, remote or hybrid, scheduled around release cycles rather than ours.",
+      },
+      {
+        title: "Follow-through",
+        desc: "Materials handed over and office hours open for a month afterwards.",
+      },
+    ],
+    formMode: "Corporate training",
+  },
+];
+
+export const getWorkshopTrack = (slug: string): WorkshopTrack | undefined =>
+  workshopTracks.find((t) => t.slug === slug);
 
 export const testimonials = [
   {
