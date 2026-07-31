@@ -7,6 +7,7 @@ import StackedKits from "@/components/StackedKits";
 import Workshops from "@/components/Workshops";
 import GlowButton from "@/components/GlowButton";
 import AboutStory from "@/components/AboutStory";
+import VideoShowcase from "@/components/VideoShowcase";
 import {
   IconArrow,
   IconAward,
@@ -84,6 +85,24 @@ export default async function HomePage() {
 
       {/* ==================== WORKSHOPS =============== */}
       <Workshops />
+
+      {/* ==================== SEE IT IN ACTION (video) ============= */}
+      <section className="py-20 lg:py-24">
+        <div className="container-x">
+          <div className="reveal mx-auto max-w-2xl text-center">
+            <div className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-brand-600">
+              See it in action
+            </div>
+            <h2 className="text-[2rem] font-black leading-[1.05] tracking-[-0.02em] text-balance text-ink-900 sm:text-4xl lg:text-[2.7rem]">
+              A look inside the experience
+            </h2>
+          </div>
+          <div className="reveal-late mt-12 grid gap-6 lg:grid-cols-2">
+            <VideoShowcase src="/videos/tour-1.mp4" label="Elektron Nexus" />
+            <VideoShowcase src="/videos/tour-2.mp4" label="Elektron Nexus" />
+          </div>
+        </div>
+      </section>
 
       {/* ========================= INTERNSHIPS ======================= */}
       <section id="internships" className="scroll-mt-28 py-24 lg:py-28">

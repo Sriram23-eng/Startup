@@ -238,6 +238,13 @@ body {
       animation-timeline: view();
       animation-range: entry 10% cover 32%;
     }
+    /* Staggered reveal: each item starts a little later than the last via
+       an inline --i index, so a grid pops in sequence as it scrolls up. */
+    .reveal-stagger {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry calc(4% + var(--i, 0) * 4%) cover 34%;
+    }
   }
 }
 

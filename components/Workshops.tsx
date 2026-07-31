@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui";
 import { IconArrow } from "@/components/icons";
@@ -95,18 +96,31 @@ export default function Workshops() {
         </figure>
 
         {/* ---------------- Why learners choose us ---------------- */}
-        <div className="reveal-late mt-16 lg:mt-20">
-          <h3 className="text-xl font-black tracking-tight text-ink-900">
+        <div className="mt-16 lg:mt-20">
+          <h3 className="reveal text-xl font-black tracking-tight text-ink-900">
             Why learners choose our workshops
           </h3>
 
           <ol className="mt-9 grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
             {reasons.map((r, i) => (
-              <li key={r.title} className="border-t border-line pt-5">
-                <div className="text-xs font-black tracking-[0.14em] text-brand-600">
+              <li
+                key={r.title}
+                className="reveal-stagger group relative pt-5"
+                style={{ "--i": i } as CSSProperties}
+              >
+                {/* base hairline + a brand line that draws across on hover */}
+                <span
+                  aria-hidden
+                  className="absolute inset-x-0 top-0 h-px bg-line"
+                />
+                <span
+                  aria-hidden
+                  className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-brand-500 transition-transform duration-500 ease-out group-hover:scale-x-100"
+                />
+                <div className="text-xs font-black tracking-[0.14em] text-brand-600 transition-transform duration-300 group-hover:-translate-y-0.5">
                   {String(i + 1).padStart(2, "0")}
                 </div>
-                <h4 className="mt-3 text-[17px] font-bold tracking-tight text-ink-900">
+                <h4 className="mt-3 text-[17px] font-bold tracking-tight text-ink-900 transition-colors group-hover:text-brand-700">
                   {r.title}
                 </h4>
                 <p className="mt-2 text-sm leading-relaxed text-ink-600">
