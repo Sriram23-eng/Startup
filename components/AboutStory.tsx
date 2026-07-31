@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { Button } from "@/components/ui";
 import {
   IconArrow,
@@ -215,21 +215,22 @@ export default function AboutStory() {
             </div>
           </div>
 
-          {/* why teams pick us — compact cards */}
-          <div className="reveal-late">
-            <div className="mb-5 text-xs font-bold uppercase tracking-[0.18em] text-brand-600">
+          {/* why teams pick us — compact cards, staggered pop-in */}
+          <div>
+            <div className="reveal mb-5 text-xs font-bold uppercase tracking-[0.18em] text-brand-600">
               Why teams pick us
             </div>
             <ol className="grid gap-3 sm:grid-cols-2">
               {reasons.map(({ Icon, title, desc }, i) => (
                 <li
                   key={title}
-                  className="group relative rounded-2xl border border-line bg-white p-5 shadow-card transition-all hover:border-brand-200 hover:shadow-lift"
+                  className="reveal-pop group relative rounded-2xl border border-line bg-white p-5 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-lift"
+                  style={{ "--i": i } as CSSProperties}
                 >
-                  <span className="absolute right-4 top-4 text-3xl font-black leading-none text-ink-900/[0.06]">
+                  <span className="absolute right-4 top-4 text-3xl font-black leading-none text-ink-900/[0.06] transition-colors duration-300 group-hover:text-brand-500/25">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="grid h-9 w-9 place-items-center rounded-lg bg-brand-50 text-brand-600">
+                  <span className="grid h-9 w-9 place-items-center rounded-lg bg-brand-50 text-brand-600 transition-colors duration-300 group-hover:bg-brand-600 group-hover:text-white">
                     <Icon className="h-[18px] w-[18px]" />
                   </span>
                   <h3 className="mt-3.5 text-[15px] font-bold text-ink-900">
