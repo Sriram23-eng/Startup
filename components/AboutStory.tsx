@@ -133,8 +133,11 @@ export default function AboutStory() {
 
             <div className="grid gap-5 md:grid-cols-3 md:gap-6 md:pt-12">
               {pillars.map(({ Icon, label, title, desc, href, cta }, i) => (
+                /* `.seq` animates transform and so does `.toran-hang` (the
+                   sway) — they need separate elements or the sway would
+                   overwrite the arrival. */
+                <div key={label} className="seq" style={{ "--i": i } as CSSProperties}>
                 <div
-                  key={label}
                   className="toran-hang relative"
                   style={{ animationDelay: `${i * -1.6}s` }}
                 >
@@ -177,6 +180,7 @@ export default function AboutStory() {
                       />
                     </span>
                   </Link>
+                </div>
                 </div>
               ))}
             </div>

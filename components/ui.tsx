@@ -108,7 +108,7 @@ export function SectionHeading({
         </div>
       )}
       <h2
-        className={`text-[2rem] font-black leading-[1.05] tracking-[-0.02em] text-balance sm:text-4xl lg:text-[2.7rem] ${
+        className={`reveal-focus text-[2rem] font-black leading-[1.05] tracking-[-0.02em] text-balance sm:text-4xl lg:text-[2.7rem] ${
           light ? "text-white" : "text-ink-900"
         }`}
       >

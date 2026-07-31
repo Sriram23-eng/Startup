@@ -1,10 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { Button } from "@/components/ui";
 import OrbitShowreel from "@/components/OrbitShowreel";
 import StackedKits from "@/components/StackedKits";
 import Workshops from "@/components/Workshops";
+import FormatGallery from "@/components/FormatGallery";
 import GlowButton from "@/components/GlowButton";
 import AboutStory from "@/components/AboutStory";
 import {
@@ -82,10 +83,13 @@ export default async function HomePage() {
       {/* ==================== WORKSHOPS =============== */}
       <Workshops />
 
+      {/* ====== FORMAT GALLERY (Apple-style horizontal snap row) ===== */}
+      <FormatGallery />
+
       {/* ========================= INTERNSHIPS ======================= */}
       <section id="internships" className="scroll-mt-28 py-24 lg:py-28">
         <div className="container-x">
-          <div className="overflow-hidden rounded-3xl border border-line bg-white shadow-card">
+          <div className="reveal overflow-hidden rounded-3xl border border-line bg-white shadow-card">
             <div className="grid items-center gap-10 p-8 md:grid-cols-2 md:p-12">
               <div>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-cyan-accent/12 px-3 py-1 text-xs font-bold text-[#0b7c8c] ring-1 ring-cyan-accent/30">
@@ -119,7 +123,8 @@ export default async function HomePage() {
                 ].map(([t, d], i) => (
                   <li
                     key={t}
-                    className="flex items-start gap-4 rounded-2xl border border-line bg-[#f7f9fd] p-4 transition-colors hover:border-brand-200 hover:bg-brand-50/60"
+                    style={{ "--i": i } as CSSProperties}
+                    className="seq flex items-start gap-4 rounded-2xl border border-line bg-[#f7f9fd] p-4 transition-colors hover:border-brand-200 hover:bg-brand-50/60"
                   >
                     <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-brand-600 text-sm font-bold text-white">
                       {i + 1}
@@ -167,14 +172,21 @@ export default async function HomePage() {
             subtitle="The same three steps whether you order a kit off the shelf or commission something new."
           />
 
-          <ol className="reveal-late relative mt-14 grid gap-10 md:grid-cols-3 md:gap-8">
+          {/* Scrubbed sequence: the rail draws itself across while each step
+              lands in turn, so the three-step story plays as you scroll
+              instead of appearing all at once. */}
+          <ol className="relative mt-14 grid gap-10 md:grid-cols-3 md:gap-8">
             {/* Connecting rail, desktop only */}
             <div
               aria-hidden
-              className="absolute left-0 right-0 top-7 hidden h-px bg-gradient-to-r from-transparent via-brand-300 to-transparent md:block"
+              className="rail-draw absolute left-0 right-0 top-7 hidden h-px origin-left bg-gradient-to-r from-transparent via-brand-300 to-transparent md:block"
             />
             {process.map(({ title, desc, meta }, i) => (
-              <li key={title} className="relative">
+              <li
+                key={title}
+                className="seq relative"
+                style={{ "--i": i } as CSSProperties}
+              >
                 <div className="relative z-10 grid h-14 w-14 place-items-center rounded-2xl border border-line bg-white text-lg font-black text-brand-600 shadow-card">
                   {String(i + 1).padStart(2, "0")}
                 </div>
@@ -194,15 +206,20 @@ export default async function HomePage() {
 
       {/* ======================== TESTIMONIALS ======================= */}
       <section className="relative overflow-hidden bg-[#f3f6fb] py-16 lg:py-20">
+        {/* `.parallax` animates transform, so it gets its own wrapper — put
+            it on the glow itself and it would overwrite the centring
+            `-translate-x-1/2`. */}
         <div aria-hidden className="pointer-events-none absolute inset-0">
-          <div className="absolute left-1/2 top-0 h-72 w-[36rem] -translate-x-1/2 rounded-full bg-brand-400/10 blur-[120px]" />
+          <div className="parallax absolute inset-0">
+            <div className="absolute left-1/2 top-0 h-72 w-[36rem] -translate-x-1/2 rounded-full bg-brand-400/10 blur-[120px]" />
+          </div>
         </div>
         <div className="container-x relative">
           <div className="reveal mx-auto max-w-2xl text-center">
             <div className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-brand-600">
               Success stories
             </div>
-            <h2 className="text-[2rem] font-black leading-[1.05] tracking-[-0.02em] text-balance text-ink-900 sm:text-4xl lg:text-[2.7rem]">
+            <h2 className="reveal-focus text-[2rem] font-black leading-[1.05] tracking-[-0.02em] text-balance text-ink-900 sm:text-4xl lg:text-[2.7rem]">
               Loved by colleges &amp; companies
             </h2>
           </div>
@@ -218,21 +235,26 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ==================== FULL-BLEED IMAGE BAND ================= */}
+      {/* ==================== FULL-BLEED IMAGE BAND =================
+          The photo is scrubbed by scroll — a slow push-in that settles as
+          the band crosses the viewport, so the image reads as a moving
+          plate behind the copy rather than a static backdrop. */}
       <section className="relative h-[60vh] min-h-[26rem] overflow-hidden">
-        <Image
-          src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=2000&q=72"
-          alt="Electronics workbench"
-          fill
-          sizes="100vw"
-          className="object-cover"
-        />
+        <div aria-hidden className="band-zoom absolute inset-0">
+          <Image
+            src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=2000&q=72"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+        </div>
         <div className="absolute inset-0 bg-navy-950/65" />
         <div className="mesh pointer-events-none absolute inset-0 opacity-20" />
         <div className="relative flex h-full items-center">
           <div className="container-x text-white">
             <div className="reveal max-w-2xl">
-              <h2 className="text-4xl font-black leading-[1.05] tracking-[-0.02em] text-balance sm:text-6xl">
+              <h2 className="reveal-focus text-4xl font-black leading-[1.05] tracking-[-0.02em] text-balance sm:text-6xl">
                 From breadboard to field deployment
               </h2>
               <p className="mt-4 max-w-xl leading-relaxed text-brand-100/80">
@@ -284,15 +306,17 @@ export default async function HomePage() {
       {/* =========================== CTA ============================= */}
       <section className="py-20">
         <div className="container-x">
-          <div className="relative overflow-hidden rounded-3xl bg-navy-800 p-10 text-white md:p-14">
-            <div className="mesh pointer-events-none absolute inset-0 opacity-60" />
+          <div className="reveal relative overflow-hidden rounded-3xl bg-navy-800 p-10 text-white md:p-14">
+            <div aria-hidden className="parallax absolute inset-0">
+              <div className="mesh pointer-events-none absolute inset-0 opacity-60" />
+            </div>
             <div
               aria-hidden
               className="grid-lines pointer-events-none absolute inset-0 opacity-[0.15]"
             />
             <div className="relative grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
               <div>
-                <h2 className="text-3xl font-black tracking-tight text-balance sm:text-4xl">
+                <h2 className="reveal-focus text-3xl font-black tracking-tight text-balance sm:text-4xl">
                   Have an idea? Let’s build it together.
                 </h2>
                 <p className="mt-4 max-w-lg leading-relaxed text-brand-100/80">
