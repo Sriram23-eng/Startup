@@ -314,7 +314,7 @@ body {
 @media (min-width: 768px) {
   .toran-hang {
     transform-origin: top center;
-    animation: toran-sway 3.5s ease-in-out infinite;
+    animation: toran-sway 2s ease-in-out infinite;
     will-change: transform;
   }
   /* Steady it when the visitor reaches to click. */
