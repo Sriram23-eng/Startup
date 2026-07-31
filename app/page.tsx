@@ -336,14 +336,18 @@ export default async function HomePage() {
                 </div>
               </div>
 
-              {/* Contact affordances — the old CTA just repeated the hero. */}
-              <div className="grid gap-3">
-                {contactLinks.map(({ Icon, label, value, href }, i) => (
+              {/* Contact affordances — the old CTA just repeated the hero.
+                  One reveal for the group, NOT a per-item stagger: this is
+                  the last section on the page, so a late item's range needs
+                  scroll distance that does not exist below it — the third
+                  row stayed faded and offset even at the very bottom of the
+                  page, permanently unarrived. */}
+              <div className="reveal grid gap-3">
+                {contactLinks.map(({ Icon, label, value, href }) => (
                   <a
                     key={label}
                     href={href}
-                    style={{ "--i": i } as CSSProperties}
-                    className="seq group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.06] px-5 py-4 backdrop-blur transition-colors hover:border-cyan-accent/40 hover:bg-white/[0.1]"
+                    className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.06] px-5 py-4 backdrop-blur transition-colors hover:border-cyan-accent/40 hover:bg-white/[0.1]"
                   >
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-cyan-accent/15 text-cyan-accent">
                       <Icon className="h-5 w-5" />
