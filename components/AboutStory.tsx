@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { Button } from "@/components/ui";
 import RevealOnView from "@/components/RevealOnView";
 import {
@@ -226,7 +226,12 @@ export default function AboutStory() {
                 <li
                   key={title}
                   className="group relative rounded-2xl border border-line bg-white p-5 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-lift"
-                  style={{ animationDelay: `${i * 90}ms` }}
+                  style={
+                    {
+                      animationDelay: `${i * 90}ms`,
+                      "--from-x": i % 2 === 0 ? "-48px" : "48px",
+                    } as CSSProperties
+                  }
                 >
                   <span className="absolute right-4 top-4 text-3xl font-black leading-none text-ink-900/[0.06] transition-colors duration-300 group-hover:text-brand-500/25">
                     {String(i + 1).padStart(2, "0")}

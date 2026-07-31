@@ -225,33 +225,34 @@ body {
   }
 }
 
-/* Spring / bounce entrance: a card rises up and overshoots past its
-   resting spot, then settles — the overshoot comes from the back-out
-   easing on .spring-list below (time-based, played on scroll-into-view). */
-@keyframes bounce-in {
+/* Slide-in entrance: each card slides in horizontally from its own side
+   (left column from the left, right column from the right, set per item
+   via --from-x) while fading in. Time-based, played on scroll-into-view. */
+@keyframes slide-in {
   from {
     opacity: 0;
-    transform: translateY(26px);
+    transform: translateX(var(--from-x, 40px));
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
   }
 }
 
-/* Time-based spring played when RevealOnView adds .is-in. Items are only
-   hidden once JS marks the list active (.js), so no-JS visitors still see
-   them. Each child staggers via an inline animation-delay. */
+/* Played when RevealOnView adds .is-in. Items are only hidden once JS
+   marks the list active (.js), so no-JS visitors still see them. Each
+   child staggers via an inline animation-delay. */
 .spring-list.js > * {
   opacity: 0;
 }
 .spring-list.js.is-in > * {
-  animation: bounce-in 0.72s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation: slide-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 @media (prefers-reduced-motion: reduce) {
   .spring-list.js > *,
   .spring-list.js.is-in > * {
     opacity: 1;
+    transform: none;
     animation: none;
   }
 }
