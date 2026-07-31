@@ -152,7 +152,7 @@ export default function AboutStory() {
       </section>
 
       {/* ============= MISSION + WHY US (merged) ===================== */}
-      <section className="border-y border-line bg-white py-20 lg:py-24">
+      <section className="py-20 lg:py-24">
         <div className="container-x grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           {/* mission statement */}
           <div className="reveal lg:sticky lg:top-24 lg:self-start">
@@ -173,7 +173,7 @@ export default function AboutStory() {
               give you the kit, the knowledge and the team to make it real.
             </p>
 
-            <div className="mt-8 rounded-2xl border-l-4 border-brand-500 bg-brand-50/60 p-5">
+            <div className="mt-8 rounded-2xl border border-line border-l-4 border-l-brand-500 bg-white p-5 shadow-card">
               <p className="text-pretty font-semibold leading-relaxed text-ink-700">
                 “If it can’t survive a week in the field, it isn’t finished.”
               </p>
@@ -192,12 +192,12 @@ export default function AboutStory() {
               {reasons.map(({ Icon, title, desc }, i) => (
                 <li
                   key={title}
-                  className="group relative rounded-2xl border border-line bg-[#f7f9fd] p-5 transition-colors hover:border-brand-200 hover:bg-brand-50/50"
+                  className="group relative rounded-2xl border border-line bg-white p-5 shadow-card transition-all hover:border-brand-200 hover:shadow-lift"
                 >
                   <span className="absolute right-4 top-4 text-3xl font-black leading-none text-ink-900/[0.06]">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="grid h-9 w-9 place-items-center rounded-lg bg-white text-brand-600 shadow-card">
+                  <span className="grid h-9 w-9 place-items-center rounded-lg bg-brand-50 text-brand-600">
                     <Icon className="h-[18px] w-[18px]" />
                   </span>
                   <h3 className="mt-3.5 text-[15px] font-bold text-ink-900">
