@@ -224,7 +224,7 @@ export default function AboutStory() {
               {reasons.map(({ Icon, title, desc }, i) => (
                 <li
                   key={title}
-                  className="reveal-wipe group relative rounded-2xl border border-line bg-white p-5 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-lift"
+                  className="reveal-blur group relative rounded-2xl border border-line bg-white p-5 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-lift"
                   style={{ "--i": i } as CSSProperties}
                 >
                   <span className="absolute right-4 top-4 text-3xl font-black leading-none text-ink-900/[0.06] transition-colors duration-300 group-hover:text-brand-500/25">

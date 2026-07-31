@@ -225,17 +225,16 @@ body {
   }
 }
 
-/* A card is "wiped" open left-to-right by an animated clip mask — the
-   reveal edge sweeps across it. Staggered via --i below. (round 1rem keeps
-   the card's rounded-2xl corners intact through the wipe.) */
-@keyframes wipe-in {
+/* A card focuses in — starts blurred and faint, then sharpens. No
+   movement, just fade + blur. Staggered via --i below. */
+@keyframes blur-in {
   from {
-    opacity: 0.35;
-    clip-path: inset(0 100% 0 0 round 1rem);
+    opacity: 0;
+    filter: blur(12px);
   }
   to {
     opacity: 1;
-    clip-path: inset(0 0 0 0 round 1rem);
+    filter: blur(0);
   }
 }
 
@@ -259,11 +258,11 @@ body {
       animation-timeline: view();
       animation-range: entry calc(4% + var(--i, 0) * 4%) cover 34%;
     }
-    /* Staggered wipe/clip reveal for card grids (see wipe-in above). */
-    .reveal-wipe {
-      animation: wipe-in linear both;
+    /* Staggered blur-in / focus reveal for card grids (see blur-in above). */
+    .reveal-blur {
+      animation: blur-in linear both;
       animation-timeline: view();
-      animation-range: entry calc(4% + var(--i, 0) * 6%) cover 42%;
+      animation-range: entry calc(4% + var(--i, 0) * 6%) cover 40%;
     }
   }
 }
