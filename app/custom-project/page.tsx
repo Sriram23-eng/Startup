@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import CustomProjectForm, { StatusFlow } from "@/components/CustomProjectForm";
 import { Badge } from "@/components/ui";
 import { CategoryIcon } from "@/components/icons";
@@ -33,10 +34,11 @@ export default function CustomProjectPage() {
           </p>
 
           <div className="mt-6 flex flex-wrap gap-2">
-            {categories.map((c) => (
+            {categories.map((c, i) => (
               <span
                 key={c.slug}
-                className="inline-flex items-center gap-1.5 rounded-full border border-line-strong bg-white/80 px-3 py-1.5 text-xs font-semibold text-ink-700 backdrop-blur"
+                style={{ "--i": Math.min(i, 5) } as CSSProperties}
+                className="seq inline-flex items-center gap-1.5 rounded-full border border-line-strong bg-white/80 px-3 py-1.5 text-xs font-semibold text-ink-700 backdrop-blur"
               >
                 <CategoryIcon slug={c.slug} className="h-3.5 w-3.5 text-brand-600" />
                 {c.name}

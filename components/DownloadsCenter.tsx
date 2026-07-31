@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type CSSProperties } from "react";
 import { downloads, Download, categories, categoryName } from "@/lib/data";
 
 const kinds: (Download["kind"] | "All")[] = [
@@ -96,10 +96,11 @@ export default function DownloadsCenter() {
           </div>
         ) : (
           <ul className="divide-y divide-navy-700/8">
-            {list.map((d) => (
+            {list.map((d, i) => (
               <li
                 key={d.name}
-                className="flex flex-col gap-3 p-4 transition hover:bg-brand-50/30 sm:flex-row sm:items-center sm:justify-between"
+                style={{ "--i": Math.min(i, 5) } as CSSProperties}
+                className="seq flex flex-col gap-3 p-4 transition hover:bg-brand-50/30 sm:flex-row sm:items-center sm:justify-between"
               >
                 <div className="flex items-center gap-4">
                   <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand-50 text-xl">

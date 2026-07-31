@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui";
@@ -126,11 +127,12 @@ export default async function WorkshopTrackPage({
             </div>
 
             <div className="mt-8 space-y-4">
-              {primary.map((w) => (
+              {primary.map((w, i) => (
                 <div
                   key={w.slug}
                   id={w.slug}
-                  className="group scroll-mt-24 rounded-3xl border border-line bg-white p-6 shadow-card lift hover:border-brand-200 hover:shadow-lift"
+                  style={{ "--i": i } as CSSProperties}
+                  className="seq group scroll-mt-24 rounded-3xl border border-line bg-white p-6 shadow-card lift hover:border-brand-200 hover:shadow-lift"
                 >
                   <div className="flex flex-wrap items-center gap-2">
                     <Badge tone="brand">{w.mode}</Badge>
@@ -208,10 +210,11 @@ export default async function WorkshopTrackPage({
                 In every {t.label.toLowerCase()} booking
               </h2>
               <ul className="mt-7 grid gap-3 sm:grid-cols-2">
-                {t.includes.map((item) => (
+                {t.includes.map((item, i) => (
                   <li
                     key={item}
-                    className="flex items-start gap-3 rounded-2xl border border-line bg-white p-4 shadow-card"
+                    style={{ "--i": i % 2 } as CSSProperties}
+                    className="seq flex items-start gap-3 rounded-2xl border border-line bg-white p-4 shadow-card"
                   >
                     <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-brand-600 text-white">
                       <IconCheck className="h-3 w-3" strokeWidth={3} />
@@ -234,7 +237,11 @@ export default async function WorkshopTrackPage({
               </h2>
               <ol className="mt-8 space-y-4">
                 {t.steps.map((s, i) => (
-                  <li key={s.title} className="flex gap-5">
+                  <li
+                    key={s.title}
+                    style={{ "--i": i } as CSSProperties}
+                    className="seq flex gap-5"
+                  >
                     <div className="flex flex-col items-center">
                       <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-line bg-white text-sm font-black text-brand-600 shadow-card">
                         {String(i + 1).padStart(2, "0")}
