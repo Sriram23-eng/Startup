@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import ProjectsExplorer from "@/components/ProjectsExplorer";
+import StatementBand from "@/components/StatementBand";
 import { Button } from "@/components/ui";
 import {
   IconArrow,
@@ -145,8 +147,12 @@ export default async function ProjectsPage({
             { Icon: IconTruck, title: "Dispatch in 48 hours", desc: "Assembled and tested" },
             { Icon: IconCode, title: "Source and docs", desc: "Firmware, schematics, BOM" },
             { Icon: IconUsers, title: "Engineer on call", desc: "Support after delivery" },
-          ].map(({ Icon, title, desc }) => (
-            <div key={title} className="flex items-center gap-3.5 px-2 py-6 sm:px-6">
+          ].map(({ Icon, title, desc }, i) => (
+            <div
+              key={title}
+              style={{ "--i": i } as CSSProperties}
+              className="seq flex items-center gap-3.5 px-2 py-6 sm:px-6"
+            >
               <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand-50 text-brand-600">
                 <Icon className="h-5 w-5" />
               </span>
@@ -162,9 +168,9 @@ export default async function ProjectsPage({
       {/* ========================= CATALOGUE ========================= */}
       <section id="catalogue" className="scroll-mt-20 py-16">
         <div className="container-x">
-          <div className="flex flex-wrap items-end justify-between gap-4">
+          <div className="reveal flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-xl">
-              <h2 className="text-3xl font-black tracking-tight text-balance text-ink-900 sm:text-4xl">
+              <h2 className="reveal-focus text-3xl font-black tracking-tight text-balance text-ink-900 sm:text-4xl">
                 Find your build
               </h2>
               <p className="mt-3 leading-relaxed text-pretty text-ink-600">
@@ -196,6 +202,28 @@ export default async function ProjectsPage({
         </div>
       </section>
 
+      {/* ================= STATEMENT BAND (chapter break) ============= */}
+      <StatementBand
+        tone="dark"
+        eyebrow="Built to ship"
+        lineOne="Bench-tested."
+        lineTwo="Field-ready."
+        tiles={[
+          {
+            title: "Flashed and verified",
+            desc: "Every board is programmed and run on our bench before it is packed.",
+          },
+          {
+            title: "Documented to build from",
+            desc: "Schematics, BOM and commented source, not a quick-start card.",
+          },
+          {
+            title: "Backed after delivery",
+            desc: "The engineer who built it answers the questions about it.",
+          },
+        ]}
+      />
+
       {/* ==================== WHAT EVERY KIT HAS ===================== */}
       <section className="border-t border-line bg-white py-20">
         <div className="container-x grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
@@ -203,7 +231,7 @@ export default async function ProjectsPage({
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-brand-600">
               In every box
             </div>
-            <h2 className="mt-3 text-3xl font-black tracking-tight text-balance text-ink-900 sm:text-4xl">
+            <h2 className="reveal-focus mt-3 text-3xl font-black tracking-tight text-balance text-ink-900 sm:text-4xl">
               Nothing left for you to figure out
             </h2>
             <p className="mt-5 leading-relaxed text-pretty text-ink-600">
@@ -222,7 +250,8 @@ export default async function ProjectsPage({
             {included.map((it, i) => (
               <li
                 key={it.title}
-                className="relative rounded-2xl border border-line bg-[#f7f9fd] p-6 transition-colors hover:border-brand-200 hover:bg-brand-50/50"
+                style={{ "--i": i } as CSSProperties}
+                className="seq relative rounded-2xl border border-line bg-[#f7f9fd] p-6 transition-colors hover:border-brand-200 hover:bg-brand-50/50"
               >
                 <span className="absolute right-5 top-5 text-4xl font-black leading-none text-ink-900/[0.06]">
                   {String(i + 1).padStart(2, "0")}

@@ -88,6 +88,20 @@ export const formatINR = (n: Money) =>
     maximumFractionDigits: 0,
   }).format(n);
 
+/**
+ * Deterministic dd/mm/yyyy. `toLocaleDateString` renders differently
+ * depending on the viewer's locale settings, so using it during render
+ * makes server and client HTML disagree — the classic hydration mismatch.
+ * This formats the same everywhere.
+ */
+export function formatDate(value?: string | null): string {
+  if (!value) return "—";
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return "—";
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}`;
+}
+
 /** Format a price with its currency symbol (shop products). */
 export function formatMoney(amount: number, currency = "INR"): string {
   const sym = currency === "USD" ? "$" : currency === "EUR" ? "€" : "₹";

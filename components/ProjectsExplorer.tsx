@@ -115,8 +115,8 @@ export default function ProjectsExplorer({
           </div>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-            {filtered.map((p) => (
-              <ProjectCard key={p.slug} project={p} />
+            {filtered.map((p, i) => (
+              <ProjectCard key={p.slug} project={p} index={i} />
             ))}
           </div>
         )}

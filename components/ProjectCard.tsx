@@ -1,10 +1,19 @@
 import Link from "next/link";
 import Image from "next/image";
+import type { CSSProperties } from "react";
 import { Project, categoryName } from "@/lib/data";
 import { formatMoney } from "@/lib/site";
 import { IconArrow, IconPlay, IconStar } from "@/components/icons";
 
-export default function ProjectCard({ project }: { project: Project }) {
+export default function ProjectCard({
+  project,
+  /** Position in its grid — drives the staggered arrival. Capped so a
+      long catalogue does not end up with cards waiting a full screen. */
+  index = 0,
+}: {
+  project: Project;
+  index?: number;
+}) {
   const currency = project.currency || "INR";
   const off =
     project.originalPrice && project.originalPrice > project.price
@@ -13,7 +22,8 @@ export default function ProjectCard({ project }: { project: Project }) {
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-card lift hover:border-brand-200 hover:shadow-lift"
+      style={{ "--i": index % 3 } as CSSProperties}
+      className="seq group flex flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-card lift hover:border-brand-200 hover:shadow-lift"
     >
       <div className="relative aspect-[16/10] overflow-hidden">
         <Image

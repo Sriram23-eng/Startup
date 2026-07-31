@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { Course, categoryName } from "@/lib/data";
 import { formatINR } from "@/lib/site";
@@ -70,8 +70,13 @@ export default function CoursesCatalog({ courses }: { courses: Course[] }) {
 
       {/* Grid */}
       <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {list.map((c) => (
-          <CourseCard key={c.slug} course={c} onEnroll={() => enroll(c.slug)} />
+        {list.map((c, i) => (
+          <CourseCard
+            key={c.slug}
+            course={c}
+            index={i}
+            onEnroll={() => enroll(c.slug)}
+          />
         ))}
       </div>
 
@@ -86,13 +91,19 @@ export default function CoursesCatalog({ courses }: { courses: Course[] }) {
 function CourseCard({
   course,
   onEnroll,
+  index = 0,
 }: {
   course: Course;
   onEnroll: () => void;
+  /** Grid position, modulo the column count, for the staggered arrival. */
+  index?: number;
 }) {
   const live = course.mode === "Live";
   return (
-    <div className="group flex flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-card lift hover:border-brand-200 hover:shadow-lift">
+    <div
+      style={{ "--i": index % 3 } as CSSProperties}
+      className="seq group flex flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-card lift hover:border-brand-200 hover:shadow-lift"
+    >
       <div className="relative aspect-[16/9] overflow-hidden">
         <Image
           src={course.image}

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import AdminShell from "@/components/admin/AdminShell";
+import { formatDate } from "@/lib/site";
 
 type User = {
   id: string;
@@ -105,7 +106,7 @@ export default function AdminUsers() {
                   <td className="px-5 py-3 text-navy-700/70">{u.college || "—"}</td>
                   <td className="px-5 py-3 text-navy-700/40">•••••••• (encrypted)</td>
                   <td className="px-5 py-3 text-navy-700/55">
-                    {u.createdAt ? new Date(u.createdAt).toLocaleDateString("en-IN") : "—"}
+                    {formatDate(u.createdAt)}
                   </td>
                   <td className="px-5 py-3">
                     <div className="flex justify-end">
