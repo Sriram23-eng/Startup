@@ -3,6 +3,7 @@ import { SectionHeading } from "@/components/ui";
 import PageHero from "@/components/PageHero";
 import CoursesCatalog from "@/components/CoursesCatalog";
 import { getCourses } from "@/lib/store";
+import { canSeePrices, stripCoursePrices } from "@/lib/pricing";
 import {
   IconPlay,
   IconUsers,
@@ -21,7 +22,13 @@ export const metadata: Metadata = {
 };
 
 export default async function CoursesPage() {
-  const courses = await getCourses();
+  const allCourses = await getCourses();
+
+  // Prices are stripped server-side for signed-out visitors — CoursesCatalog
+  // is a client component, so unstripped figures would ship in the payload.
+  const showPrices = await canSeePrices();
+  const courses = showPrices ? allCourses : stripCoursePrices(allCourses);
+
   const liveCount = courses.filter((c) => c.mode === "Live").length;
   const nextLive = courses.find((c) => c.mode === "Live");
 
@@ -124,7 +131,7 @@ export default async function CoursesPage() {
             subtitle="Switch between live cohorts and self-paced courses, and filter by level."
           />
           <div className="mt-8">
-            <CoursesCatalog courses={courses} />
+            <CoursesCatalog courses={courses} showPrices={showPrices} />
           </div>
         </div>
       </section>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ReactNode } from "react";
+import { formatMoney } from "@/lib/site";
 
 /* ---------- Button ---------- */
 type ButtonProps = {
@@ -56,6 +57,64 @@ export function Button({
     <button type={type} onClick={onClick} className={cls}>
       {children}
     </button>
+  );
+}
+
+/* ---------- Price ---------- */
+/**
+ * Renders a price, or a sign-in prompt in its place. One component so the
+ * locked state looks identical everywhere and there is a single place to
+ * change the wording. No hooks, so it works in server and client trees.
+ */
+export function PriceTag({
+  value,
+  currency = "INR",
+  className = "",
+  prefix,
+}: {
+  /**
+   * The figure, or `null` to lock it. Deliberately NOT a separate `show`
+   * flag: a hidden-but-passed value is still serialised into the RSC
+   * payload and readable in view-source. Callers must resolve the gate
+   * themselves — `value={showPrices ? price : null}` — so the number never
+   * crosses the wire when it should not.
+   */
+  value?: number | null;
+  currency?: string;
+  className?: string;
+  /** e.g. "From" — pass only alongside a visible figure. */
+  prefix?: string;
+}) {
+  if (value != null) {
+    return (
+      <span className={className}>
+        {prefix && (
+          <span className="mr-1 text-xs font-medium text-ink-400">{prefix}</span>
+        )}
+        {formatMoney(value, currency)}
+      </span>
+    );
+  }
+
+  return (
+    <Link
+      href="/login"
+      className="inline-flex items-center gap-1.5 rounded-lg bg-brand-50 px-2.5 py-1 text-xs font-bold text-brand-700 transition-colors hover:bg-brand-100"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden
+        className="h-3.5 w-3.5"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+      >
+        <rect x="4" y="10.5" width="16" height="10" rx="2.5" />
+        <path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" />
+      </svg>
+      Sign in for price
+    </Link>
   );
 }
 

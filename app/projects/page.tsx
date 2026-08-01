@@ -3,7 +3,7 @@ import type { CSSProperties } from "react";
 import Image from "next/image";
 import ProjectsExplorer from "@/components/ProjectsExplorer";
 import StatementBand from "@/components/StatementBand";
-import { Button } from "@/components/ui";
+import { Button, PriceTag } from "@/components/ui";
 import {
   IconArrow,
   IconTruck,
@@ -15,6 +15,7 @@ import {
 import { sizeBands } from "@/lib/data";
 import { getProjects } from "@/lib/store";
 import { formatINR, formatMoney, site } from "@/lib/site";
+import { canSeePrices, stripProjectPrices } from "@/lib/pricing";
 
 export const dynamic = "force-dynamic";
 
@@ -30,11 +31,19 @@ export default async function ProjectsPage({
   searchParams: Promise<{ cat?: string; q?: string }>;
 }) {
   const { cat, q } = await searchParams;
-  const projects = await getProjects();
+  const allProjects = await getProjects();
 
-  // Real figures only, computed from the live catalogue.
-  const kitCount = projects.length;
-  const fromPrice = kitCount ? Math.min(...projects.map((p) => p.price)) : 0;
+  // Prices are for signed-in accounts only. Strip them server-side rather
+  // than hiding them in markup — ProjectsExplorer is a client component, so
+  // anything passed as a prop is serialised into the HTML and readable in
+  // view-source whether or not it is rendered.
+  const showPrices = await canSeePrices();
+  const projects = showPrices ? allProjects : stripProjectPrices(allProjects);
+
+  // Real figures only, computed from the live catalogue. `fromPrice` reads
+  // the unstripped list — the stripped copy would report ₹0.
+  const kitCount = allProjects.length;
+  const fromPrice = kitCount ? Math.min(...allProjects.map((p) => p.price)) : 0;
   const domainCount = new Set(projects.map((p) => p.category)).size;
   const avgRating = kitCount
     ? (projects.reduce((s, p) => s + (p.rating || 0), 0) / kitCount).toFixed(1)
@@ -102,7 +111,13 @@ export default async function ProjectsPage({
             {/* Real stats, sitting under the hero copy rather than crowding it. */}
             <dl className="mt-10 grid max-w-md grid-cols-3 gap-6 border-t border-line pt-6">
               <Stat value={String(kitCount)} label="Kits in stock" />
-              <Stat value={formatINR(fromPrice)} label="Starting price" />
+              {/* Swapped for a non-price figure when locked, rather than
+                  leaving a gap or printing ₹0. */}
+              {showPrices ? (
+                <Stat value={formatINR(fromPrice)} label="Starting price" />
+              ) : (
+                <Stat value={avgRating} label="Avg rating" />
+              )}
               <Stat value={`${domainCount}`} label="Domains" />
             </dl>
           </div>
@@ -151,9 +166,11 @@ export default async function ProjectsPage({
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-lg font-black tracking-tight text-ink-900">
-                        {formatMoney(hero.price, hero.currency || "INR")}
-                      </div>
+                      <PriceTag
+                        value={showPrices ? hero.price : null}
+                        currency={hero.currency || "INR"}
+                        className="block text-lg font-black tracking-tight text-ink-900"
+                      />
                       <a
                         href={`/projects/${hero.slug}`}
                         className="text-xs font-bold text-brand-600 hover:underline"
@@ -216,7 +233,11 @@ export default async function ProjectsPage({
                   className="rounded-full border border-line-strong bg-white px-3.5 py-1.5 text-xs font-semibold text-ink-700"
                 >
                   {b.size}
-                  <span className="ml-1.5 text-ink-400">{b.range}</span>
+                  {/* The band label is a price bracket — withhold it too,
+                      or the range leaks what the figures were hidden for. */}
+                  {showPrices && (
+                    <span className="ml-1.5 text-ink-400">{b.range}</span>
+                  )}
                 </span>
               ))}
             </div>
@@ -227,6 +248,7 @@ export default async function ProjectsPage({
               projects={projects}
               initialCat={cat ?? "all"}
               initialQuery={q ?? ""}
+              showPrices={showPrices}
             />
           </div>
         </div>

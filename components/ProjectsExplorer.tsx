@@ -9,10 +9,14 @@ export default function ProjectsExplorer({
   projects,
   initialCat = "all",
   initialQuery = "",
+  showPrices = true,
 }: {
   projects: Project[];
   initialCat?: string;
   initialQuery?: string;
+  /** When false the price figures have been stripped server-side, so the
+   *  price sorts are removed too — they would silently do nothing. */
+  showPrices?: boolean;
 }) {
   const [cat, setCat] = useState(initialCat);
   const [size, setSize] = useState<Size | "all">("all");
@@ -100,8 +104,14 @@ export default function ProjectsExplorer({
               className="rounded-lg border border-line-strong bg-white px-3 py-2 font-medium text-ink-900 outline-none focus:border-brand-400"
             >
               <option value="popular">Most popular</option>
-              <option value="low">Price: low → high</option>
-              <option value="high">Price: high → low</option>
+              {/* Only offered when prices are visible — the figures are
+                  stripped otherwise, so these would sort by nothing. */}
+              {showPrices && (
+                <>
+                  <option value="low">Price: low → high</option>
+                  <option value="high">Price: high → low</option>
+                </>
+              )}
             </select>
           </div>
         </div>
@@ -116,7 +126,12 @@ export default function ProjectsExplorer({
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
             {filtered.map((p, i) => (
-              <ProjectCard key={p.slug} project={p} index={i} />
+              <ProjectCard
+                key={p.slug}
+                project={p}
+                index={i}
+                showPrices={showPrices}
+              />
             ))}
           </div>
         )}

@@ -4,13 +4,20 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react"
 import Image from "next/image";
 import { Course, categoryName } from "@/lib/data";
 import { formatINR } from "@/lib/site";
-import { Button } from "./ui";
+import { Button, PriceTag } from "./ui";
 import { Label, Select } from "./Field";
 import { IconBook, IconClock, IconUsers, IconStar, IconArrow } from "@/components/icons";
 
 type Tab = "all" | "Live" | "Self-paced";
 
-export default function CoursesCatalog({ courses }: { courses: Course[] }) {
+export default function CoursesCatalog({
+  courses,
+  showPrices = true,
+}: {
+  courses: Course[];
+  /** Server-decided; figures are stripped from `courses` when false. */
+  showPrices?: boolean;
+}) {
   const [tab, setTab] = useState<Tab>("all");
   const [level, setLevel] = useState<string>("all");
   const [selected, setSelected] = useState(courses[0]?.slug ?? "");
@@ -75,6 +82,7 @@ export default function CoursesCatalog({ courses }: { courses: Course[] }) {
             key={c.slug}
             course={c}
             index={i}
+            showPrices={showPrices}
             onEnroll={() => enroll(c.slug)}
           />
         ))}
@@ -92,11 +100,13 @@ function CourseCard({
   course,
   onEnroll,
   index = 0,
+  showPrices = true,
 }: {
   course: Course;
   onEnroll: () => void;
   /** Grid position, modulo the column count, for the staggered arrival. */
   index?: number;
+  showPrices?: boolean;
 }) {
   const live = course.mode === "Live";
   return (
@@ -178,10 +188,11 @@ function CourseCard({
 
         <div className="mt-4 flex items-center justify-between border-t border-line pt-4">
           <div className="flex items-baseline gap-2">
-            <span className="text-lg font-black tracking-tight text-ink-900">
-              {formatINR(course.price)}
-            </span>
-            {course.oldPrice && (
+            <PriceTag
+              value={showPrices ? course.price : null}
+              className="text-lg font-black tracking-tight text-ink-900"
+            />
+            {showPrices && course.oldPrice && (
               <span className="text-sm text-ink-400 line-through">
                 {formatINR(course.oldPrice)}
               </span>

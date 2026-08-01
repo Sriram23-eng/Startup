@@ -3,6 +3,7 @@ import Image from "next/image";
 import type { CSSProperties } from "react";
 import { Project, categoryName } from "@/lib/data";
 import { formatMoney } from "@/lib/site";
+import { PriceTag } from "@/components/ui";
 import { IconArrow, IconPlay, IconStar } from "@/components/icons";
 
 export default function ProjectCard({
@@ -10,9 +11,12 @@ export default function ProjectCard({
   /** Position in its grid — drives the staggered arrival. Capped so a
       long catalogue does not end up with cards waiting a full screen. */
   index = 0,
+  showPrices = true,
 }: {
   project: Project;
   index?: number;
+  /** Server-decided; when false the figure is replaced with a sign-in link. */
+  showPrices?: boolean;
 }) {
   const currency = project.currency || "INR";
   const off =
@@ -82,14 +86,18 @@ export default function ProjectCard({
         </p>
         <div className="mt-4 flex items-center justify-between border-t border-line pt-4">
           <div>
-            <div className="text-[11px] font-medium uppercase tracking-wide text-ink-400">
-              Starting at
-            </div>
-            <div className="flex items-baseline gap-2">
-              <div className="text-lg font-black tracking-tight text-ink-900">
-                {formatMoney(project.price, currency)}
+            {showPrices && (
+              <div className="text-[11px] font-medium uppercase tracking-wide text-ink-400">
+                Starting at
               </div>
-              {off > 0 && (
+            )}
+            <div className="flex items-baseline gap-2">
+              <PriceTag
+                value={showPrices ? project.price : null}
+                currency={currency}
+                className="text-lg font-black tracking-tight text-ink-900"
+              />
+              {showPrices && off > 0 && (
                 <span className="text-xs text-ink-400 line-through">
                   {formatMoney(project.originalPrice!, currency)}
                 </span>

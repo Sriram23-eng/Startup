@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import { workshops } from "@/lib/data";
-import { Badge, SectionHeading } from "@/components/ui";
+import { Badge, PriceTag, SectionHeading } from "@/components/ui";
+import { canSeePrices } from "@/lib/pricing";
 import PageHero from "@/components/PageHero";
 import { IconArrow, IconCheck } from "@/components/icons";
 import WorkshopForm from "@/components/WorkshopForm";
@@ -15,7 +16,14 @@ export const metadata: Metadata = {
 
 const flow = ["Request", "Discussion", "Proposal", "Approval", "Execution"];
 
-export default function WorkshopsPage() {
+// Must be dynamic: the page renders prices conditionally on the signed-in
+// cookie, and a prerendered page is cached and served to everyone — one
+// signed-in visitor's copy would otherwise leak prices to signed-out ones.
+export const dynamic = "force-dynamic";
+
+export default async function WorkshopsPage() {
+  const showPrices = await canSeePrices();
+
   return (
     <>
       <PageHero
@@ -113,10 +121,15 @@ export default function WorkshopsPage() {
                   </div>
                   <div className="flex flex-col items-start justify-between sm:items-end">
                     <div className="sm:text-right">
-                      <div className="text-xs font-medium text-ink-400">From</div>
-                      <div className="text-xl font-black tracking-tight text-ink-900">
-                        ₹{w.priceFrom.toLocaleString("en-IN")}
-                      </div>
+                      {showPrices && (
+                        <div className="text-xs font-medium text-ink-400">
+                          From
+                        </div>
+                      )}
+                      <PriceTag
+                        value={showPrices ? w.priceFrom : null}
+                        className="block text-xl font-black tracking-tight text-ink-900"
+                      />
                     </div>
                     <a
                       href="#book"

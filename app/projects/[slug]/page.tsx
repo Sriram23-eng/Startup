@@ -3,9 +3,10 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { categoryName } from "@/lib/data";
 import { getProjects, getProjectBySlug, parseSpecs, parsePriceOptions } from "@/lib/store";
-import { Badge } from "@/components/ui";
+import { Badge, Button } from "@/components/ui";
 import BuyActions from "@/components/BuyActions";
 import ProjectCard from "@/components/ProjectCard";
+import { canSeePrices } from "@/lib/pricing";
 
 export const dynamic = "force-dynamic";
 
@@ -40,6 +41,7 @@ export default async function ProjectDetail({
     .slice(0, 3);
 
   const currency = project.currency || "INR";
+  const showPrices = await canSeePrices();
   const priceOptions = parsePriceOptions(project.priceOptions);
   const specs = parseSpecs(project.specs);
   const gallery = project.gallery?.length ? project.gallery : [project.image || FALLBACK];
@@ -89,14 +91,61 @@ export default async function ProjectDetail({
           )}
 
           <div className="mt-6 rounded-2xl border border-navy-700/8 bg-white p-6 shadow-card">
-            <BuyActions
-              title={project.title}
-              price={project.price}
-              originalPrice={project.originalPrice}
-              currency={currency}
-              options={priceOptions}
-              multiSelect={project.priceMultiSelect}
-            />
+            {/* The whole buying panel is gated, not just the figure —
+                quantity steppers and a Buy button with no price would be
+                incoherent, and BuyActions is a client component so the
+                price would ship in the payload regardless. */}
+            {showPrices ? (
+              <BuyActions
+                title={project.title}
+                price={project.price}
+                originalPrice={project.originalPrice}
+                currency={currency}
+                options={priceOptions}
+                multiSelect={project.priceMultiSelect}
+              />
+            ) : (
+              <div className="text-center">
+                <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-brand-50 text-brand-600">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    aria-hidden
+                    className="h-6 w-6"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  >
+                    <rect x="4" y="10.5" width="16" height="10" rx="2.5" />
+                    <path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" />
+                  </svg>
+                </div>
+                <h2 className="mt-4 text-lg font-black tracking-tight text-ink-900">
+                  Sign in to see pricing
+                </h2>
+                <p className="mt-2 text-sm leading-relaxed text-ink-600">
+                  Pricing and ordering are available to student and college
+                  accounts. Creating one takes a minute.
+                </p>
+                <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+                  <Button
+                    href={`/login?next=/projects/${project.slug}`}
+                    size="lg"
+                    className="flex-1"
+                  >
+                    Sign in
+                  </Button>
+                  <Button
+                    href={`/login?next=/projects/${project.slug}`}
+                    variant="outline"
+                    size="lg"
+                    className="flex-1"
+                  >
+                    Create account
+                  </Button>
+                </div>
+              </div>
+            )}
             {project.demoUrl && (
               <a
                 href={project.demoUrl}
