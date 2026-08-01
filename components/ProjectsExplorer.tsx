@@ -66,8 +66,12 @@ export default function ProjectsExplorer({
                 active={size === b.size}
                 onClick={() => setSize(b.size)}
               >
-                {b.size}{" "}
-                <span className="text-[10px] opacity-60">{b.range}</span>
+                {b.size}
+                {/* The band label is a price bracket, so it is withheld
+                    alongside the figures. */}
+                {showPrices && (
+                  <span className="ml-1 text-[10px] opacity-60">{b.range}</span>
+                )}
               </Chip>
             ))}
           </FilterGroup>

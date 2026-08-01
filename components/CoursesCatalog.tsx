@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Course, categoryName } from "@/lib/data";
 import { formatINR } from "@/lib/site";
 import { Button, PriceTag } from "./ui";
@@ -90,7 +91,12 @@ export default function CoursesCatalog({
 
       {/* Enroll */}
       <div ref={enrollRef} id="enroll" className="mt-16 scroll-mt-24">
-        <EnrollForm courses={courses} selected={selected} onSelect={setSelected} />
+        <EnrollForm
+          courses={courses}
+          selected={selected}
+          onSelect={setSelected}
+          showPrices={showPrices}
+        />
       </div>
     </>
   );
@@ -215,10 +221,12 @@ function EnrollForm({
   courses,
   selected,
   onSelect,
+  showPrices = true,
 }: {
   courses: Course[];
   selected: string;
   onSelect: (s: string) => void;
+  showPrices?: boolean;
 }) {
   const [me, setMe] = useState<{ name: string } | null | undefined>(undefined);
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">(
@@ -278,13 +286,26 @@ function EnrollForm({
                   <Row k="Instructor" v={course.instructor} />
                 </div>
                 <div className="mt-6 flex items-baseline gap-2 border-t border-white/10 pt-5">
-                  <span className="text-3xl font-black">
-                    {formatINR(course.price)}
-                  </span>
-                  {course.oldPrice && (
-                    <span className="text-brand-100/50 line-through">
-                      {formatINR(course.oldPrice)}
-                    </span>
+                  {showPrices ? (
+                    <>
+                      <span className="text-3xl font-black">
+                        {formatINR(course.price)}
+                      </span>
+                      {course.oldPrice && (
+                        <span className="text-brand-100/50 line-through">
+                          {formatINR(course.oldPrice)}
+                        </span>
+                      )}
+                    </>
+                  ) : (
+                    /* Without this the stripped figure rendered as a
+                       literal "₹0" — worse than showing nothing. */
+                    <Link
+                      href="/login?next=/courses"
+                      className="text-sm font-bold text-cyan-accent hover:underline"
+                    >
+                      Sign in to see the fee →
+                    </Link>
                   )}
                 </div>
               </>
