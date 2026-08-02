@@ -14,7 +14,8 @@
     "db:studio": "prisma studio",
     "admin:password": "tsx scripts/set-admin-password.ts",
     "seed:arduino": "tsx prisma/seed-arduino.ts",
-    "gen:lessons": "tsx scripts/generate-lessons.ts"
+    "gen:lessons": "tsx scripts/generate-lessons.ts",
+    "render:videos": "tsx scripts/render-videos.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
