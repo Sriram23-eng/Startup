@@ -78,6 +78,24 @@ model Course {
   createdAt  DateTime @default(now())
 }
 
+// The /admin sign-in, stored rather than configured.
+//
+// It used to live only in ADMIN_PASSWORD, which meant the hosted panel and a
+// local checkout could disagree about the password with nothing on either
+// screen to say so, and changing it needed dashboard access plus a redeploy.
+// Here it is one row, shared by every environment pointed at this database,
+// and `npm run admin:password` changes it everywhere at once.
+//
+// A single row, id pinned to "admin". ADMIN_USER/ADMIN_PASSWORD still work as
+// the bootstrap when this table is empty, so an untouched deploy keeps its
+// existing sign-in.
+model AdminAccount {
+  id           String   @id @default("admin")
+  username     String
+  passwordHash String
+  updatedAt    DateTime @updatedAt
+}
+
 // ----- Student accounts & access control -----
 
 model User {

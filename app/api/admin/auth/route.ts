@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createHash, timingSafeEqual } from "crypto";
 import { ADMIN_USER, ADMIN_PASSWORD, ADMIN_TOKEN, ADMIN_COOKIE } from "@/lib/admin";
+import { checkStoredAdmin } from "@/lib/admin-account";
 
 export const runtime = "nodejs";
 
@@ -24,12 +25,25 @@ export async function POST(req: Request) {
   const username = typeof body?.username === "string" ? body.username.trim() : "";
   const password = typeof body?.password === "string" ? body.password : "";
 
-  // Both are always checked, even when the username is already wrong, so a
-  // valid username can't be identified by a faster rejection.
-  const userOk = safeEqual(username, ADMIN_USER);
-  const passOk = safeEqual(password, ADMIN_PASSWORD);
+  // The stored credential wins when there is one. It lives in the database
+  // every environment shares, so it is the same password locally and on the
+  // hosted site — the environment variables can only disagree with each other.
+  const stored = await checkStoredAdmin(username, password);
 
-  if (!userOk || !passOk) {
+  let granted: boolean;
+  if (stored.source === "database") {
+    granted = stored.ok;
+  } else {
+    // Nothing stored yet: fall back to the environment, which is how a deploy
+    // that has never run `npm run admin:password` keeps working.
+    // Both are always checked, even when the username is already wrong, so a
+    // valid username can't be identified by a faster rejection.
+    const userOk = safeEqual(username, ADMIN_USER);
+    const passOk = safeEqual(password, ADMIN_PASSWORD);
+    granted = userOk && passOk;
+  }
+
+  if (!granted) {
     // One message for both cases — saying which half was wrong would confirm a
     // valid username to someone guessing.
     return NextResponse.json(
