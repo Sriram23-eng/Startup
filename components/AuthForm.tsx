@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Button } from "./ui";
 import { Label, Input } from "./Field";
 
@@ -14,7 +14,6 @@ const OAUTH_ERRORS: Record<string, string> = {
 };
 
 export default function AuthForm({ googleEnabled = false }: { googleEnabled?: boolean }) {
-  const router = useRouter();
   const params = useSearchParams();
   const next = params.get("next") || "/dashboard";
 
@@ -57,8 +56,11 @@ export default function AuthForm({ googleEnabled = false }: { googleEnabled?: bo
       });
       const data = await res.json();
       if (!data.ok) throw new Error(data.error || "Something went wrong.");
-      router.push(next);
-      router.refresh();
+      // A full load, not router.push. Signing in changes what the shared root
+      // layout renders (the navbar's menu, prices), and a client-side push
+      // reuses the layout it already has, so the new session would only appear
+      // after a manual refresh. This is also how the Google flow returns.
+      window.location.assign(next);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
       setStatus("idle");

@@ -3,6 +3,7 @@
 /*  Uses Node's built-in crypto only (no bcrypt / next-auth needed).   */
 /* ------------------------------------------------------------------ */
 import { scryptSync, randomBytes, createHmac, timingSafeEqual } from "crypto";
+import { cache } from "react";
 import { cookies } from "next/headers";
 import { getUserById, type User } from "./accounts";
 import { requireSecret } from "./env";
@@ -64,8 +65,14 @@ export const SESSION_COOKIE_OPTIONS = {
 
 export type SafeUser = Omit<User, "passwordHash">;
 
-/** Read the current logged-in user from the session cookie (server-side). */
-export async function getCurrentUser(): Promise<SafeUser | null> {
+/**
+ * Read the current logged-in user from the session cookie (server-side).
+ *
+ * Wrapped in React's `cache` so the several callers in one request — the root
+ * layout's navigation, the price gate, the page itself — share a single
+ * database read instead of each issuing their own.
+ */
+export const getCurrentUser = cache(async function getCurrentUser(): Promise<SafeUser | null> {
   const token = (await cookies()).get(SESSION_COOKIE)?.value;
   if (!token) return null;
   const userId = readSessionToken(token);
@@ -75,4 +82,4 @@ export async function getCurrentUser(): Promise<SafeUser | null> {
   const { passwordHash: _omit, ...safe } = user;
   void _omit;
   return safe;
-}
+});

@@ -1,14 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
 export default function LogoutButton() {
-  const router = useRouter();
-
   async function logout() {
     await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/");
-    router.refresh();
+    // Full load for the same reason as signing in — the root layout has to be
+    // re-rendered by the server before the menu reflects the dropped session.
+    window.location.assign("/");
   }
 
   return (

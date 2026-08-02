@@ -6,12 +6,19 @@ import { navForAccountType } from "@/lib/site";
 import { Button } from "./ui";
 import { Logo } from "./Logo";
 
-type Me = { name: string; accountType: string } | null;
-
-export default function Navbar() {
+/**
+ * The session arrives as props from the root layout — see the note there for
+ * why this component must not fetch it itself.
+ */
+export default function Navbar({
+  signedIn = false,
+  accountType,
+}: {
+  signedIn?: boolean;
+  accountType?: string | null;
+}) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [user, setUser] = useState<Me>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -20,14 +27,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    fetch("/api/auth/me")
-      .then((r) => r.json())
-      .then((d) => setUser(d.user ?? null))
-      .catch(() => setUser(null));
-  }, []);
-
-  const nav = navForAccountType(user?.accountType);
+  const nav = navForAccountType(accountType);
 
   return (
     <header
@@ -85,7 +85,7 @@ export default function Navbar() {
         </div>
 
         <div className="hidden items-center gap-2 lg:flex">
-          {user ? (
+          {signedIn ? (
             <Button href="/dashboard" size="sm">
               My account
             </Button>
@@ -155,7 +155,7 @@ export default function Navbar() {
               </div>
             ))}
             <div className="mt-2 flex gap-2">
-              {user ? (
+              {signedIn ? (
                 <Button href="/dashboard" size="sm" className="flex-1">
                   My account
                 </Button>
