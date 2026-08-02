@@ -76,23 +76,29 @@ const TOPIC_SCHEMA: Record<string, unknown> = {
     videoScript: {
       type: "array",
       description:
-        "The lesson video as 6–9 narrated slides that build the idea up in order: " +
-        "what problem it solves, the concept, the wiring, the code, what you see, a recap.",
+        "The lesson as 6–9 steps that build the idea up in order: what problem it " +
+        "solves, the concept, the wiring, the code, what you should see, a recap. " +
+        "Shown to students as a written walkthrough, and used as the storyboard " +
+        "when a video is rendered — so it has to read well on the page, not only " +
+        "sound well spoken.",
       items: {
         type: "object",
         additionalProperties: false,
         required: ["title", "bullets", "code", "narration"],
         properties: {
-          title: str("Slide heading, 2–6 words."),
+          title: str("Step heading, 2–6 words."),
           bullets: {
             type: "array",
-            description: "2–4 short lines shown on the slide. Fragments, not sentences.",
+            description:
+              "2–4 short supporting lines for this step. Fragments, not sentences.",
             items: { type: "string" },
           },
-          code: str("Code shown on this slide (a few lines at most), or '' for none."),
+          code: str("The code at this step (a few lines at most), or '' for none."),
           narration: str(
-            "What the narrator says over this slide — 2–4 spoken sentences. " +
-              "Conversational; it is read aloud, so no symbols or code syntax."
+            "The explanation for this step — 2–4 sentences of plain prose. " +
+              "Conversational and complete enough to stand on its own when read, " +
+              "and natural enough to be spoken aloud. Spell out symbols rather " +
+              "than relying on punctuation to carry meaning."
           ),
         },
       },

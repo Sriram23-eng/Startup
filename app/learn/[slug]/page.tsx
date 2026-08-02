@@ -7,7 +7,7 @@ import { getCourseBySlug } from "@/lib/store";
 import { getCourseOutline, getTopicForCourse, getFirstTopicId } from "@/lib/content";
 import { parseVideoScript } from "@/lib/course-gen";
 import { isAiConfigured } from "@/lib/ai";
-import LessonVideo from "@/components/learn/LessonVideo";
+import LessonWalkthrough from "@/components/learn/LessonWalkthrough";
 import TopicDoc from "@/components/learn/TopicDoc";
 import Tutor from "@/components/learn/Tutor";
 
@@ -267,20 +267,21 @@ function TopicView({ topic }: { topic: any }) {
         </Section>
       )}
 
-      {/* A real video wins when one exists; otherwise the generated
-          narrated deck plays. The main points sit under whichever ran. */}
+      {/* A real video wins when one has been recorded; otherwise the lesson
+          script is shown as a written walkthrough. The main points sit
+          under whichever was used. */}
       {(topic.videoUrl || scenes.length > 0) && (
-        <Section n={6} title="Video lesson">
+        <Section n={6} title={topic.videoUrl ? "Video lesson" : "Step by step"}>
           {topic.videoUrl ? (
             <VideoEmbed url={topic.videoUrl} />
           ) : (
-            <LessonVideo scenes={scenes} title={topic.title} />
+            <LessonWalkthrough scenes={scenes} />
           )}
 
           {points.length > 0 && (
             <div className="mt-5 rounded-2xl border border-brand-200/60 bg-brand-50/40 p-5">
               <h3 className="text-sm font-extrabold uppercase tracking-wide text-brand-700">
-                Main points from this video
+                {topic.videoUrl ? "Main points from this video" : "Main points"}
               </h3>
               <ul className="mt-3 space-y-2">
                 {points.map((p: string, i: number) => (
