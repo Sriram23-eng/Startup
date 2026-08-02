@@ -16,9 +16,15 @@ import { requireSecret } from "./env";
  */
 export const ADMIN_USER = process.env.ADMIN_USER?.trim() || "admin";
 
+/**
+ * Trimmed because these are pasted into a hosting dashboard by hand, and a
+ * value that picks up a trailing newline there fails to match a correctly
+ * typed password with nothing on screen to explain why. A password whose
+ * meaning depends on surrounding whitespace isn't worth that failure mode.
+ */
 export const ADMIN_PASSWORD = requireSecret(
   "ADMIN_PASSWORD",
-  process.env.ADMIN_PASSWORD,
+  process.env.ADMIN_PASSWORD?.trim(),
   "admin123"
 );
 
