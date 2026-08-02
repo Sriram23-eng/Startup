@@ -54,6 +54,9 @@ const REQUIRED = [
   {
     name: "ADMIN_PASSWORD",
     what: "the password for the /admin panel",
+    // Unlike the token and the HMAC key, this one is typed by a human, so a
+    // long random string isn't realistic — but 12 characters is.
+    warnShorterThan: 12,
   },
   {
     name: "ADMIN_TOKEN",

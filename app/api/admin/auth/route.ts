@@ -1,19 +1,49 @@
 import { NextResponse } from "next/server";
-import { ADMIN_PASSWORD, ADMIN_TOKEN, ADMIN_COOKIE } from "@/lib/admin";
+import { createHash, timingSafeEqual } from "crypto";
+import { ADMIN_USER, ADMIN_PASSWORD, ADMIN_TOKEN, ADMIN_COOKIE } from "@/lib/admin";
+
+export const runtime = "nodejs";
+
+/**
+ * Compare two strings without leaking how much of them matched.
+ *
+ * A plain `!==` returns as soon as it hits a differing byte, so how long the
+ * comparison took tells an attacker how many leading characters they guessed
+ * right. Hashing first also makes both sides a fixed 32 bytes, so the length
+ * of the real password doesn't leak either — `timingSafeEqual` throws on
+ * mismatched lengths, which would otherwise be its own signal.
+ */
+function safeEqual(a: string, b: string): boolean {
+  const ha = createHash("sha256").update(a).digest();
+  const hb = createHash("sha256").update(b).digest();
+  return timingSafeEqual(ha, hb);
+}
 
 export async function POST(req: Request) {
-  const { password } = await req.json().catch(() => ({ password: "" }));
-  if (password !== ADMIN_PASSWORD) {
+  const body = await req.json().catch(() => ({}));
+  const username = typeof body?.username === "string" ? body.username.trim() : "";
+  const password = typeof body?.password === "string" ? body.password : "";
+
+  // Both are always checked, even when the username is already wrong, so a
+  // valid username can't be identified by a faster rejection.
+  const userOk = safeEqual(username, ADMIN_USER);
+  const passOk = safeEqual(password, ADMIN_PASSWORD);
+
+  if (!userOk || !passOk) {
+    // One message for both cases — saying which half was wrong would confirm a
+    // valid username to someone guessing.
     return NextResponse.json(
-      { ok: false, error: "Incorrect password" },
+      { ok: false, error: "Incorrect username or password" },
       { status: 401 }
     );
   }
+
   const res = NextResponse.json({ ok: true });
   res.cookies.set(ADMIN_COOKIE, ADMIN_TOKEN, {
     httpOnly: true,
     sameSite: "lax",
     path: "/",
+    secure: process.env.NODE_ENV === "production",
     maxAge: 60 * 60 * 8, // 8 hours
   });
   return res;

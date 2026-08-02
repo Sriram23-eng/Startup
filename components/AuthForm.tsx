@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { LogoMark } from "./Logo";
 import { Button } from "./ui";
 import { Label, Input } from "./Field";
 
@@ -75,8 +76,8 @@ export default function AuthForm({ googleEnabled = false }: { googleEnabled?: bo
           <div className="mesh pointer-events-none absolute inset-0 opacity-50" />
           <div className="relative flex h-full flex-col">
             <div className="flex items-center gap-2.5">
-              <span className="relative grid h-9 w-9 place-items-center rounded-xl bg-white/10 ring-1 ring-white/15">
-                <span className="text-[13px] font-black">MS</span>
+              <span className="relative grid h-9 w-9 place-items-center rounded-xl bg-white/10 text-brand-400 ring-1 ring-white/15">
+                <LogoMark className="h-5 w-5" />
                 <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-cyan-accent" />
               </span>
               <span className="font-extrabold">Elektron Nexus</span>
