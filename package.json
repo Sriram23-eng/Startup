@@ -11,7 +11,9 @@
     "postinstall": "prisma generate",
     "db:push": "prisma db push",
     "db:seed": "prisma db seed",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "seed:arduino": "tsx prisma/seed-arduino.ts",
+    "gen:lessons": "tsx scripts/generate-lessons.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

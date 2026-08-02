@@ -5,6 +5,11 @@ import { getCurrentUser } from "@/lib/auth";
 import { getEnrollment } from "@/lib/accounts";
 import { getCourseBySlug } from "@/lib/store";
 import { getCourseOutline, getTopicForCourse, getFirstTopicId } from "@/lib/content";
+import { parseVideoScript } from "@/lib/course-gen";
+import { isAiConfigured } from "@/lib/ai";
+import LessonVideo from "@/components/learn/LessonVideo";
+import TopicDoc from "@/components/learn/TopicDoc";
+import Tutor from "@/components/learn/Tutor";
 
 export const dynamic = "force-dynamic";
 
@@ -148,6 +153,16 @@ export default async function LearnCoursePage({
       <main className="min-w-0">
         {topic ? <TopicView topic={topic} /> : <PickPrompt />}
 
+        {topic && isAiConfigured() && (
+          <section className="mt-10 border-t border-navy-700/8 pt-8">
+            <Tutor
+              courseSlug={slug}
+              topicId={topic.id}
+              topicTitle={topic.title}
+            />
+          </section>
+        )}
+
         {topic && (prevTopic || nextTopic) && (
           <div className="mt-10 flex items-stretch justify-between gap-3 border-t border-navy-700/8 pt-6">
             {prevTopic ? (
@@ -193,6 +208,12 @@ function PickPrompt() {
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 function TopicView({ topic }: { topic: any }) {
+  const scenes = parseVideoScript(topic.videoScript || "");
+  const points = String(topic.videoPoints || "")
+    .split("\n")
+    .map((l: string) => l.trim())
+    .filter(Boolean);
+
   return (
     <article>
       <span className="text-xs font-bold uppercase tracking-wider text-brand-600">
@@ -246,26 +267,56 @@ function TopicView({ topic }: { topic: any }) {
         </Section>
       )}
 
-      {topic.videoUrl && (
+      {/* A real video wins when one exists; otherwise the generated
+          narrated deck plays. The main points sit under whichever ran. */}
+      {(topic.videoUrl || scenes.length > 0) && (
         <Section n={6} title="Video lesson">
-          <VideoEmbed url={topic.videoUrl} />
+          {topic.videoUrl ? (
+            <VideoEmbed url={topic.videoUrl} />
+          ) : (
+            <LessonVideo scenes={scenes} title={topic.title} />
+          )}
+
+          {points.length > 0 && (
+            <div className="mt-5 rounded-2xl border border-brand-200/60 bg-brand-50/40 p-5">
+              <h3 className="text-sm font-extrabold uppercase tracking-wide text-brand-700">
+                Main points from this video
+              </h3>
+              <ul className="mt-3 space-y-2">
+                {points.map((p: string, i: number) => (
+                  <li key={i} className="flex gap-3 text-[15px] text-navy-700/85">
+                    <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-brand-600 text-[11px] font-bold text-white">
+                      {i + 1}
+                    </span>
+                    <span>{p}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </Section>
+      )}
+
+      {topic.documentation && (
+        <Section n={7} title="Documentation">
+          <TopicDoc markdown={topic.documentation} topicTitle={topic.title} />
         </Section>
       )}
 
       {topic.quiz && (
-        <Section n={7} title="Quiz">
+        <Section n={8} title="Quiz">
           <Prose text={topic.quiz} />
         </Section>
       )}
 
       {topic.exercise && (
-        <Section n={8} title="Exercise">
+        <Section n={9} title="Exercise">
           <Prose text={topic.exercise} />
         </Section>
       )}
 
       {topic.simulationUrl && (
-        <Section n={9} title="Simulation">
+        <Section n={10} title="Simulation">
           <a
             href={topic.simulationUrl}
             target="_blank"
@@ -278,13 +329,13 @@ function TopicView({ topic }: { topic: any }) {
       )}
 
       {topic.miniProject && (
-        <Section n={10} title="Mini project">
+        <Section n={11} title="Mini project">
           <Prose text={topic.miniProject} />
         </Section>
       )}
 
       {topic.downloads && (
-        <Section n={11} title="Downloads">
+        <Section n={12} title="Downloads">
           <ul className="space-y-1.5">
             {String(topic.downloads)
               .split("\n")

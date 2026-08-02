@@ -30,6 +30,7 @@ export default function CrudManager({
   newLabel,
   titleKey = "title",
   defaults,
+  rowActions,
 }: {
   endpoint: string;
   fields: Field[];
@@ -37,6 +38,11 @@ export default function CrudManager({
   newLabel: string;
   titleKey?: string;
   defaults: Record<string, any>;
+  /**
+   * Extra buttons before Edit/Delete on each row. `reload` re-fetches the
+   * table, so an action that changes the row can show its result.
+   */
+  rowActions?: (item: any, reload: () => Promise<void>) => ReactNode;
 }) {
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -166,6 +172,7 @@ export default function CrudManager({
                   ))}
                   <td className="px-4 py-3">
                     <div className="flex justify-end gap-2">
+                      {rowActions?.(item, load)}
                       <button
                         onClick={() => openEdit(item)}
                         className="rounded-lg bg-brand-50 px-3 py-1.5 text-xs font-bold text-brand-700 hover:bg-brand-100"

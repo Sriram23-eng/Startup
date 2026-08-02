@@ -167,12 +167,24 @@ model Topic {
   exampleCode     String @default("") // 4. Example code
   codeExplanation String @default("") // 4b. Line-by-line explanation
   outputImageUrl  String @default("") // 5. Output image (URL)
-  videoUrl        String @default("") // 6. AI video (embed URL, made externally)
-  quiz            String @default("") // 7. Quiz (MCQs / coding qs)
-  exercise        String @default("") // 8. Exercise
-  simulationUrl   String @default("") // 9. Simulation (Wokwi / Proteus link)
-  miniProject     String @default("") // 10. Mini project
-  downloads       String @default("") // 11. Downloads (links, one per line)
+
+  // 6. The video lesson. `videoScript` is the AI-authored narrated slide deck
+  // the site plays itself — JSON: [{ title, bullets[], code?, narration }].
+  // `videoUrl` overrides it when a real video exists for this topic.
+  // `videoPoints` are the takeaways listed under the player, one per line.
+  videoUrl        String @default("") // externally-made video (embed URL)
+  videoScript     String @default("") // generated narrated slide video (JSON)
+  videoPoints     String @default("") // main points of the video, one per line
+
+  // 7. The written documentation for the video and the topic concept — the
+  // long-form companion a student reads or downloads after watching.
+  documentation   String @default("")
+
+  quiz            String @default("") // 8. Quiz (MCQs / coding qs)
+  exercise        String @default("") // 9. Exercise
+  simulationUrl   String @default("") // 10. Simulation (Wokwi / Proteus link)
+  miniProject     String @default("") // 11. Mini project
+  downloads       String @default("") // 12. Downloads (links, one per line)
 
   createdAt DateTime @default(now())
 
