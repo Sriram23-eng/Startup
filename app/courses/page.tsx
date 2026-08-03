@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { SectionHeading } from "@/components/ui";
 import PageHero from "@/components/PageHero";
 import CoursesCatalog from "@/components/CoursesCatalog";
@@ -110,12 +111,12 @@ export default async function CoursesPage() {
                     </div>
                   ))}
                 </div>
-                <a
-                  href="#enroll"
+                <Link
+                  href={`/courses/${nextLive.slug}`}
                   className="mt-5 block rounded-xl bg-white py-3 text-center text-sm font-bold text-ink-900 transition hover:bg-brand-50"
                 >
                   Reserve your seat →
-                </a>
+                </Link>
               </div>
             </div>
           ) : undefined
